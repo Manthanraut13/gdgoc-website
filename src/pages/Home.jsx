@@ -47,7 +47,7 @@ const Home = () => {
       {/* Call to Action Section */}
       <section 
         ref={ctaRef}
-        className="section-padding bg-gradient-to-br from-slate-900 via-purple-900 to-blue-900 relative overflow-hidden"
+        className="py-20 bg-gradient-to-br from-slate-700 via-blue-700 to-orange-600 relative overflow-hidden"
       >
         {/* Background Elements */}
         <div className="absolute inset-0 opacity-10">
