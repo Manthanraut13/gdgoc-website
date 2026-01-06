@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { gsap } from 'gsap';
+import logo from "../../assets/google_developers_logo.png";
+
+
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -77,18 +80,13 @@ const Header = () => {
             className="flex items-center space-x-3 group"
           >
             <div className="relative">
-              <div className="w-12 h-12 bg-gradient-to-br from-gdg-blue to-blue-600 rounded-2xl flex items-center justify-center shadow-glow group-hover:shadow-lg transition-all duration-300">
-                <div className="flex text-white font-bold text-lg">
-                  <span>G</span>
-                  <span className="text-gdg-red">D</span>
-                  <span className="text-gdg-yellow">G</span>
-                </div>
+              <div className="w-12 h-12 flex items-center justify-center">
+                <img src={logo} alt="GDG Logo" className="w-10 h-7" />
               </div>
-              <div className="absolute -inset-1 bg-gdg-blue rounded-2xl opacity-20 blur-sm group-hover:opacity-30 transition-opacity duration-300"></div>
             </div>
             <div className="flex flex-col">
               <span className="font-poppins font-bold text-xl text-dark-gray leading-tight">GDG On-Campus</span>
-              <span className="text-xs text-medium-gray font-medium">Google Developer Group</span>
+              <span className="text-xs text-medium-gray font-medium">ZCOER</span>
             </div>
           </Link>
 

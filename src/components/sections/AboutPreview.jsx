@@ -2,6 +2,12 @@ import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import android from "../../assets/tech/android-logo.png";
+import machineLearning from "../../assets/tech/machine-learning.jpg";
+import datascience from "../../assets/tech/data-science.png";
+import cloud from "../../assets/tech/cloud-logo.png";
+import firebase from "../../assets/tech/firebase-logo.png";
+import react from "../../assets/tech/react.png";
 
 const AboutPreview = () => {
   const sectionRef = useRef(null);
@@ -49,7 +55,7 @@ const AboutPreview = () => {
     statElements.forEach((stat, index) => {
       const target = parseInt(stat.textContent);
       const obj = { value: 0 };
-      
+
       gsap.to(obj, {
         value: target,
         duration: 2.5,
@@ -100,7 +106,7 @@ const AboutPreview = () => {
   ];
 
   return (
-    <section 
+    <section
       ref={sectionRef}
       className="section-padding bg-white relative overflow-hidden"
     >
@@ -124,26 +130,26 @@ const AboutPreview = () => {
             </h2>
 
             <p className="text-xl text-medium-gray mb-8 leading-relaxed">
-              We are a vibrant community of student developers passionate about Google technologies. 
-              Our mission is to create an ecosystem where students can grow their skills, collaborate 
+              We are a vibrant community of student developers passionate about Google technologies.
+              Our mission is to create an ecosystem where students can grow their skills, collaborate
               on innovative projects, and build meaningful connections.
             </p>
 
             <p className="text-lg text-medium-gray mb-8 leading-relaxed">
-              Through hands-on workshops, hackathons, and study jams, we help students explore 
+              Through hands-on workshops, hackathons, and study jams, we help students explore
               cutting-edge technologies like Android, Flutter, Firebase, Google Cloud, and Machine Learning.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link 
-                to="/about" 
+              <Link
+                to="/about"
                 className="btn-primary group relative overflow-hidden"
               >
                 <span className="relative z-10">Learn Our Story</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-gdg-blue opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </Link>
-              <Link 
-                to="/team" 
+              <Link
+                to="/team"
                 className="btn-secondary group"
               >
                 <span>Meet Our Team</span>
@@ -154,7 +160,7 @@ const AboutPreview = () => {
           {/* Stats Grid */}
           <div className="stats-grid grid grid-cols-2 gap-6">
             {stats.map((stat, index) => (
-              <div 
+              <div
                 key={index}
                 ref={addToStatsRef}
                 className="stat-card group"
@@ -174,10 +180,10 @@ const AboutPreview = () => {
                   <p className="text-medium-gray text-sm leading-relaxed">
                     Join our growing community of innovators and creators
                   </p>
-                  
+
                   {/* Animated progress bar */}
                   <div className="mt-4 w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
-                    <div 
+                    <div
                       className={`h-full bg-gradient-to-r ${stat.gradient} rounded-full transition-all duration-1000 ease-out`}
                       style={{ width: '0%' }}
                     ></div>
@@ -201,23 +207,31 @@ const AboutPreview = () => {
 
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
             {[
-              { name: 'Android', icon: '🤖', color: 'from-green-400 to-emerald-500' },
-              { name: 'Flutter', icon: '💙', color: 'from-blue-400 to-cyan-500' },
-              { name: 'Firebase', icon: '🔥', color: 'from-yellow-400 to-orange-500' },
-              { name: 'Google Cloud', icon: '☁️', color: 'from-blue-500 to-indigo-600' },
-              { name: 'TensorFlow', icon: '🧠', color: 'from-orange-500 to-red-500' },
-              { name: 'Angular', icon: '🅰️', color: 'from-red-500 to-pink-600' }
-            ].map((tech, index) => (
-              <div 
-                key={index}
-                className="group text-center"
-              >
-                <div className={`bg-gradient-to-br ${tech.color} w-20 h-20 rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg mx-auto mb-3 group-hover:scale-110 transform transition-all duration-300`}>
-                  {tech.icon}
+              { name: 'Android', image: android, color: 'from-green-400 to-emerald-500' },
+              { name: 'Machine Learning', image: machineLearning, color: 'from-blue-400 to-cyan-500' },
+              { name: 'Firebase', image: firebase, color: 'from-yellow-400 to-orange-500' },
+              { name: 'Google Cloud', image: cloud, color: 'from-blue-500 to-indigo-600' },
+              { name: 'Data Science', image: datascience, color: 'from-orange-500 to-red-500' },
+              { name: 'react', image: react, color: 'from-red-500 to-pink-600' }
+            ]
+              .map((tech, index) => (
+                <div key={index} className="group text-center">
+                  <div
+                    className={`bg-gradient-to-br ${tech.color} w-20 h-20 rounded-2xl flex items-center justify-center shadow-lg mx-auto mb-3 transform transition-all duration-300 group-hover:scale-110`}
+                  >
+                    <div className="bg-white p-3 rounded-xl">
+                      <img
+                        src={tech.image}
+                        alt={tech.name}
+                        className="w-12 h-12 object-contain"
+                      />
+                    </div>
+                  </div>
+                  <span className="font-semibold text-dark-gray text-sm">
+                    {tech.name}
+                  </span>
                 </div>
-                <span className="font-semibold text-dark-gray text-sm">{tech.name}</span>
-              </div>
-            ))}
+              ))}
           </div>
         </div>
       </div>

@@ -109,7 +109,7 @@ const FeaturedEvents = () => {
       'Conference': '👥',
       'Hackathon': '⚡'
     };
-    return icons[type] || '📅';
+    
   };
 
   return (
@@ -159,11 +159,6 @@ const FeaturedEvents = () => {
                     </span>
                   </div>
 
-                  {/* Type Icon */}
-                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm w-12 h-12 rounded-2xl flex items-center justify-center shadow-sm">
-                    <span className="text-xl">{getTypeIcon(event.type)}</span>
-                  </div>
-
                   {/* Event Info Overlay */}
                   <div className="absolute bottom-4 left-4 right-4">
                     <div className="text-white">
@@ -202,9 +197,7 @@ const FeaturedEvents = () => {
                     >
                       Learn More
                     </Link>
-                    <button className="flex items-center justify-center w-12 h-12 bg-gray-100 text-gray-600 rounded-xl hover:bg-gray-200 hover:scale-105 transform transition-all duration-300">
-                      <span className="text-lg">❤️</span>
-                    </button>
+                 
                   </div>
                 </div>
 

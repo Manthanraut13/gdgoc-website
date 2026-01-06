@@ -2,18 +2,42 @@ import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import logo from "../../assets/google_developers_logo.png";
+
+
 
 const Footer = () => {
   const footerRef = useRef(null);
   const sectionsRef = useRef([]);
 
-  const socialLinks = [
-    { name: 'GitHub', icon: '💻', url: 'https://github.com/gdg', color: 'hover:text-gray-700' },
-    { name: 'LinkedIn', icon: '💼', url: 'https://linkedin.com/company/gdg', color: 'hover:text-blue-600' },
-    { name: 'Twitter', icon: '🐦', url: 'https://twitter.com/gdg', color: 'hover:text-sky-500' },
-    { name: 'Discord', icon: '💬', url: 'https://discord.gg/gdg', color: 'hover:text-purple-500' },
-    { name: 'YouTube', icon: '📺', url: 'https://youtube.com/gdg', color: 'hover:text-red-500' }
-  ];
+ const socialLinks = [
+  {
+    name: 'GitHub',
+    img: '/images/GitHub-Symbol.png',
+    url: 'https://github.com/gdg',
+    color: 'hover:text-gray-700'
+  },
+  {
+    name: 'LinkedIn',
+    img: '/images/linkedin-logo.jpg',
+    url: 'https://linkedin.com/company/gdg',
+    color: 'hover:text-blue-600'
+  },
+  {
+    name: 'Twitter',
+    img: '/images/twitter.webp',
+    url: 'https://twitter.com/gdg',
+    color: 'hover:text-sky-500'
+  },
+  {
+    name: 'Discord',
+    img: '/images/discord.jpg',
+    url: 'https://discord.gg/gdg',
+    color: 'hover:text-purple-500'
+  },
+
+];
+
 
   const quickLinks = [
     { name: 'Events', path: '/events' },
@@ -97,6 +121,7 @@ const Footer = () => {
       ref={footerRef}
       className="bg-dark-gray text-white relative overflow-hidden"
     >
+      
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-0 left-0 w-96 h-96 bg-gdg-blue rounded-full blur-3xl"></div>
@@ -105,17 +130,14 @@ const Footer = () => {
 
       <div className="container-custom relative">
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 py-16">
           {/* Brand Section */}
           <div ref={addToSectionsRef} className="footer-section lg:col-span-1">
             <div className="flex items-center space-x-3 mb-6">
-              <div className="w-12 h-12 bg-gradient-to-br from-gdg-blue to-blue-600 rounded-2xl flex items-center justify-center shadow-glow">
-                <div className="flex text-white font-bold text-lg">
-                  <span>G</span>
-                  <span className="text-gdg-red">D</span>
-                  <span className="text-gdg-yellow">G</span>
-                </div>
-              </div>
+                <div className="w-12 h-12 flex items-center justify-center">
+                                <img src={logo} alt="GDG Logo" className="w-10 h-7" />
+                              </div>
+              
               <div className="flex flex-col">
                 <span className="font-poppins font-bold text-xl text-white">GDG On-Campus</span>
                 <span className="text-gray-400 text-sm font-medium">Google Developer Group</span>
@@ -127,19 +149,34 @@ const Footer = () => {
             </p>
             
             {/* Social Links */}
-            <div className="social-links flex space-x-3">
-              {socialLinks.map((social, index) => (
-                <a
-                  key={index}
-                  href={social.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`social-link w-10 h-10 bg-gray-800 rounded-xl flex items-center justify-center text-gray-300 ${social.color} hover:scale-110 transform transition-all duration-300 shadow-sm`}
-                >
-                  <span className="text-sm">{social.icon}</span>
-                </a>
-              ))}
-            </div>
+            <div className="flex gap-4">
+  {socialLinks.map((item, index) => (
+<a
+  key={index}
+  href={item.url}
+  target="_blank"
+  rel="noopener noreferrer"
+  className={item.color}
+>
+  <div
+    className="w-10 h-10 bg-white rounded-full overflow-hidden
+               flex items-center justify-center
+               transition-all duration-300
+               hover:scale-110 hover:shadow-lg"
+  >
+    <img
+      src={item.img}
+      alt={item.name}
+      className="w-7 h-7 object-contain"
+    />
+  </div>
+</a>
+
+
+
+  ))}
+</div>
+
           </div>
 
           {/* Quick Links */}
@@ -171,17 +208,17 @@ const Footer = () => {
                 </div>
                 <div>
                   <p className="text-gray-300 font-medium">Email</p>
-                  <p className="text-gray-400 text-sm">gdg@youruniversity.edu</p>
+                  <p className="text-gray-400 text-sm">gdgoc.zcoer@zealeducation.com</p>
                 </div>
               </div>
               <div className="flex items-start space-x-3">
-                <div className="w-8 h-8 bg-gdg-green rounded-lg flex items-center justify-center text-white text-sm mt-1">
+                <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center text-white text-sm mt-1">
                   📍
                 </div>
                 <div>
                   <p className="text-gray-300 font-medium">Location</p>
-                  <p className="text-gray-400 text-sm">Your University Campus</p>
-                  <p className="text-gray-400 text-sm">City, State 12345</p>
+                  <p className="text-gray-400 text-sm">Zeal College of Engineering and research</p>
+                  <p className="text-gray-400 text-sm">Narhe, Pune</p>
                 </div>
               </div>
               <div className="flex items-start space-x-3">
@@ -190,30 +227,15 @@ const Footer = () => {
                 </div>
                 <div>
                   <p className="text-gray-300 font-medium">Meeting Times</p>
-                  <p className="text-gray-400 text-sm">Every Wednesday</p>
-                  <p className="text-gray-400 text-sm">6:00 PM - 8:00 PM</p>
+                  <p className="text-gray-400 text-sm">Every Sunday</p>
+                  <p className="text-gray-400 text-sm">8:00 PM - 9:00 PM</p>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Newsletter */}
-          <div ref={addToSectionsRef} className="footer-section">
-            <h4 className="font-poppins font-semibold text-white text-lg mb-6">Stay Updated</h4>
-            <p className="text-gray-300 mb-4 leading-relaxed">
-              Subscribe to our newsletter for the latest events, resources, and community updates.
-            </p>
-            <div className="space-y-3">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gdg-blue focus:border-transparent transition-all duration-300"
-              />
-              <button className="w-full bg-gradient-to-r from-gdg-blue to-blue-600 text-white py-3 px-4 rounded-xl font-semibold hover:shadow-glow hover:scale-105 transform transition-all duration-300 shadow-md">
-                Subscribe
-              </button>
-            </div>
-          </div>
+          
         </div>
 
         {/* Footer Bottom */}

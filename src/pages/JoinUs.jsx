@@ -195,7 +195,7 @@ const JoinUs = () => {
       <section className="page-hero">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">Join Us</h1>
-          <p className="text-xl text-blue-100">Become part of our growing developer community</p>
+          <p className="text-xl text-dark-blue-100">Become part of our growing developer community</p>
         </div>
       </section>
 
