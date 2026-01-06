@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+import { submitJoinApplication } from "../services/api";
+
 const JoinUs = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -173,22 +175,24 @@ const JoinUs = () => {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission
-    console.log('Form submitted:', formData);
-    alert('Thank you for your application! We will contact you soon.');
-    // Reset form
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    await submitJoinApplication(formData);
+    alert("Application submitted successfully!");
     setFormData({
-      name: '',
-      email: '',
-      year: '',
-      major: '',
-      interests: [],
-      experience: '',
-      message: ''
+      name:"",
+      email:"",
+      year:"",
+      major:"",
+      interests:[],
+      experience:"",
+      message:""
     });
-  };
+  } catch {
+    alert("Submission failed");
+  }
+};
 
   return (
     <div className="pt-20">
