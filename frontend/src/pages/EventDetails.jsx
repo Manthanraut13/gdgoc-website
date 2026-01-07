@@ -33,7 +33,7 @@ const EventDetails = () => {
   }
 
   return (
-    <div className="pt-20 max-w-5xl mx-auto px-4">
+    <div className="page-wrapper pt-20 bg-white max-w-5xl mx-auto px-4">
       <h1 className="text-4xl font-bold mb-4">{event.title}</h1>
       <p className="text-gray-600 mb-4">{event.description}</p>
 

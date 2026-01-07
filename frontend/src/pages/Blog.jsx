@@ -63,7 +63,7 @@ const Blog = () => {
   }, [activeCategory, searchQuery]);
 
   return (
-    <div className="pt-20">
+    <div className="page-wrapper pt-20">
       {/* Hero */}
       <section
         ref={heroRef}

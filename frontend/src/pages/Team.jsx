@@ -145,7 +145,7 @@ const Team = () => {
   ];
 
   return (
-    <div className="pt-20">
+    <div className="page-wrapper pt-20 bg-white">
       {/* Hero Section */}
       <section 
         ref={heroRef}

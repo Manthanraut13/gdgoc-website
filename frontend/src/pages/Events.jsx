@@ -81,7 +81,7 @@ const Events = () => {
   };
 
   return (
-    <div className="pt-20">
+    <div className="page-wrapper pt-20 bg-white">
       {/* Hero */}
       <section
         ref={heroRef}

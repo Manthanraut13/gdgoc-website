@@ -195,7 +195,7 @@ const JoinUs = () => {
 };
 
   return (
-    <div className="pt-20">
+    <div className="page-wrapper pt-20">
       <section className="page-hero">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">Join Us</h1>

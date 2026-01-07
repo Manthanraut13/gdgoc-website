@@ -195,7 +195,7 @@ const Projects = () => {
   };
 
   return (
-    <div className="pt-20">
+    <div className="page-wrapper pt-20">
       {/* Hero Section */}
       <section 
         ref={heroRef}

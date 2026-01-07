@@ -10,11 +10,15 @@ function App() {
   return (
     <AnimationProvider>
       <Router>
-        <div className="App min-h-screen flex flex-col">
+        {/* Full height, stacked layout + ensure bg is visible */}
+        <div className="min-h-screen flex flex-col bg-white">
           <Header />
+          
+          {/* Content pushes footer down */}
           <main className="flex-grow">
             <AppRoutes />
           </main>
+
           <Footer />
         </div>
       </Router>
