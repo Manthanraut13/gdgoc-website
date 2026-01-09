@@ -1,8 +1,6 @@
 import app from "./app.js";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import eventRoutes from "./routes/eventRoutes.js";
-import blogRoutes from "./routes/blogRoutes.js";
 
 dotenv.config();
 
@@ -15,13 +13,6 @@ mongoose
     app.listen(PORT, () =>
       console.log(`🚀 Backend running on http://localhost:${PORT}`)
     );
-    app.get("/", (req, res) => {
-  res.send("GDG Backend is running 🚀");
-  app.use("/api/events", eventRoutes);
-app.use("/api/blogs", blogRoutes);
-
-});
-
   })
   .catch((err) => {
     console.error("❌ MongoDB connection failed:", err);
