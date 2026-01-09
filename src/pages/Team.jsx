@@ -4,61 +4,349 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 const Team = () => {
   const [activeTeam, setActiveTeam] = useState('core');
+  const [selectedMember, setSelectedMember] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const heroRef = useRef(null);
   const coreTeamRef = useRef(null);
   const mentorRef = useRef(null);
+  const modalRef = useRef(null);
 
   const teams = {
     core: [
       {
-        name: "Alex Johnson",
-        role: "Lead Organizer",
-        bio: "Passionate about building inclusive tech communities and Android development.",
-        image: "/images/team/alex.jpg",
-        social: { linkedin: "#", github: "#", twitter: "#" },
-        gradient: "from-blue-500 to-cyan-500"
+        name: "Soham Mahajan",
+        role: "GDG on campus Lead",
+        bio: "Leading the GDG community with passion and dedication. Focused on creating impactful learning experiences for all members.",
+        image: "/images/team/Soham Mahajan.jpg",
+        social: { linkedin: "#", github: "#", email: "#" },
+        gradient: "from-blue-500 to-cyan-500",
+        department: "Lead Organizer"
       },
       {
-        name: "Sarah Chen",
-        role: "Technical Lead",
-        bio: "Full-stack developer specializing in cloud technologies and system architecture.",
-        image: "/images/team/sarah.jpg",
-        social: { linkedin: "#", github: "#", twitter: "#" },
-        gradient: "from-purple-500 to-pink-500"
+        name: "Rhiya Buranpur",
+        role: "Administration Lead",
+        bio: "Managing administrative operations and ensuring smooth functioning of all GDG activities and events.",
+        image: "/images/team/Rhiya Buranpur.jpg",
+        social: { linkedin: "#", email: "#" },
+        gradient: "from-purple-500 to-pink-500",
+        department: "Administration"
       },
       {
-        name: "Mike Rodriguez",
-        role: "Events Coordinator",
-        bio: "Event management expert with a passion for creating memorable developer experiences.",
-        image: "/images/team/mike.jpg",
-        social: { linkedin: "#", github: "#", twitter: "#" },
-        gradient: "from-green-500 to-emerald-500"
-      },
-      {
-        name: "Emily Watson",
+        name: "Yash Khope",
         role: "Community Manager",
-        bio: "Dedicated to fostering engagement and building strong community relationships.",
-        image: "/images/team/emily.jpg",
+        bio: "Building and nurturing the developer community, fostering engagement and collaboration among members.",
+        image: "/images/team/Yash Khope.jpg",
         social: { linkedin: "#", github: "#", twitter: "#" },
-        gradient: "from-orange-500 to-red-500"
+        gradient: "from-green-500 to-emerald-500",
+        department: "Community"
       }
     ],
-    tech: [
+    eventManagement: [
       {
-        name: "David Kim",
-        role: "Android Lead",
-        bio: "Kotlin enthusiast and Android developer with 3+ years of experience.",
-        image: "/images/team/david.jpg",
-        social: { linkedin: "#", github: "#", twitter: "#" },
-        gradient: "from-yellow-500 to-orange-500"
+        name: "Prajyot Ghadi",
+        role: "Event Management Lead",
+        bio: "Orchestrating successful events and workshops, ensuring seamless execution from planning to completion.",
+        image: "/images/team/Prajyot ghadi.jpg",
+        social: { linkedin: "#", email: "#" },
+        gradient: "from-orange-500 to-red-500",
+        department: "Event Management"
       },
       {
-        name: "Lisa Wang",
-        role: "Flutter Lead",
-        bio: "Cross-platform development expert and UI/UX design enthusiast.",
-        image: "/images/team/lisa.jpg",
-        social: { linkedin: "#", github: "#", twitter: "#" },
-        gradient: "from-indigo-500 to-purple-500"
+        name: "Yuvraj Patil",
+        role: "Event Management Coordinator",
+        bio: "Assisting in event planning and execution, handling logistics and participant coordination.",
+        image: "/images/team/Yuvraj Patil.jpg",
+        social: { linkedin: "#" },
+        gradient: "from-yellow-500 to-orange-500",
+        department: "Event Management"
+      },
+      {
+        name: "Swara Berde",
+        role: "Event Management Coordinator",
+        bio: "Supporting event operations and ensuring participant satisfaction through effective coordination.",
+        image: "/images/team/Swara Berde.jpg",
+        social: { linkedin: "#", email: "#" },
+        gradient: "from-pink-500 to-rose-500",
+        department: "Event Management"
+      }
+    ],
+    design: [
+      {
+        name: "Rudrapratap Therokar",
+        role: "Design Lead",
+        bio: "Leading creative design initiatives, creating visual identities and engaging content for GDG activities.",
+        image: "/images/team/Rudrapratap Therokar.jpg",
+        social: { linkedin: "#", behance: "#", email: "#" },
+        gradient: "from-indigo-500 to-purple-500",
+        department: "Design"
+      },
+      {
+        name: "Sumit Trivedi",
+        role: "Design Coordinator",
+        bio: "Creating compelling visual designs and graphics for events, social media, and promotional materials.",
+        image: "/images/team/sumit-trivedi.jpg",
+        social: { linkedin: "#", behance: "#" },
+        gradient: "from-teal-500 to-cyan-500",
+        department: "Design"
+      },
+      {
+        name: "Sampada Bari",
+        role: "Design Coordinator",
+        bio: "Developing innovative design solutions and maintaining visual consistency across all GDG platforms.",
+        image: "/images/team/sampada-bari.jpg",
+        social: { linkedin: "#", behance: "#" },
+        gradient: "from-violet-500 to-purple-500",
+        department: "Design"
+      }
+    ],
+    socialMedia: [
+      {
+        name: "Aditya Jathar",
+        role: "Social Media Lead",
+        bio: "Strategizing and executing social media campaigns to enhance GDG's online presence and engagement.",
+        image: "/images/team/Aditya Jathar.jpg",
+        social: { linkedin: "#", twitter: "#", instagram: "#" },
+        gradient: "from-blue-500 to-indigo-500",
+        department: "Social Media"
+      },
+      {
+        name: "Tanishka Patil",
+        role: "Social Media Coordinator",
+        bio: "Creating engaging content and managing social media interactions to grow our community reach.",
+        image: "/images/team/tanishka-patil.jpg",
+        social: { linkedin: "#", instagram: "#" },
+        gradient: "from-pink-500 to-rose-500",
+        department: "Social Media"
+      },
+      {
+        name: "Ganesh Dhepe",
+        role: "Social Media Coordinator",
+        bio: "Developing content strategies and analyzing social media metrics to optimize engagement.",
+        image: "/images/team/ganesh-dhepe.jpg",
+        social: { linkedin: "#", twitter: "#" },
+        gradient: "from-green-500 to-teal-500",
+        department: "Social Media"
+      },
+      {
+        name: "Adiraj Khore",
+        role: "Social Media Coordinator",
+        bio: "Managing social media platforms and creating interactive content to connect with the community.",
+        image: "/images/team/adiraj-khore.jpg",
+        social: { linkedin: "#", instagram: "#" },
+        gradient: "from-orange-500 to-amber-500",
+        department: "Social Media"
+      }
+    ],
+    documentation: [
+      {
+        name: "Shruti Patil",
+        role: "Documentation Lead",
+        bio: "Overseeing documentation processes and ensuring all GDG activities are properly recorded and archived.",
+        image: "/images/team/Shruti Patil.jpg",
+        social: { linkedin: "#", email: "#" },
+        gradient: "from-gray-500 to-slate-500",
+        department: "Documentation"
+      },
+      {
+        name: "Chaitanya Shelar",
+        role: "Documentation Coordinator",
+        bio: "Documenting events, meetings, and activities to maintain comprehensive records of GDG operations.",
+        image: "/images/team/chaitanya-shelar.jpg",
+        social: { linkedin: "#" },
+        gradient: "from-blue-500 to-gray-500",
+        department: "Documentation"
+      },
+      {
+        name: "Shubham Shinde",
+        role: "Documentation Coordinator",
+        bio: "Creating and organizing documentation for projects, events, and community resources.",
+        image: "/images/team/shubham-shinde.jpg",
+        social: { linkedin: "#", email: "#" },
+        gradient: "from-slate-500 to-blue-500",
+        department: "Documentation"
+      }
+    ],
+    webDevelopment: [
+      {
+        name: "Dhanashri Shedge",
+        role: "Web Development Lead",
+        bio: "Leading web development initiatives and maintaining GDG's digital platforms and websites.",
+        image: "/images/team/Dhanashri Shedge.jpg",
+        social: { linkedin: "#", github: "#", website: "#" },
+        gradient: "from-cyan-500 to-blue-500",
+        department: "Web Development"
+      },
+      {
+        name: "Vijay Umbare",
+        role: "Web Development Coordinator",
+        bio: "Developing and maintaining web applications and contributing to GDG's technical projects.",
+        image: "/images/team/vijay-umbare.jpg",
+        social: { linkedin: "#", github: "#" },
+        gradient: "from-purple-500 to-indigo-500",
+        department: "Web Development"
+      },
+      {
+        name: "Manthan Raut",
+        role: "Web Development Coordinator",
+        bio: "Building responsive web interfaces and contributing to frontend development projects.",
+        image: "/images/team/manthan-raut.jpg",
+        social: { linkedin: "#", github: "#" },
+        gradient: "from-green-500 to-emerald-500",
+        department: "Web Development"
+      }
+    ],
+    dsaCp: [
+      {
+        name: "Kunal Telangi",
+        role: "DSA/CP Lead",
+        bio: "Leading Data Structures and Competitive Programming initiatives and mentoring members.",
+        image: "/images/team/Kunal Telangi.jpg",
+        social: { linkedin: "#", github: "#", leetcode: "#" },
+        gradient: "from-red-500 to-orange-500",
+        department: "DSA/CP"
+      },
+      {
+        name: "Vijay Umbare",
+        role: "DSA/CP Coordinator",
+        bio: "Organizing DSA sessions and competitive programming contests for skill development.",
+        image: "/images/team/vijay-umbare.jpg",
+        social: { linkedin: "#", github: "#", leetcode: "#" },
+        gradient: "from-yellow-500 to-orange-500",
+        department: "DSA/CP"
+      },
+      {
+        name: "Rohan Patil",
+        role: "DSA/CP Coordinator",
+        bio: "Facilitating DSA workshops and helping members improve their problem-solving skills.",
+        image: "/images/team/rohan-patil.jpg",
+        social: { linkedin: "#", leetcode: "#" },
+        gradient: "from-blue-500 to-cyan-500",
+        department: "DSA/CP"
+      }
+    ],
+    android: [
+      {
+        name: "Smitesh Bore",
+        role: "Android Development Lead",
+        bio: "Leading Android development initiatives and mentoring aspiring mobile developers.",
+        image: "/images/team/Smitesh Bore.jpg",
+        social: { linkedin: "#", github: "#" },
+        gradient: "from-green-500 to-lime-500",
+        department: "Android Development"
+      },
+      {
+        name: "Nishant Galande",
+        role: "Android Development Coordinator",
+        bio: "Organizing Android workshops and helping members build their first mobile applications.",
+        image: "/images/team/nishant-galande.jpg",
+        social: { linkedin: "#", github: "#" },
+        gradient: "from-purple-500 to-violet-500",
+        department: "Android Development"
+      },
+      {
+        name: "Simran Bhosale",
+        role: "Android Development Coordinator",
+        bio: "Supporting Android learning initiatives and creating resources for mobile development.",
+        image: "/images/team/simran-bhosale.jpg",
+        social: { linkedin: "#", github: "#" },
+        gradient: "from-pink-500 to-rose-500",
+        department: "Android Development"
+      }
+    ],
+    cybersecurity: [
+      {
+        name: "Vedant Sonawane",
+        role: "Cybersecurity Lead",
+        bio: "Leading cybersecurity initiatives and promoting awareness about digital security.",
+        image: "/images/team/Vedant Sonawane.jpg",
+        social: { linkedin: "#", github: "#", email: "#" },
+        gradient: "from-gray-700 to-black",
+        department: "Cybersecurity"
+      },
+      {
+        name: "Harish Pudake",
+        role: "Cybersecurity Coordinator",
+        bio: "Organizing security workshops and CTF challenges for the community.",
+        image: "/images/team/harish-pudake.jpg",
+        social: { linkedin: "#", github: "#" },
+        gradient: "from-blue-900 to-gray-800",
+        department: "Cybersecurity"
+      },
+      {
+        name: "Urvi Pawar",
+        role: "Cybersecurity Coordinator",
+        bio: "Promoting cybersecurity awareness and facilitating learning sessions.",
+        image: "/images/team/urvi-pawar.jpg",
+        social: { linkedin: "#", email: "#" },
+        gradient: "from-purple-900 to-gray-800",
+        department: "Cybersecurity"
+      }
+    ],
+    cloud: [
+      {
+        name: "Atharva Makhwan",
+        role: "Cloud Computing Lead",
+        bio: "Leading cloud computing initiatives and organizing hands-on workshops with cloud platforms.",
+        image: "/images/team/Atharva Makhwan.jpg",
+        social: { linkedin: "#", github: "#", email: "#" },
+        gradient: "from-blue-500 to-cyan-500",
+        department: "Cloud Computing"
+      },
+      {
+        name: "Chaitanya Sawant",
+        role: "Cloud Computing Coordinator",
+        bio: "Facilitating cloud learning sessions and helping members with cloud certifications.",
+        image: "/images/team/chaitanya-sawant.jpg",
+        social: { linkedin: "#", github: "#" },
+        gradient: "from-indigo-500 to-blue-500",
+        department: "Cloud Computing"
+      },
+      {
+        name: "Sahil Birari",
+        role: "Cloud Computing Coordinator",
+        bio: "Organizing cloud infrastructure workshops and hands-on labs.",
+        image: "/images/team/sahil-birari.jpg",
+        social: { linkedin: "#", github: "#" },
+        gradient: "from-cyan-500 to-teal-500",
+        department: "Cloud Computing"
+      }
+    ],
+    aiMl: [
+      {
+        name: "Om Kute",
+        role: "AI/ML Lead",
+        bio: "Leading artificial intelligence and machine learning initiatives for the community.",
+        image: "/images/team/OM kute.jpg",
+        social: { linkedin: "#", github: "#", email: "#" },
+        gradient: "from-orange-500 to-red-500",
+        department: "AI/ML"
+      },
+      {
+        name: "Mukund Thorat",
+        role: "AI/ML Coordinator",
+        bio: "Organizing AI/ML workshops and facilitating hands-on learning sessions.",
+        image: "/images/team/mukund-thorat.jpg",
+        social: { linkedin: "#", github: "#" },
+        gradient: "from-red-500 to-pink-500",
+        department: "AI/ML"
+      },
+      {
+        name: "Siddhesh Nagmote",
+        role: "AI/ML Coordinator",
+        bio: "Supporting machine learning projects and organizing data science sessions.",
+        image: "/images/team/siddhesh-nagmote.jpg",
+        social: { linkedin: "#", github: "#" },
+        gradient: "from-purple-500 to-indigo-500",
+        department: "AI/ML"
+      },
+      {
+        name: "Kiran Ingale",
+        role: "AI/ML Coordinator",
+        bio: "Facilitating AI learning initiatives and helping members with ML projects.",
+        image: "/images/team/kiran-ingale.jpg",
+        social: { linkedin: "#", github: "#" },
+        gradient: "from-blue-500 to-cyan-500",
+        department: "AI/ML"
       }
     ]
   };
@@ -67,11 +355,32 @@ const Team = () => {
     name: "Dr. Michael Roberts",
     role: "Faculty Advisor",
     department: "Computer Science Department",
-    bio: "Professor with 15+ years of experience in software engineering and research. Passionate about bridging academic learning with industry practices.",
+    bio: "Professor with 15+ years of experience in software engineering and research. Passionate about bridging academic learning with industry practices. Provides invaluable guidance and support for our GDG activities, helping bridge academic learning with practical technology skills and industry insights.",
     image: "/images/team/dr-roberts.jpg",
     social: { linkedin: "#", email: "#", website: "#" },
-    gradient: "from-slate-600 to-blue-600"
+    gradient: "from-slate-600 to-blue-600",
+    expertise: [
+      'Software Engineering',
+      'Cloud Computing',
+      'Machine Learning',
+      'Research Methodology',
+      'Industry Partnerships'
+    ]
   };
+
+  const teamCategories = [
+    { key: 'core', label: 'Core Team', icon: '👑', count: teams.core.length },
+    { key: 'eventManagement', label: 'Event Management', icon: '🎪', count: teams.eventManagement.length },
+    { key: 'design', label: 'Design Team', icon: '🎨', count: teams.design.length },
+    { key: 'socialMedia', label: 'Social Media', icon: '📱', count: teams.socialMedia.length },
+    { key: 'documentation', label: 'Documentation', icon: '📋', count: teams.documentation.length },
+    { key: 'webDevelopment', label: 'Web Development', icon: '💻', count: teams.webDevelopment.length },
+    { key: 'dsaCp', label: 'DSA/CP', icon: '🧠', count: teams.dsaCp.length },
+    { key: 'android', label: 'Android Dev', icon: '📱', count: teams.android.length },
+    { key: 'cybersecurity', label: 'Cybersecurity', icon: '🔒', count: teams.cybersecurity.length },
+    { key: 'cloud', label: 'Cloud Computing', icon: '☁️', count: teams.cloud.length },
+    { key: 'aiMl', label: 'AI/ML', icon: '🤖', count: teams.aiMl.length }
+  ];
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -139,10 +448,40 @@ const Team = () => {
 
   }, [activeTeam]);
 
-  const teamTabs = [
-    { key: 'core', label: 'Core Team', count: teams.core.length },
-    { key: 'tech', label: 'Tech Leads', count: teams.tech.length }
-  ];
+  useEffect(() => {
+    if (isModalOpen && selectedMember) {
+      gsap.fromTo(modalRef.current,
+        { scale: 0.8, opacity: 0 },
+        {
+          scale: 1,
+          opacity: 1,
+          duration: 0.4,
+          ease: 'power3.out'
+        }
+      );
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [isModalOpen, selectedMember]);
+
+  const handleMemberClick = (member) => {
+    setSelectedMember(member);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    gsap.to(modalRef.current, {
+      scale: 0.8,
+      opacity: 0,
+      duration: 0.3,
+      ease: 'power3.in',
+      onComplete: () => {
+        setIsModalOpen(false);
+        setSelectedMember(null);
+      }
+    });
+  };
 
   return (
     <div className="pt-20">
@@ -165,12 +504,12 @@ const Team = () => {
             </div>
 
             <h1 className="text-5xl md:text-6xl font-poppins font-bold text-dark-gray mb-6 leading-tight">
-              The <span className="text-gradient">People</span> Behind the Magic
+              GDG OC <span className="text-gradient">Team 2025-26</span>
             </h1>
 
             <p className="text-xl text-medium-gray leading-relaxed max-w-3xl mx-auto">
-              Passionate students driving innovation, building community, and shaping the future 
-              of technology at our university.
+              Passionate students from diverse technical domains working together to build an 
+              innovative and inclusive developer community at our university.
             </p>
           </div>
         </div>
@@ -190,32 +529,31 @@ const Team = () => {
             </div>
 
             <h2 className="text-4xl md:text-5xl font-poppins font-bold text-dark-gray mb-6">
-              Core <span className="text-gradient">Committee</span>
+              Meet Our <span className="text-gradient">Team Leads</span>
             </h2>
 
             <p className="text-xl text-medium-gray max-w-2xl mx-auto leading-relaxed">
-              Dedicated students leading our community initiatives and driving technological innovation
+              Dedicated student leaders driving innovation across various technical domains
             </p>
           </div>
 
-          {/* Team Tabs */}
-          <div className="flex justify-center mb-12">
-            <div className="bg-slate-100 rounded-2xl p-1 inline-flex">
-              {teamTabs.map((tab) => (
+          {/* Team Categories Navigation */}
+          <div className="mb-12 overflow-x-auto pb-4">
+            <div className="flex gap-2 min-w-max">
+              {teamCategories.map((category) => (
                 <button
-                  key={tab.key}
-                  onClick={() => setActiveTeam(tab.key)}
-                  className={`px-6 py-3 rounded-2xl font-semibold transition-all duration-300 ${
-                    activeTeam === tab.key
-                      ? 'bg-white text-dark-gray shadow-sm'
-                      : 'text-medium-gray hover:text-dark-gray'
+                  key={category.key}
+                  onClick={() => setActiveTeam(category.key)}
+                  className={`px-4 py-3 rounded-2xl font-medium transition-all duration-300 flex items-center space-x-2 whitespace-nowrap ${
+                    activeTeam === category.key
+                      ? 'bg-gdg-blue text-white shadow-md'
+                      : 'bg-slate-100 text-medium-gray hover:bg-slate-200'
                   }`}
                 >
-                  <span className="flex items-center space-x-2">
-                    <span>{tab.label}</span>
-                    <span className="bg-slate-200 text-slate-600 px-2 py-1 rounded-full text-xs">
-                      {tab.count}
-                    </span>
+                  <span className="text-lg">{category.icon}</span>
+                  <span>{category.label}</span>
+                  <span className="bg-white/30 text-white px-2 py-1 rounded-full text-xs">
+                    {category.count}
                   </span>
                 </button>
               ))}
@@ -223,42 +561,58 @@ const Team = () => {
           </div>
 
           {/* Teams Grid */}
-          <div className="teams-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="teams-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {teams[activeTeam].map((member, index) => (
               <div 
                 key={index}
-                className="team-card group"
+                className="team-card group cursor-pointer"
+                onClick={() => handleMemberClick(member)}
               >
-                <div className="bg-card-bg rounded-3xl shadow-soft hover:shadow-large transition-all duration-500 border border-gray-100 hover:border-gray-200 overflow-hidden h-full">
+                <div className="bg-card-bg rounded-3xl shadow-soft hover:shadow-large transition-all duration-500 border border-gray-100 hover:border-gray-200 overflow-hidden h-full flex flex-col">
                   {/* Member Image/Placeholder */}
                   <div className={`h-48 bg-gradient-to-br ${member.gradient} relative overflow-hidden`}>
                     <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors duration-300"></div>
                     <div className="absolute bottom-4 left-4 right-4 text-white">
-                      <h3 className="text-xl font-poppins font-bold mb-1">{member.name}</h3>
-                      <p className="text-white/90 text-sm">{member.role}</p>
+                      <h3 className="text-xl font-poppins font-bold mb-1 line-clamp-1">{member.name}</h3>
+                      <p className="text-white/90 text-sm line-clamp-1">{member.role}</p>
+                    </div>
+                    {/* View Details Indicator */}
+                    <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <span className="text-white">👁️</span>
                     </div>
                   </div>
 
                   {/* Member Content */}
-                  <div className="p-6">
-                    <p className="text-medium-gray leading-relaxed mb-6">
+                  <div className="p-5 flex-grow">
+                    <p className="text-medium-gray leading-relaxed text-sm mb-4 line-clamp-3">
                       {member.bio}
                     </p>
 
+                    {/* Department Tag */}
+                    <div className="mb-4">
+                      <span className="bg-blue-50 text-gdg-blue px-3 py-1 rounded-full text-xs font-medium">
+                        {member.department}
+                      </span>
+                    </div>
+
                     {/* Social Links */}
-                    <div className="flex space-x-3">
+                    <div className="flex space-x-2">
                       {Object.entries(member.social).map(([platform, url]) => (
                         <a
                           key={platform}
                           href={url}
-                          className="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center text-slate-600 hover:bg-slate-200 hover:scale-110 transform transition-all duration-300"
+                          onClick={(e) => e.stopPropagation()}
+                          className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center text-slate-600 hover:bg-slate-200 hover:scale-110 transform transition-all duration-300"
                         >
-                          <span className="text-sm">
+                          <span className="text-xs">
                             {platform === 'linkedin' && '💼'}
                             {platform === 'github' && '💻'}
                             {platform === 'twitter' && '🐦'}
                             {platform === 'email' && '📧'}
                             {platform === 'website' && '🌐'}
+                            {platform === 'behance' && '🎨'}
+                            {platform === 'instagram' && '📸'}
+                            {platform === 'leetcode' && '🧠'}
                           </span>
                         </a>
                       ))}
@@ -266,10 +620,18 @@ const Team = () => {
                   </div>
 
                   {/* Hover Effect */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-gdg-blue/5 to-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-gdg-blue/5 to-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl pointer-events-none"></div>
                 </div>
               </div>
             ))}
+          </div>
+
+          {/* Team Category Description */}
+          <div className="mt-12 text-center">
+            <p className="text-medium-gray">
+              Showing {teams[activeTeam].length} members from the {teamCategories.find(t => t.key === activeTeam)?.label} department.
+              Click on any member to view more details.
+            </p>
           </div>
         </div>
       </section>
@@ -338,13 +700,9 @@ const Team = () => {
                 {/* Mentor Bio */}
                 <div className="md:w-3/5 p-8">
                   <div className="mb-6">
-                    <h4 className="text-xl font-poppins font-bold text-dark-gray mb-4">About Dr. Roberts</h4>
+                    <h4 className="text-xl font-poppins font-bold text-dark-gray mb-4">About {facultyMentor.name}</h4>
                     <p className="text-medium-gray leading-relaxed mb-4">
                       {facultyMentor.bio}
-                    </p>
-                    <p className="text-medium-gray leading-relaxed">
-                      Dr. Roberts provides invaluable guidance and support for our GDG activities, 
-                      helping bridge academic learning with practical technology skills and industry insights.
                     </p>
                   </div>
 
@@ -352,13 +710,7 @@ const Team = () => {
                   <div>
                     <h5 className="font-poppins font-bold text-dark-gray mb-3">Areas of Expertise</h5>
                     <div className="flex flex-wrap gap-2">
-                      {[
-                        'Software Engineering',
-                        'Cloud Computing',
-                        'Machine Learning',
-                        'Research Methodology',
-                        'Industry Partnerships'
-                      ].map((expertise, index) => (
+                      {facultyMentor.expertise.map((expertise, index) => (
                         <span 
                           key={index}
                           className="bg-blue-50 text-gdg-blue px-3 py-1 rounded-full text-sm font-medium"
@@ -396,7 +748,7 @@ const Team = () => {
 
             <p className="text-xl text-blue-100 mb-8 leading-relaxed max-w-2xl mx-auto">
               We're always looking for passionate students to join our leadership team and help 
-              shape the future of our developer community.
+              shape the future of our developer community. Applications open twice a year!
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -410,6 +762,119 @@ const Team = () => {
           </div>
         </div>
       </section>
+
+      {/* Team Member Details Modal */}
+      {isModalOpen && selectedMember && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+          <div 
+            ref={modalRef}
+            className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto relative"
+          >
+            {/* Close Button */}
+            <button
+              onClick={closeModal}
+              className="absolute top-4 right-4 z-10 bg-white/90 backdrop-blur-sm p-3 rounded-full hover:bg-gray-100 transition-colors shadow-md"
+            >
+              <span className="text-xl font-bold text-gray-600">✕</span>
+            </button>
+
+            {/* Modal Content */}
+            <div className="p-8">
+              {/* Member Header */}
+              <div className="flex flex-col md:flex-row items-center md:items-start gap-6 mb-8">
+                {/* Member Image */}
+                <div className={`w-32 h-32 bg-gradient-to-br ${selectedMember.gradient} rounded-2xl flex items-center justify-center text-white text-4xl shadow-lg`}>
+                  {selectedMember.image ? (
+                    <img 
+                      src={selectedMember.image} 
+                      alt={selectedMember.name}
+                      className="w-full h-full rounded-2xl object-cover"
+                    />
+                  ) : (
+                    <span>👤</span>
+                  )}
+                </div>
+
+                {/* Member Info */}
+                <div className="flex-grow text-center md:text-left">
+                  <h2 className="text-2xl font-poppins font-bold text-dark-gray mb-2">
+                    {selectedMember.name}
+                  </h2>
+                  <p className="text-lg text-gdg-blue font-semibold mb-1">
+                    {selectedMember.role}
+                  </p>
+                  <p className="text-medium-gray mb-4">
+                    {selectedMember.department}
+                  </p>
+
+                  {/* Social Links */}
+                  <div className="flex space-x-3 justify-center md:justify-start">
+                    {Object.entries(selectedMember.social).map(([platform, url]) => (
+                      <a
+                        key={platform}
+                        href={url}
+                        className="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center text-slate-600 hover:bg-slate-200 hover:scale-110 transform transition-all duration-300"
+                      >
+                        <span className="text-sm">
+                          {platform === 'linkedin' && '💼'}
+                          {platform === 'github' && '💻'}
+                          {platform === 'twitter' && '🐦'}
+                          {platform === 'email' && '📧'}
+                          {platform === 'website' && '🌐'}
+                          {platform === 'behance' && '🎨'}
+                          {platform === 'instagram' && '📸'}
+                          {platform === 'leetcode' && '🧠'}
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Member Bio */}
+              <div className="mb-8">
+                <h3 className="text-xl font-poppins font-bold text-dark-gray mb-4">About {selectedMember.name.split(' ')[0]}</h3>
+                <p className="text-medium-gray leading-relaxed">
+                  {selectedMember.bio}
+                </p>
+              </div>
+
+              {/* Department Info */}
+              <div className="bg-gradient-to-r from-slate-50 to-blue-50 rounded-2xl p-6">
+                <h3 className="text-xl font-poppins font-bold text-dark-gray mb-4">Department Role</h3>
+                <div className="flex items-center space-x-2">
+                  <span className="text-lg">🏢</span>
+                  <div>
+                    <p className="font-semibold text-dark-gray">{selectedMember.department}</p>
+                    <p className="text-medium-gray text-sm">Google Developer Group on Campus</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Current Teams */}
+              <div className="mt-8">
+                <h3 className="text-xl font-poppins font-bold text-dark-gray mb-4">Team Participation</h3>
+                <div className="flex flex-wrap gap-2">
+                  {teamCategories
+                    .filter(category => 
+                      teams[category.key]?.some(m => m.name === selectedMember.name)
+                    )
+                    .map(category => (
+                      <span 
+                        key={category.key}
+                        className="bg-gradient-to-r from-blue-50 to-blue-100 text-blue-600 px-4 py-2 rounded-full text-sm font-medium flex items-center space-x-2"
+                      >
+                        <span>{category.icon}</span>
+                        <span>{category.label}</span>
+                      </span>
+                    ))
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
