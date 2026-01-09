@@ -7,13 +7,34 @@ const Footer = () => {
   const footerRef = useRef(null);
   const sectionsRef = useRef([]);
 
-  const socialLinks = [
-    { name: 'GitHub', icon: '💻', url: 'https://github.com/gdg', color: 'hover:text-gray-700' },
-    { name: 'LinkedIn', icon: '💼', url: 'https://linkedin.com/company/gdg', color: 'hover:text-blue-600' },
-    { name: 'Twitter', icon: '🐦', url: 'https://twitter.com/gdg', color: 'hover:text-sky-500' },
-    { name: 'Discord', icon: '💬', url: 'https://discord.gg/gdg', color: 'hover:text-purple-500' },
-    { name: 'YouTube', icon: '📺', url: 'https://youtube.com/gdg', color: 'hover:text-red-500' }
-  ];
+ const socialLinks = [
+  {
+    name: 'GitHub',
+    img: '/images/GitHub-Symbol.png',
+    url: 'https://github.com/gdg',
+    color: 'hover:text-gray-700'
+  },
+  {
+    name: 'LinkedIn',
+    img: '/images/linkedin-logo.jpg',
+    url: 'https://www.linkedin.com/company/gdgoc-zcoer/',
+    color: 'hover:text-blue-600'
+  },
+  {
+    name: 'Twitter',
+    img: '/images/twitter.webp',
+    url: 'https://twitter.com/gdg',
+    color: 'hover:text-sky-500'
+  },
+  {
+    name: 'Discord',
+    img: '/images/discord.jpg',
+    url: 'https://discord.gg/gdg',
+    color: 'hover:text-purple-500'
+  },
+
+];
+
 
   const quickLinks = [
     { name: 'Events', path: '/events' },

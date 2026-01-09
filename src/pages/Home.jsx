@@ -5,9 +5,11 @@ import AboutPreview from '../components/sections/AboutPreview';
 import Stats from '../components/sections/Stats';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const ctaRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -27,25 +29,33 @@ const Home = () => {
         }
       }
     );
+  }, []); // ✅ fixed useEffect closure
 
-  }, []);
+  // Navigation functions
+  const join = () => {
+    navigate("/join"); // first page route
+  };
+
+  const events = () => {
+    navigate("/Events"); // second page route
+  };
 
   return (
     <div className="home-page">
       {/* Hero Section */}
       <Hero />
-      
+
       {/* About Preview Section */}
       <AboutPreview />
-      
+
       {/* Stats Section */}
       <Stats />
-      
+
       {/* Featured Events Section */}
       <FeaturedEvents />
-      
+
       {/* Call to Action Section */}
-      <section 
+      <section
         ref={ctaRef}
         className="section-padding bg-gradient-to-br from-slate-900 via-purple-900 to-blue-900 relative overflow-hidden"
       >
@@ -70,17 +80,17 @@ const Home = () => {
 
             {/* Description */}
             <p className="text-xl text-blue-100 mb-8 leading-relaxed max-w-2xl mx-auto">
-              Join hundreds of students who are building their skills, launching projects, 
+              Join hundreds of students who are building their skills, launching projects,
               and shaping the future of technology through our vibrant developer community.
             </p>
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="group relative bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-8 py-4 rounded-2xl font-semibold shadow-lg hover:shadow-glow hover:scale-105 transform transition-all duration-300 overflow-hidden">
+              <button onClick={join} className="group relative bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-8 py-4 rounded-2xl font-semibold shadow-lg hover:shadow-glow hover:scale-105 transform transition-all duration-300 overflow-hidden">
                 <span className="relative z-10">Start Your Journey</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-cyan-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </button>
-              <button className="group relative bg-white/10 backdrop-blur-sm text-white px-8 py-4 rounded-2xl font-semibold border border-white/20 hover:bg-white/20 hover:scale-105 transform transition-all duration-300">
+              <button onClick={events} className="group relative bg-white/10 backdrop-blur-sm text-white px-8 py-4 rounded-2xl font-semibold border border-white/20 hover:bg-white/20 hover:scale-105 transform transition-all duration-300">
                 <span className="relative z-10">Explore Events</span>
               </button>
             </div>
