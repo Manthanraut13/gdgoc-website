@@ -1,144 +1,63 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { getResources } from '../services/api';
 
 const Resources = () => {
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [resources, setResources] = useState([]);
+  const [loading, setLoading] = useState(true);
   const heroRef = useRef(null);
   const resourcesRef = useRef(null);
   const resourceCardsRef = useRef([]);
 
-  const resources = {
-    studyJams: [
-      {
-        id: 1,
-        title: "Android Development Fundamentals",
-        description: "Complete guide to Android development with Kotlin and Jetpack Compose. Includes hands-on projects and best practices.",
-        level: "Beginner",
-        duration: "6 weeks",
-        type: "study-jam",
-        format: "Video Series",
-        downloads: 1247,
-        rating: 4.9,
-        tags: ["Android", "Kotlin", "Mobile", "Jetpack"],
-        link: "#",
-        featured: true
-      },
-      {
-        id: 2,
-        title: "Flutter Crash Course",
-        description: "Build cross-platform apps with Flutter and Dart. Covers widgets, state management, and API integration.",
-        level: "Intermediate",
-        duration: "4 weeks",
-        type: "study-jam",
-        format: "Interactive Course",
-        downloads: 892,
-        rating: 4.7,
-        tags: ["Flutter", "Dart", "Cross-Platform", "UI"],
-        link: "#",
-        featured: false
-      },
-      {
-        id: 3,
-        title: "Google Cloud Basics",
-        description: "Introduction to Google Cloud Platform services and deployment strategies for modern applications.",
-        level: "Beginner",
-        duration: "5 weeks",
-        type: "study-jam",
-        format: "Video Series",
-        downloads: 756,
-        rating: 4.8,
-        tags: ["Cloud", "GCP", "DevOps", "Infrastructure"],
-        link: "#",
-        featured: true
-      }
-    ],
-    workshop: [
-      {
-        id: 4,
-        title: "Kotlin for Android",
-        description: "Modern Android development with Kotlin programming language. Covers coroutines, extensions, and DSLs.",
-        level: "Intermediate",
-        duration: "2 hours",
-        type: "workshop",
-        format: "Workshop Recording",
-        downloads: 543,
-        rating: 4.6,
-        tags: ["Kotlin", "Android", "Coroutines", "DSL"],
-        link: "#",
-        featured: false
-      },
-      {
-        id: 5,
-        title: "Firebase Integration",
-        description: "Build real-time apps with Firebase backend services including Auth, Firestore, and Cloud Functions.",
-        level: "Beginner",
-        duration: "3 hours",
-        type: "workshop",
-        format: "Workshop Recording",
-        downloads: 678,
-        rating: 4.5,
-        tags: ["Firebase", "Backend", "NoSQL", "Real-time"],
-        link: "#",
-        featured: true
-      }
-    ],
-    openSource: [
-      {
-        id: 6,
-        title: "Contributing Guidelines",
-        description: "Learn how to contribute to open source projects effectively. Covers Git workflows and community standards.",
-        level: "Beginner",
-        duration: "Self-paced",
-        type: "open-source",
-        format: "Guide",
-        downloads: 432,
-        rating: 4.8,
-        tags: ["Git", "Open Source", "Community", "Workflow"],
-        link: "#",
-        featured: false
-      },
-      {
-        id: 7,
-        title: "Code Review Process",
-        description: "Best practices for code reviews in open source and professional development environments.",
-        level: "Intermediate",
-        duration: "Self-paced",
-        type: "open-source",
-        format: "Guide",
-        downloads: 389,
-        rating: 4.7,
-        tags: ["Code Review", "Best Practices", "Quality"],
-        link: "#",
-        featured: false
-      }
-    ]
+  const loadResources = async () => {
+    try {
+      setLoading(true);
+      const res = await getResources();
+      setResources(res.data?.data || []);
+    } catch (err) {
+      console.error(err);
+      setResources([]);
+    } finally {
+      setLoading(false);
+    }
   };
 
+  useEffect(() => {
+    loadResources();
+  }, []);
+
   const categories = [
-    { key: 'all', label: 'All Resources', icon: '📚', count: Object.values(resources).flat().length },
-    { key: 'studyJams', label: 'Study Jams', icon: '👨‍💻', count: resources.studyJams.length },
-    { key: 'workshop', label: 'Workshop Notes', icon: '📝', count: resources.workshop.length },
-    { key: 'openSource', label: 'Open Source', icon: '🔓', count: resources.openSource.length }
+    { key: 'all', label: 'All Resources', icon: '📚', count: resources.length },
+    { key: 'Documentation', label: 'Documentation', icon: '📚', count: resources.filter(r => r.category === 'Documentation').length },
+    { key: 'YouTube', label: 'YouTube', icon: '📹', count: resources.filter(r => r.category === 'YouTube').length },
+    { key: 'Course', label: 'Course', icon: '🎓', count: resources.filter(r => r.category === 'Course').length },
+    { key: 'Tools', label: 'Tools', icon: '🛠️', count: resources.filter(r => r.category === 'Tools').length },
+    { key: 'Roadmap', label: 'Roadmap', icon: '🗺️', count: resources.filter(r => r.category === 'Roadmap').length },
+    { key: 'Blogs', label: 'Blogs', icon: '📝', count: resources.filter(r => r.category === 'Blogs').length },
+    { key: 'API', label: 'API', icon: '🔌', count: resources.filter(r => r.category === 'API').length },
+    { key: 'GitHub Repo', label: 'GitHub Repo', icon: '🔗', count: resources.filter(r => r.category === 'GitHub Repo').length },
+    { key: 'Other', label: 'Other', icon: '🔧', count: resources.filter(r => r.category === 'Other').length }
   ];
 
   const levels = [
     { key: 'all', label: 'All Levels', icon: '🌈' },
-    { key: 'beginner', label: 'Beginner', icon: '🌱' },
-    { key: 'intermediate', label: 'Intermediate', icon: '🚀' },
-    { key: 'advanced', label: 'Advanced', icon: '⚡' }
+    { key: 'Beginner', label: 'Beginner', icon: '🌱' },
+    { key: 'Intermediate', label: 'Intermediate', icon: '🚀' },
+    { key: 'Advanced', label: 'Advanced', icon: '⚡' }
   ];
 
   const getAllResources = () => {
-    return Object.values(resources).flat();
+    return resources;
   };
 
   const filteredResources = getAllResources().filter(resource => {
-    const matchesCategory = activeCategory === 'all' || resources[activeCategory]?.includes(resource);
+    const matchesCategory = activeCategory === 'all' || resource.category === activeCategory;
     const matchesSearch = resource.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         resource.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         resource.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+                         resource.description.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
 
@@ -220,13 +139,19 @@ const Resources = () => {
     }
   };
 
-  const getTypeColor = (type) => {
+  const getTypeColor = (category) => {
     const colors = {
-      'study-jam': { bg: 'from-purple-500 to-pink-500', badge: 'bg-purple-50 text-purple-700' },
-      'workshop': { bg: 'from-blue-500 to-cyan-500', badge: 'bg-blue-50 text-blue-700' },
-      'open-source': { bg: 'from-green-500 to-emerald-500', badge: 'bg-green-50 text-green-700' }
+      'Documentation': { bg: 'from-purple-500 to-pink-500', badge: 'bg-purple-50 text-purple-700' },
+      'YouTube': { bg: 'from-red-500 to-orange-500', badge: 'bg-red-50 text-red-700' },
+      'Course': { bg: 'from-blue-500 to-cyan-500', badge: 'bg-blue-50 text-blue-700' },
+      'Tools': { bg: 'from-green-500 to-emerald-500', badge: 'bg-green-50 text-green-700' },
+      'Roadmap': { bg: 'from-yellow-500 to-amber-500', badge: 'bg-yellow-50 text-yellow-700' },
+      'Blogs': { bg: 'from-indigo-500 to-violet-500', badge: 'bg-indigo-50 text-indigo-700' },
+      'API': { bg: 'from-gray-500 to-slate-500', badge: 'bg-gray-50 text-gray-700' },
+      'GitHub Repo': { bg: 'from-black to-gray-800', badge: 'bg-gray-50 text-gray-700' },
+      'Other': { bg: 'from-gray-500 to-slate-500', badge: 'bg-gray-50 text-gray-700' }
     };
-    return colors[type] || { bg: 'from-gray-500 to-slate-500', badge: 'bg-gray-50 text-gray-700' };
+    return colors[category] || { bg: 'from-gray-500 to-slate-500', badge: 'bg-gray-50 text-gray-700' };
   };
 
   const getLevelColor = (level) => {
@@ -238,14 +163,19 @@ const Resources = () => {
     return colors[level] || 'text-gray-600 bg-gray-50';
   };
 
-  const getFormatIcon = (format) => {
+  const getFormatIcon = (category) => {
     const icons = {
-      'Video Series': '🎥',
-      'Interactive Course': '🔄',
-      'Workshop Recording': '📹',
-      'Guide': '📖'
+      'Documentation': '📚',
+      'YouTube': '📹',
+      'Course': '🎓',
+      'Tools': '🛠️',
+      'Roadmap': '🗺️',
+      'Blogs': '📝',
+      'API': '🔌',
+      'GitHub Repo': '🔗',
+      'Other': '🔧'
     };
-    return icons[format] || '📄';
+    return icons[category] || '📄';
   };
 
   return (
@@ -354,7 +284,7 @@ const Resources = () => {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {featuredResources.slice(0, 2).map((resource, index) => (
                   <div 
-                    key={resource.id}
+                    key={resource._id}
                     className="featured-resource group"
                   >
                     <div className="bg-gradient-to-br from-slate-900 to-blue-900 rounded-3xl p-8 text-white relative overflow-hidden">
@@ -363,13 +293,12 @@ const Resources = () => {
                       
                       <div className="relative z-10">
                         <div className="flex items-center justify-between mb-4">
-                          <span className={`px-3 py-1 rounded-full text-sm font-semibold ${getTypeColor(resource.type).badge} text-dark-gray`}>
-                            {resource.type === 'study-jam' ? 'Study Jam' : 
-                             resource.type === 'workshop' ? 'Workshop' : 'Open Source'}
+                          <span className={`px-3 py-1 rounded-full text-sm font-semibold ${getTypeColor(resource.category).badge} text-dark-gray`}>
+                            {resource.category}
                           </span>
                           <span className="text-yellow-300 text-sm flex items-center space-x-1">
                             <span>⭐</span>
-                            <span>{resource.rating}</span>
+                            <span>{resource.rating || 4.5}</span>
                           </span>
                         </div>
 
@@ -385,11 +314,11 @@ const Resources = () => {
                           <div className="flex items-center space-x-4 text-blue-200 text-sm">
                             <span className="flex items-center space-x-1">
                               <span>📥</span>
-                              <span>{resource.downloads} downloads</span>
+                              <span>{resource.downloads || 0} downloads</span>
                             </span>
                             <span className="flex items-center space-x-1">
                               <span>⏱️</span>
-                              <span>{resource.duration}</span>
+                              <span>{resource.duration || 'N/A'}</span>
                             </span>
                           </div>
 
@@ -408,28 +337,31 @@ const Resources = () => {
           {/* Resources Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredResources.map((resource, index) => (
-              <div 
-                key={resource.id}
-                ref={addToResourceCardsRef}
-                className="resource-card group"
+              <Link
+                to={`/resources/${resource._id || resource.id}`}
+                key={resource._id || resource.id}
+                className="block"
               >
-                <div className="bg-card-bg rounded-3xl shadow-soft hover:shadow-large transition-all duration-500 border border-gray-100 hover:border-gray-200 overflow-hidden h-full flex flex-col">
+                <div 
+                  ref={addToResourceCardsRef}
+                  className="resource-card group"
+                >
+                  <div className="bg-card-bg rounded-3xl shadow-soft hover:shadow-large transition-all duration-500 border border-gray-100 hover:border-gray-200 overflow-hidden h-full flex flex-col cursor-pointer">
                   {/* Resource Header */}
                   <div className="relative h-32 overflow-hidden">
-                    <div className={`absolute inset-0 bg-gradient-to-br ${getTypeColor(resource.type).bg}`}></div>
+                    <div className={`absolute inset-0 bg-gradient-to-br ${getTypeColor(resource.category).bg}`}></div>
                     <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors duration-300"></div>
                     
                     {/* Type Badge */}
                     <div className="absolute top-4 left-4">
-                      <span className={`px-3 py-1 rounded-full text-sm font-semibold shadow-sm ${getTypeColor(resource.type).badge}`}>
-                        {resource.type === 'study-jam' ? 'Study Jam' : 
-                         resource.type === 'workshop' ? 'Workshop' : 'Open Source'}
+                      <span className={`px-3 py-1 rounded-full text-sm font-semibold shadow-sm ${getTypeColor(resource.category).badge}`}>
+                        {resource.category}
                       </span>
                     </div>
 
                     {/* Format Icon */}
                     <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm w-10 h-10 rounded-2xl flex items-center justify-center shadow-sm">
-                      <span className="text-lg">{getFormatIcon(resource.format)}</span>
+                      <span className="text-lg">{getFormatIcon(resource.category)}</span>
                     </div>
 
                     {/* Featured Badge */}
@@ -451,7 +383,7 @@ const Resources = () => {
                       </h3>
                       <span className="text-yellow-500 text-sm flex items-center space-x-1 ml-2">
                         <span>⭐</span>
-                        <span>{resource.rating}</span>
+                        <span>{resource.rating || 4.5}</span>
                       </span>
                     </div>
 
@@ -462,35 +394,18 @@ const Resources = () => {
 
                     {/* Meta Information */}
                     <div className="flex items-center justify-between mb-4 text-sm text-medium-gray">
-                      <span className={`px-2 py-1 rounded-full ${getLevelColor(resource.level)}`}>
-                        {resource.level}
+                      <span className={`px-2 py-1 rounded-full ${getLevelColor(resource.difficulty)}`}>
+                        {resource.difficulty}
                       </span>
                       <span className="flex items-center space-x-1">
                         <span>📥</span>
-                        <span>{resource.downloads}</span>
+                        <span>{resource.downloads || 0}</span>
                       </span>
-                    </div>
-
-                    {/* Tags */}
-                    <div className="flex flex-wrap gap-1 mb-4">
-                      {resource.tags.slice(0, 3).map((tag, tagIndex) => (
-                        <span 
-                          key={tagIndex}
-                          className="bg-slate-100 text-slate-600 px-2 py-1 rounded-full text-xs font-medium"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                      {resource.tags.length > 3 && (
-                        <span className="bg-slate-100 text-slate-600 px-2 py-1 rounded-full text-xs font-medium">
-                          +{resource.tags.length - 3}
-                        </span>
-                      )}
                     </div>
 
                     {/* Action Button */}
                     <button className="w-full bg-gradient-to-r from-gdg-blue to-blue-600 text-white py-3 px-4 rounded-2xl font-semibold hover:shadow-glow hover:scale-105 transform transition-all duration-300">
-                      Download Resource
+                      Access Resource
                     </button>
                   </div>
 
@@ -498,6 +413,7 @@ const Resources = () => {
                   <div className="absolute inset-0 bg-gradient-to-br from-gdg-blue/5 to-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                 </div>
               </div>
+              </Link>
             ))}
           </div>
 

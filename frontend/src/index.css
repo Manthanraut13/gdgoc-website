@@ -179,3 +179,7 @@ html, body {
   display: flex;
   flex-direction: column;
 }
+/* Put modals highest in stack */
+.modal-overlay {
+  z-index: 9999 !important;
+}

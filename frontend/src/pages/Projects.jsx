@@ -1,15 +1,37 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { getProjects } from '../services/api';
 
 const Projects = () => {
   const [activeFilter, setActiveFilter] = useState('all');
   const [viewMode, setViewMode] = useState('grid');
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
   const heroRef = useRef(null);
   const projectsRef = useRef(null);
   const projectCardsRef = useRef([]);
 
-  const projects = [
+  // Fetch projects from API
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        setLoading(true);
+        const res = await getProjects();
+        setProjects(res.data?.data || []);
+      } catch (err) {
+        console.error("Error fetching projects:", err);
+        setProjects([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProjects();
+  }, []);
+
+  // Demo projects (fallback)
+  const demoProjects = [
     {
       id: 1,
       title: "Campus Navigation App",
@@ -96,11 +118,27 @@ const Projects = () => {
     }
   ];
 
+  // Use API projects if available, otherwise show demo projects
+  const displayProjects = projects.length > 0 ? projects.map(p => ({
+    id: p._id || p.id,
+    title: p.title,
+    description: p.description,
+    status: p.status || 'planning',
+    progress: p.progress || 0,
+    category: p.category || 'web',
+    tech: Array.isArray(p.technologies) ? p.technologies : (p.tech || []),
+    team: p.team || [],
+    github: p.github || null,
+    demo: p.demo || null,
+    timeline: p.timeline || 'TBD',
+    impact: p.impact || ''
+  })) : demoProjects;
+
   const filters = [
-    { key: 'all', label: 'All Projects', icon: '🎯', count: projects.length },
-    { key: 'ongoing', label: 'In Progress', icon: '🚀', count: projects.filter(p => p.status === 'ongoing').length },
-    { key: 'completed', label: 'Completed', icon: '✅', count: projects.filter(p => p.status === 'completed').length },
-    { key: 'planning', label: 'Planning', icon: '📋', count: projects.filter(p => p.status === 'planning').length }
+    { key: 'all', label: 'All Projects', icon: '🎯', count: displayProjects.length },
+    { key: 'ongoing', label: 'In Progress', icon: '🚀', count: displayProjects.filter(p => p.status === 'ongoing').length },
+    { key: 'completed', label: 'Completed', icon: '✅', count: displayProjects.filter(p => p.status === 'completed').length },
+    { key: 'planning', label: 'Planning', icon: '📋', count: displayProjects.filter(p => p.status === 'planning').length }
   ];
 
   const categories = [
@@ -111,7 +149,7 @@ const Projects = () => {
     { key: 'iot', label: 'IoT', icon: '🔌' }
   ];
 
-  const filteredProjects = projects.filter(project => {
+  const filteredProjects = displayProjects.filter(project => {
     if (activeFilter === 'all') return true;
     return project.status === activeFilter;
   });
@@ -297,15 +335,23 @@ const Projects = () => {
               ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'
               : 'space-y-6'
           }`}>
-            {filteredProjects.map((project, index) => (
-              <div 
+            {loading ? (
+              <div className="col-span-full text-center py-16">
+                <p className="text-gray-500 text-lg">Loading projects...</p>
+              </div>
+            ) : filteredProjects.map((project, index) => (
+              <Link
+                to={`/projects/${project.id}`}
                 key={project.id}
-                ref={addToProjectCardsRef}
-                className="project-card group"
+                className="block"
               >
-                <div className={`bg-card-bg rounded-3xl shadow-soft hover:shadow-large transition-all duration-500 border border-gray-100 hover:border-gray-200 overflow-hidden ${
-                  viewMode === 'list' ? 'flex' : 'h-full flex flex-col'
-                }`}>
+                <div 
+                  ref={addToProjectCardsRef}
+                  className="project-card group"
+                >
+                  <div className={`bg-card-bg rounded-3xl shadow-soft hover:shadow-large transition-all duration-500 border border-gray-100 hover:border-gray-200 overflow-hidden cursor-pointer ${
+                    viewMode === 'list' ? 'flex' : 'h-full flex flex-col'
+                  }`}>
                   {/* Project Visual */}
                   <div className={`${
                     viewMode === 'list' ? 'w-48 flex-shrink-0' : 'h-48'
@@ -436,32 +482,31 @@ const Projects = () => {
                   <div className="absolute inset-0 bg-gradient-to-br from-gdg-blue/5 to-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                 </div>
               </div>
+              </Link>
             ))}
-          </div>
-
-          {/* Empty State */}
-          {filteredProjects.length === 0 && (
-            <div className="text-center py-16">
-              <div className="w-24 h-24 bg-slate-100 rounded-3xl flex items-center justify-center mx-auto mb-6">
-                <span className="text-3xl">🚀</span>
+            {!loading && filteredProjects.length === 0 && (
+              <div className="col-span-full text-center py-16">
+                <div className="w-24 h-24 bg-slate-100 rounded-3xl flex items-center justify-center mx-auto mb-6">
+                  <span className="text-3xl">🚀</span>
+                </div>
+                <h3 className="text-2xl font-poppins font-bold text-dark-gray mb-3">
+                  No Projects Found
+                </h3>
+                <p className="text-medium-gray mb-6 max-w-md mx-auto">
+                  {activeFilter !== 'all' 
+                    ? `There are no ${filters.find(f => f.key === activeFilter)?.label.toLowerCase()} at the moment.`
+                    : 'No projects match your current filters.'
+                  }
+                </p>
+                <button 
+                  onClick={() => setActiveFilter('all')}
+                  className="bg-gdg-blue text-white px-6 py-3 rounded-2xl font-semibold hover:shadow-glow hover:scale-105 transform transition-all duration-300"
+                >
+                  View All Projects
+                </button>
               </div>
-              <h3 className="text-2xl font-poppins font-bold text-dark-gray mb-3">
-                No Projects Found
-              </h3>
-              <p className="text-medium-gray mb-6 max-w-md mx-auto">
-                {activeFilter !== 'all' 
-                  ? `There are no ${filters.find(f => f.key === activeFilter)?.label.toLowerCase()} at the moment.`
-                  : 'No projects match your current filters.'
-                }
-              </p>
-              <button 
-                onClick={() => setActiveFilter('all')}
-                className="bg-gdg-blue text-white px-6 py-3 rounded-2xl font-semibold hover:shadow-glow hover:scale-105 transform transition-all duration-300"
-              >
-                View All Projects
-              </button>
-            </div>
-          )}
+            )}
+          </div>
 
           {/* CTA Section */}
           <div className="mt-16 bg-gradient-to-r from-slate-900 to-blue-900 rounded-3xl p-8 text-white">

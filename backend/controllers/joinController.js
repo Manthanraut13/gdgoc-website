@@ -1,5 +1,8 @@
 import JoinApplication from "../models/JoinApplication.js";
 
+/* ===========================
+   PUBLIC: SUBMIT JOIN FORM
+=========================== */
 export const submitJoinApplication = async (req, res) => {
   try {
     const {
@@ -13,11 +16,14 @@ export const submitJoinApplication = async (req, res) => {
     } = req.body;
 
     if (
-      !name || !email || !year || !major ||
-      !interests?.length || !experience
+      !name ||
+      !email ||
+      !year ||
+      !major ||
+      !interests?.length ||
+      !experience
     ) {
       return res.status(400).json({
-        success: false,
         message: "All required fields must be filled"
       });
     }
@@ -33,13 +39,40 @@ export const submitJoinApplication = async (req, res) => {
     });
 
     res.status(201).json({
-      success: true,
       message: "Application submitted successfully"
     });
   } catch (error) {
     res.status(500).json({
-      success: false,
       message: "Failed to submit application"
     });
+  }
+};
+
+/* ===========================
+   ADMIN: GET ALL JOIN REQUESTS
+=========================== */
+export const getJoinApplications = async (req, res) => {
+  try {
+    const apps = await JoinApplication.find().sort({ createdAt: -1 });
+    res.json(apps);
+  } catch (error) {
+    console.error("Fetch Join Error:", error);
+    res.status(500).json({ message: "Failed to fetch applications" });
+  }
+};
+
+/* ===========================
+   ADMIN: DELETE JOIN REQUEST
+=========================== */
+export const deleteJoin = async (req, res) => {
+  try {
+    const deleted = await JoinApplication.findByIdAndDelete(req.params.id);
+    if (!deleted)
+      return res.status(404).json({ message: "Application not found" });
+
+    res.json({ message: "Application deleted" });
+  } catch (error) {
+    console.error("Delete Join Error:", error);
+    res.status(500).json({ message: "Failed to delete application" });
   }
 };

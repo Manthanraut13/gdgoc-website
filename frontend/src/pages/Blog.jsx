@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -120,33 +121,35 @@ const Blog = () => {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {blogs.map(blog => (
-                <div key={blog._id} className="bg-card-bg rounded-3xl shadow-soft overflow-hidden">
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold mb-3">
-                      {blog.title}
-                    </h3>
+                <Link key={blog._id} to={`/blog/${blog._id}`} className="block">
+                  <div className="bg-card-bg rounded-3xl shadow-soft overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer h-full">
+                    <div className="p-6 h-full flex flex-col">
+                      <h3 className="text-xl font-bold mb-3 line-clamp-2">
+                        {blog.title}
+                      </h3>
 
-                    <p className="text-gray-600 mb-4">
-                      {blog.excerpt}
-                    </p>
+                      <p className="text-gray-600 mb-4 line-clamp-3 flex-grow">
+                        {blog.excerpt}
+                      </p>
 
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {blog.tags?.map((tag, i) => (
-                        <span
-                          key={i}
-                          className="bg-slate-100 text-slate-600 px-2 py-1 rounded-full text-xs"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {blog.tags?.map((tag, i) => (
+                          <span
+                            key={i}
+                            className="bg-slate-100 text-slate-600 px-2 py-1 rounded-full text-xs"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
 
-                    <div className="text-sm text-gray-500">
-                      {blog.author} •{' '}
-                      {new Date(blog.date).toLocaleDateString()}
+                      <div className="text-sm text-gray-500 mt-auto">
+                        {blog.author} •{' '}
+                        {new Date(blog.date).toLocaleDateString()}
+                      </div>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           )}
