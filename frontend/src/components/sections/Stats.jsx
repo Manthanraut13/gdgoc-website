@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useNavigate } from "react-router-dom";
+
 
 const Stats = () => {
   const sectionRef = useRef(null);
@@ -91,6 +93,9 @@ const Stats = () => {
     });
 
   }, []);
+    const join = () => {
+    navigate("/join"); // first page route
+  };
 
   const addToStatsRef = (el) => {
     if (el && !statsRef.current.includes(el)) {
@@ -177,7 +182,7 @@ const Stats = () => {
               Join our community and be part of the next generation of tech innovators and leaders.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-8 py-3 rounded-2xl font-semibold hover:shadow-glow hover:scale-105 transform transition-all duration-300 shadow-lg">
+              <button onClick={join} className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-8 py-3 rounded-2xl font-semibold hover:shadow-glow hover:scale-105 transform transition-all duration-300 shadow-lg">
                 Join Now
               </button>
               <button className="bg-white/10 backdrop-blur-sm text-white px-8 py-3 rounded-2xl font-semibold border border-white/20 hover:bg-white/20 hover:scale-105 transform transition-all duration-300">
