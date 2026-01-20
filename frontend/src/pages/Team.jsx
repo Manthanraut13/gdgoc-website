@@ -231,8 +231,8 @@ const Team = () => {
         bio: "Leading web development initiatives and maintaining GDG's digital platforms and websites.",
         image: "/images/team/Dhanashri Shedge.jpg",
         social: { 
-          linkedin: "https://www.linkedin.com/in/dhanashri-shedge/", 
-          github: "https://github.com/dhanashris"
+          linkedin: "https://www.linkedin.com/in/dhanashri-shedge-aa7635312/", 
+          github: "https://github.com/Dhanashri-shedge"
         },
         gradient: "from-cyan-500 to-blue-500",
         department: "Web Development"
