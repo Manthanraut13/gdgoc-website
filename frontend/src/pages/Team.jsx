@@ -7,12 +7,42 @@ const Team = () => {
   const [activeTeam, setActiveTeam] = useState('core');
   const [selectedMember, setSelectedMember] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [imageErrors, setImageErrors] = useState({});
   const heroRef = useRef(null);
   const coreTeamRef = useRef(null);
   const mentorRef = useRef(null);
   const modalRef = useRef(null);
 
-  const teams = {
+  // Normalize image paths
+  const normalizeImagePaths = (teamData) => {
+    return Object.keys(teamData).reduce((acc, teamKey) => {
+      acc[teamKey] = teamData[teamKey].map(member => {
+        let imagePath = member.image;
+        
+        // Check for common image extensions and normalize
+        if (imagePath) {
+          // Remove leading slash if present
+          imagePath = imagePath.replace(/^\//, '');
+          
+          // Check if file has extension, if not add .jpg
+          if (!/\.(jpg|jpeg|png|gif|webp)$/i.test(imagePath)) {
+            imagePath += '.jpg';
+          }
+          
+          // Handle spaces and special characters
+          imagePath = encodeURI(imagePath);
+        }
+        
+        return {
+          ...member,
+          image: imagePath || null
+        };
+      });
+      return acc;
+    }, {});
+  };
+
+  const rawTeams = {
     core: [
       {
         name: "Soham Mahajan",
@@ -57,7 +87,6 @@ const Team = () => {
         social: { 
           linkedin: "https://www.linkedin.com/in/prajyot-ghadi-4b33a8319/",
            github: "https://github.com/Prajyot-Ghadi"
-
         },
         gradient: "from-orange-500 to-red-500",
         department: "Event Management"
@@ -76,7 +105,7 @@ const Team = () => {
         name: "Swara Berde",
         role: "Event Management Coordinator",
         bio: "Supporting event operations and ensuring participant satisfaction through effective coordination.",
-        image: "/images/team/Swara Berde.jpg",
+        image: "/images/team/SwaraBerde.jpg",
         social: { 
         },
         gradient: "from-pink-500 to-rose-500",
@@ -110,7 +139,7 @@ const Team = () => {
         name: "Sampada Bari",
         role: "Design Coordinator",
         bio: "Developing innovative design solutions and maintaining visual consistency across all GDG platforms.",
-        image: "/images/team/sampada-bari.jpg",
+        image: "/images/team/SampadaBari.jpg",
         social: { 
          },
         gradient: "from-violet-500 to-purple-500",
@@ -144,7 +173,7 @@ const Team = () => {
         name: "Ganesh Dhepe",
         role: "Social Media Coordinator",
         bio: "Developing content strategies and analyzing social media metrics to optimize engagement.",
-        image: "/images/team/ganesh-dhepe.jpg",
+        image: "/images/team/GaneshDhepe.jpg",
         social: { 
         },
         gradient: "from-green-500 to-teal-500",
@@ -154,7 +183,7 @@ const Team = () => {
         name: "Adiraj Khore",
         role: "Social Media Coordinator",
         bio: "Managing social media platforms and creating interactive content to connect with the community.",
-        image: "/images/team/adiraj-khore.jpg",
+        image: "/images/team/AdirajKhore.jpg",
         social: { 
         },
         gradient: "from-orange-500 to-amber-500",
@@ -170,7 +199,6 @@ const Team = () => {
         social: { 
           linkedin: "https://www.linkedin.com/in/patil-shruti18a05/",
           github: "https://github.com/Patil-Shruti18"
-
         },
         gradient: "from-gray-500 to-slate-500",
         department: "Documentation"
@@ -179,7 +207,7 @@ const Team = () => {
         name: "Chaitanya Shelar",
         role: "Documentation Coordinator",
         bio: "Documenting events, meetings, and activities to maintain comprehensive records of GDG operations.",
-        image: "/images/team/chaitanya-shelar.jpg",
+        image: "/images/team/ChaitanyaShelar.jpg",
         social: { 
         },
         gradient: "from-blue-500 to-gray-500",
@@ -189,7 +217,7 @@ const Team = () => {
         name: "Shubham Shinde",
         role: "Documentation Coordinator",
         bio: "Creating and organizing documentation for projects, events, and community resources.",
-        image: "/images/team/shubham-shinde.jpg",
+        image: "/images/team/ShubhamShinde.jpg",
         social: { 
         },
         gradient: "from-slate-500 to-blue-500",
@@ -213,7 +241,7 @@ const Team = () => {
         name: "Vijay Umbare",
         role: "Web Development Coordinator",
         bio: "Developing and maintaining web applications and contributing to GDG's technical projects.",
-        image: "/images/team/vijay-umbare.jpg",
+        image: "/images/team/VijayUmbare.jpg",
         social: { 
         },
         gradient: "from-purple-500 to-indigo-500",
@@ -223,7 +251,7 @@ const Team = () => {
         name: "Manthan Raut",
         role: "Web Development Coordinator",
         bio: "Building responsive web interfaces and contributing to frontend development projects.",
-        image: "/images/team/manthan-raut.jpg",
+        image: "/images/team/ManthanRaut.jpg",
         social: { 
          },
         gradient: "from-green-500 to-emerald-500",
@@ -245,7 +273,7 @@ const Team = () => {
         name: "Vijay Umbare",
         role: "DSA/CP Coordinator",
         bio: "Organizing DSA sessions and competitive programming contests for skill development.",
-        image: "/images/team/vijay-umbare.jpg",
+        image: "/images/team/VijayUmbare.jpg",
         social: { 
          },
         gradient: "from-yellow-500 to-orange-500",
@@ -255,7 +283,7 @@ const Team = () => {
         name: "Rohan Patil",
         role: "DSA/CP Coordinator",
         bio: "Facilitating DSA workshops and helping members improve their problem-solving skills.",
-        image: "/images/team/rohan-patil.jpg",
+        image: "/images/team/RohanPatil.jpg",
         social: { 
         },
         gradient: "from-blue-500 to-cyan-500",
@@ -279,7 +307,7 @@ const Team = () => {
         name: "Nishant Galande",
         role: "Android Development Coordinator",
         bio: "Organizing Android workshops and helping members build their first mobile applications.",
-        image: "/images/team/nishant-galande.jpg",
+        image: "/images/team/NishantGalande.jpg",
         social: { 
        },
         gradient: "from-purple-500 to-violet-500",
@@ -289,7 +317,7 @@ const Team = () => {
         name: "Simran Bhosale",
         role: "Android Development Coordinator",
         bio: "Supporting Android learning initiatives and creating resources for mobile development.",
-        image: "/images/team/simran-bhosale.jpg",
+        image: "/images/team/SimranBhosale.jpg",
         social: { 
          },
         gradient: "from-pink-500 to-rose-500",
@@ -313,7 +341,7 @@ const Team = () => {
         name: "Harish Pudake",
         role: "Cybersecurity Coordinator",
         bio: "Organizing security workshops and CTF challenges for the community.",
-        image: "/images/team/harish-pudake.jpg",
+        image: "/images/team/HarishPudake.jpg",
         social: { 
           
         },
@@ -324,7 +352,7 @@ const Team = () => {
         name: "Urvi Pawar",
         role: "Cybersecurity Coordinator",
         bio: "Promoting cybersecurity awareness and facilitating learning sessions.",
-        image: "/images/team/urvi-pawar.jpg",
+        image: "/images/team/UrviPawar.jpg",
         social: { 
         },
         gradient: "from-purple-900 to-gray-800",
@@ -348,7 +376,7 @@ const Team = () => {
         name: "Chaitanya Sawant",
         role: "Cloud Computing Coordinator",
         bio: "Facilitating cloud learning sessions and helping members with cloud certifications.",
-        image: "/images/team/chaitanya-sawant.jpg",
+        image: "/images/team/ChaitanyaSawant.jpg",
         social: { 
          },
         gradient: "from-indigo-500 to-blue-500",
@@ -358,7 +386,7 @@ const Team = () => {
         name: "Sahil Birari",
         role: "Cloud Computing Coordinator",
         bio: "Organizing cloud infrastructure workshops and hands-on labs.",
-        image: "/images/team/sahil-birari.jpg",
+        image: "/images/team/SahilBirari.jpg",
         social: { 
           },
         gradient: "from-cyan-500 to-teal-500",
@@ -382,7 +410,7 @@ const Team = () => {
         name: "Mukund Thorat",
         role: "AI/ML Coordinator",
         bio: "Organizing AI/ML workshops and facilitating hands-on learning sessions.",
-        image: "/images/team/mukund-thorat.jpg",
+        image: "/images/team/MukundThorat.jpg",
         social: { 
          },
         gradient: "from-red-500 to-pink-500",
@@ -392,7 +420,7 @@ const Team = () => {
         name: "Siddhesh Nagmote",
         role: "AI/ML Coordinator",
         bio: "Supporting machine learning projects and organizing data science sessions.",
-        image: "/images/team/siddhesh-nagmote.jpg",
+        image: "/images/team/SiddheshNagmote.jpg",
         social: { 
          },
         gradient: "from-purple-500 to-indigo-500",
@@ -402,7 +430,7 @@ const Team = () => {
         name: "Kiran Ingale",
         role: "AI/ML Coordinator",
         bio: "Facilitating AI learning initiatives and helping members with ML projects.",
-        image: "/images/team/kiran-ingale.jpg",
+        image: "/images/team/KiranIngale.jpg",
         social: { 
          },
         gradient: "from-blue-500 to-cyan-500",
@@ -410,6 +438,8 @@ const Team = () => {
       }
     ]
   };
+
+  const teams = normalizeImagePaths(rawTeams);
 
   const facultyMentor = {
     name: "Dr. Michael Roberts",
@@ -461,6 +491,10 @@ const Team = () => {
       default:
         return null;
     }
+  };
+
+  const handleImageError = (memberId) => {
+    setImageErrors(prev => ({ ...prev, [memberId]: true }));
   };
 
   useEffect(() => {
@@ -564,6 +598,9 @@ const Team = () => {
     });
   };
 
+  // Create unique member ID for image error tracking
+  const getMemberId = (member, teamKey) => `${teamKey}-${member.name.replace(/\s+/g, '-')}`;
+
   return (
     <div className="page-wrapper pt-20 bg-white">
       {/* Hero Section */}
@@ -643,61 +680,90 @@ const Team = () => {
 
           {/* Teams Grid */}
           <div className="teams-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {teams[activeTeam].map((member, index) => (
-              <div 
-                key={index}
-                className="team-card group cursor-pointer"
-                onClick={() => handleMemberClick(member)}
-              >
-                <div className="bg-card-bg rounded-3xl shadow-soft hover:shadow-large transition-all duration-500 border border-gray-100 hover:border-gray-200 overflow-hidden h-full flex flex-col">
-                  {/* Member Image/Placeholder */}
-                  <div className={`h-48 bg-gradient-to-br ${member.gradient} relative overflow-hidden`}>
-                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors duration-300"></div>
-                    <div className="absolute bottom-4 left-4 right-4 text-white">
-                      <h3 className="text-xl font-poppins font-bold mb-1 line-clamp-1">{member.name}</h3>
-                      <p className="text-white/90 text-sm line-clamp-1">{member.role}</p>
+            {teams[activeTeam].map((member, index) => {
+              const memberId = getMemberId(member, activeTeam);
+              const hasImageError = imageErrors[memberId];
+              
+              return (
+                <div 
+                  key={index}
+                  className="team-card group cursor-pointer"
+                  onClick={() => handleMemberClick(member)}
+                >
+                  <div className="bg-card-bg rounded-3xl shadow-soft hover:shadow-large transition-all duration-500 border border-gray-100 hover:border-gray-200 overflow-hidden h-full flex flex-col">
+                    {/* Member Image with gradient overlay */}
+                    <div className="relative h-48 overflow-hidden">
+                      {/* Gradient Background Fallback */}
+                      <div className={`absolute inset-0 bg-gradient-to-br ${member.gradient}`}></div>
+                      
+                      {/* Member Photo */}
+                      <div className="relative w-full h-full">
+                        {member.image && !hasImageError ? (
+                          <>
+                            <img 
+                              src={member.image} 
+                              alt={member.name}
+                              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                              onError={() => handleImageError(memberId)}
+                              loading="lazy"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                          </>
+                        ) : (
+                          <div className={`w-full h-full flex items-center justify-center bg-gradient-to-br ${member.gradient}`}>
+                            <span className="text-white text-5xl opacity-80">👤</span>
+                          </div>
+                        )}
+                      </div>
+                      
+                      {/* Member Info Overlay */}
+                      <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                        <h3 className="text-xl font-poppins font-bold mb-1 line-clamp-1">{member.name}</h3>
+                        <p className="text-white/90 text-sm line-clamp-1">{member.role}</p>
+                      </div>
+                      
+                      {/* View Details Indicator */}
+                      <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm rounded-full p-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:scale-110">
+                        <span className="text-white">👁️</span>
+                      </div>
                     </div>
-                    {/* View Details Indicator */}
-                    <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <span className="text-white">👁️</span>
+
+                    {/* Member Content */}
+                    <div className="p-5 flex-grow">
+                      <p className="text-medium-gray leading-relaxed text-sm mb-4 line-clamp-3">
+                        {member.bio}
+                      </p>
+
+                      {/* Department Tag */}
+                      <div className="mb-4">
+                        <span className="bg-blue-50 text-gdg-blue px-3 py-1 rounded-full text-xs font-medium">
+                          {member.department}
+                        </span>
+                      </div>
+
+                      {/* Social Links */}
+                      <div className="flex space-x-2">
+                        {Object.entries(member.social).map(([platform, url]) => (
+                          <a
+                            key={platform}
+                            href={url}
+                            onClick={(e) => e.stopPropagation()}
+                            className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center hover:bg-slate-200 hover:scale-110 transform transition-all duration-300"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {getSocialIcon(platform)}
+                          </a>
+                        ))}
+                      </div>
                     </div>
+
+                    {/* Hover Effect */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-gdg-blue/5 to-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl pointer-events-none"></div>
                   </div>
-
-                  {/* Member Content */}
-                  <div className="p-5 flex-grow">
-                    <p className="text-medium-gray leading-relaxed text-sm mb-4 line-clamp-3">
-                      {member.bio}
-                    </p>
-
-                    {/* Department Tag */}
-                    <div className="mb-4">
-                      <span className="bg-blue-50 text-gdg-blue px-3 py-1 rounded-full text-xs font-medium">
-                        {member.department}
-                      </span>
-                    </div>
-
-                    {/* Social Links */}
-                    <div className="flex space-x-2">
-                      {Object.entries(member.social).map(([platform, url]) => (
-                        <a
-                          key={platform}
-                          href={url}
-                          onClick={(e) => e.stopPropagation()}
-                          className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center hover:bg-slate-200 hover:scale-110 transform transition-all duration-300"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {getSocialIcon(platform)}
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Hover Effect */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-gdg-blue/5 to-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl pointer-events-none"></div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           {/* Team Category Description */}
@@ -744,8 +810,19 @@ const Team = () => {
                   <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-12 -translate-x-12"></div>
                   
                   <div className="relative z-10 text-center md:text-left">
-                    <div className="w-32 h-32 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-2xl flex items-center justify-center text-white text-4xl mx-auto md:mx-0 mb-6 shadow-lg">
-                      👨‍🏫
+                    <div className="w-32 h-32 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-2xl overflow-hidden mx-auto md:mx-0 mb-6 shadow-lg">
+                      {facultyMentor.image ? (
+                        <img 
+                          src={facultyMentor.image} 
+                          alt={facultyMentor.name}
+                          className="w-full h-full object-cover"
+                          onError={() => setImageErrors(prev => ({ ...prev, 'faculty': true }))}
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <span className="text-white text-4xl">👨‍🏫</span>
+                        </div>
+                      )}
                     </div>
                     
                     <h3 className="text-2xl font-poppins font-bold mb-2">{facultyMentor.name}</h3>
@@ -855,15 +932,18 @@ const Team = () => {
               {/* Member Header */}
               <div className="flex flex-col md:flex-row items-center md:items-start gap-6 mb-8">
                 {/* Member Image */}
-                <div className={`w-32 h-32 bg-gradient-to-br ${selectedMember.gradient} rounded-2xl flex items-center justify-center text-white text-4xl shadow-lg`}>
-                  {selectedMember.image ? (
+                <div className={`w-32 h-32 bg-gradient-to-br ${selectedMember.gradient} rounded-2xl overflow-hidden shadow-lg`}>
+                  {selectedMember.image && !imageErrors[getMemberId(selectedMember, activeTeam)] ? (
                     <img 
                       src={selectedMember.image} 
                       alt={selectedMember.name}
-                      className="w-full h-full rounded-2xl object-cover"
+                      className="w-full h-full object-cover"
+                      onError={() => handleImageError(getMemberId(selectedMember, activeTeam))}
                     />
                   ) : (
-                    <span>👤</span>
+                    <div className={`w-full h-full flex items-center justify-center bg-gradient-to-br ${selectedMember.gradient}`}>
+                      <span className="text-white text-4xl">👤</span>
+                    </div>
                   )}
                 </div>
 
