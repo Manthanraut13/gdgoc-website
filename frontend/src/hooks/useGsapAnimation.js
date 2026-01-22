@@ -17,31 +17,31 @@ export const useGsapAnimation = () => {
     if (!heroRef.current) return;
 
     const tl = gsap.timeline();
-    
-    tl.fromTo('.hero-title span', 
+
+    tl.fromTo('.hero-title span',
       { y: 100, opacity: 0 },
       { y: 0, opacity: 1, duration: 1, stagger: 0.2, ease: 'power3.out' }
     )
-    .fromTo('.hero-subtitle',
-      { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, ease: 'power2.out' },
-      '-=0.5'
-    )
-    .fromTo('.hero-buttons',
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.6, ease: 'power2.out' },
-      '-=0.3'
-    )
-    .fromTo('.graphic-circle',
-      { scale: 0, opacity: 0 },
-      { scale: 1, opacity: 0.1, duration: 1, stagger: 0.2, ease: 'back.out(1.7)' },
-      '-=0.5'
-    )
-    .fromTo('.graphic-main',
-      { scale: 0, rotation: -180 },
-      { scale: 1, rotation: 0, duration: 1, ease: 'elastic.out(1, 0.5)' },
-      '-=0.8'
-    );
+      .fromTo('.hero-subtitle',
+        { y: 50, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8, ease: 'power2.out' },
+        '-=0.5'
+      )
+      .fromTo('.hero-buttons',
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.6, ease: 'power2.out' },
+        '-=0.3'
+      )
+      .fromTo('.graphic-circle',
+        { scale: 0, opacity: 0 },
+        { scale: 1, opacity: 0.1, duration: 1, stagger: 0.2, ease: 'back.out(1.7)' },
+        '-=0.5'
+      )
+      .fromTo('.graphic-main',
+        { scale: 0, rotation: -180 },
+        { scale: 1, rotation: 0, duration: 1, ease: 'elastic.out(1, 0.5)' },
+        '-=0.8'
+      );
   };
 
   // Section reveal animation
@@ -147,4 +147,30 @@ export const useGsapAnimation = () => {
     animateHero,
     animateSections
   };
+};
+// In your Hero.jsx component, add:
+const Hero = () => {
+  return (
+    <section className="hero-section">
+      {/* Your existing Hero content */}
+
+      {/* For Join Now button */}
+      <a
+        href="/JoinUs"
+        className="join-now-button" // Add your button classes here
+      >
+        Join Now
+      </a>
+
+      {/* For Learn More button */}
+      <a
+        href="/About"
+        className="learn-more-button" // Add your button classes here
+      >
+        Learn More
+      </a>
+
+      {/* Rest of your Hero content */}
+    </section>
+  );
 };

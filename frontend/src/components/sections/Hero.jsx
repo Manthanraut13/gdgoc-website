@@ -81,7 +81,7 @@ const Hero = () => {
                 Google Developers Group
               </span>
               <span className="block bg-gradient-to-r from-gdg-blue to-gdg-green bg-clip-text text-transparent">
-                 On-Campus ZCOER
+                On-Campus ZCOER
               </span>
             </h1>
 
@@ -95,7 +95,7 @@ const Hero = () => {
                 to="/join"
                 className="group relative bg-gradient-to-r from-gdg-blue to-blue-600 text-white px-8 py-4 rounded-2xl font-semibold shadow-lg hover:shadow-glow hover:scale-105 transform transition-all duration-300 overflow-hidden"
               >
-                <span className="relative z-10">Join Our Community</span>
+                <span className="relative z-10">Join Now</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-gdg-blue opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </Link>
               <Link

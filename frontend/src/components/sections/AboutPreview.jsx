@@ -145,7 +145,7 @@ const AboutPreview = () => {
                 to="/about"
                 className="btn-primary group relative overflow-hidden"
               >
-                <span className="relative z-10">Learn Our Story</span>
+                <span className="relative z-10">Learn More</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-gdg-blue opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </Link>
               <Link

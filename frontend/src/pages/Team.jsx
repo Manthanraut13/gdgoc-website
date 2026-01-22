@@ -636,6 +636,7 @@ const Team = () => {
       {/* Core Team Section */}
       <section 
         ref={coreTeamRef}
+        id="core-team"
         className="section-padding bg-white relative overflow-hidden"
       >
         <div className="container-custom">

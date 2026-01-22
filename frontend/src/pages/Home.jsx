@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import Hero from '../components/sections/Hero';
 import FeaturedEvents from '../components/sections/FeaturedEvents';
 import AboutPreview from '../components/sections/AboutPreview';
@@ -34,18 +35,18 @@ const Home = () => {
     <div className="home-page">
       {/* Hero Section */}
       <Hero />
-      
+
       {/* About Preview Section */}
       <AboutPreview />
-      
+
       {/* Stats Section */}
       <Stats />
-      
+
       {/* Featured Events Section */}
       <FeaturedEvents />
-      
+
       {/* Call to Action Section */}
-      <section 
+      <section
         ref={ctaRef}
         className="py-20 bg-gradient-to-br from-slate-700 via-blue-700 to-orange-600 relative overflow-hidden"
       >
@@ -70,19 +71,25 @@ const Home = () => {
 
             {/* Description */}
             <p className="text-xl text-blue-100 mb-8 leading-relaxed max-w-2xl mx-auto">
-              Join hundreds of students who are building their skills, launching projects, 
+              Join hundreds of students who are building their skills, launching projects,
               and shaping the future of technology through our vibrant developer community.
             </p>
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="group relative bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-8 py-4 rounded-2xl font-semibold shadow-lg hover:shadow-glow hover:scale-105 transform transition-all duration-300 overflow-hidden">
+              <Link
+                to="/join"
+                className="group relative bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-8 py-4 rounded-2xl font-semibold shadow-lg hover:shadow-glow hover:scale-105 transform transition-all duration-300 overflow-hidden text-center"
+              >
                 <span className="relative z-10">Start Your Journey</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-cyan-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              </button>
-              <button className="group relative bg-white/10 backdrop-blur-sm text-white px-8 py-4 rounded-2xl font-semibold border border-white/20 hover:bg-white/20 hover:scale-105 transform transition-all duration-300">
+              </Link>
+              <Link
+                to="/events"
+                className="group relative bg-white/10 backdrop-blur-sm text-white px-8 py-4 rounded-2xl font-semibold border border-white/20 hover:bg-white/20 hover:scale-105 transform transition-all duration-300 text-center"
+              >
                 <span className="relative z-10">Explore Events</span>
-              </button>
+              </Link>
             </div>
 
             {/* Additional Info */}
