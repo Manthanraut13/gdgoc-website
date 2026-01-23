@@ -46,7 +46,7 @@ const Footer = () => {
     { name: 'Blog', path: '/blog' },
     { name: 'Team', path: '/team' },
     { name: 'Join Us', path: '/join' },
-    { name: 'admin', path: '/admin' }
+    { name: 'Admin', path: '/admin' }
   ];
 
   const supportLinks = [

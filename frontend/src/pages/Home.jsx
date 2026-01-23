@@ -84,11 +84,6 @@ const Home = () => {
                 <span className="relative z-10">Explore Events</span>
               </button>
             </div>
-
-            {/* Additional Info */}
-            <div className="mt-8 text-blue-200 text-sm">
-              <p>🚀 No experience required • 💼 Build your portfolio • 🌍 Join a global network</p>
-            </div>
           </div>
         </div>
       </section>
