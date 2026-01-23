@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -35,11 +36,11 @@ const Stats = () => {
     // Counter animation for stats
     statsRef.current.forEach((stat, index) => {
       if (!stat) return;
-      
+
       const numberElement = stat.querySelector('.stat-number');
       const target = parseInt(stats[index].number);
       const obj = { value: 0 };
-      
+
       gsap.to(obj, {
         value: target,
         duration: 2.5,
@@ -104,7 +105,7 @@ const Stats = () => {
   };
 
   return (
-    <section 
+    <section
       ref={sectionRef}
       className="py-20 bg-gradient-to-br from-slate-900 via-blue-900 to-purple-900 relative overflow-hidden"
     >
@@ -113,7 +114,7 @@ const Stats = () => {
         <div className="absolute top-0 left-0 w-96 h-96 bg-blue-500 rounded-full blur-3xl opacity-20 animate-pulse"></div>
         <div className="absolute top-1/2 right-0 w-80 h-80 bg-purple-500 rounded-full blur-3xl opacity-30 animate-pulse" style={{ animationDelay: '2s' }}></div>
         <div className="absolute bottom-0 left-1/2 w-64 h-64 bg-cyan-500 rounded-full blur-3xl opacity-25 animate-pulse" style={{ animationDelay: '4s' }}></div>
-        
+
         {/* Grid Pattern Overlay */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]"></div>
       </div>
@@ -136,7 +137,7 @@ const Stats = () => {
         {/* Stats Grid */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
           {stats.map((stat, index) => (
-            <div 
+            <div
               key={index}
               ref={addToStatsRef}
               className="text-center group"
@@ -168,7 +169,7 @@ const Stats = () => {
         </div>
 
         {/* CTA Section */}
-        <div className="text-center mt-16">
+        <div className="text-center mt-16 relative z-10">
           <div className="bg-white/5 backdrop-blur-md rounded-3xl p-8 border border-white/10 max-w-2xl mx-auto">
             <h3 className="text-2xl font-poppins font-bold text-white mb-4">
               Ready to Make Your Mark?
@@ -176,13 +177,19 @@ const Stats = () => {
             <p className="text-blue-100 mb-6 leading-relaxed">
               Join our community and be part of the next generation of tech innovators and leaders.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-8 py-3 rounded-2xl font-semibold hover:shadow-glow hover:scale-105 transform transition-all duration-300 shadow-lg">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-20">
+              <Link
+                to="/join"
+                className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-8 py-3 rounded-2xl font-semibold hover:shadow-glow hover:scale-105 transform transition-all duration-300 shadow-lg text-center"
+              >
                 Join Now
-              </button>
-              <button className="bg-white/10 backdrop-blur-sm text-white px-8 py-3 rounded-2xl font-semibold border border-white/20 hover:bg-white/20 hover:scale-105 transform transition-all duration-300">
+              </Link>
+              <Link
+                to="/about"
+                className="bg-white/10 backdrop-blur-sm text-white px-8 py-3 rounded-2xl font-semibold border border-white/20 hover:bg-white/20 hover:scale-105 transform transition-all duration-300 text-center"
+              >
                 Learn More
-              </button>
+              </Link>
             </div>
           </div>
         </div>

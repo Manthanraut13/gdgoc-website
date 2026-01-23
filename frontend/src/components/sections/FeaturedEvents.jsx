@@ -67,11 +67,11 @@ const FeaturedEvents = () => {
 
     // Event cards animation
     gsap.fromTo('.event-card',
-      { 
-        y: 100, 
-        opacity: 0, 
+      {
+        y: 100,
+        opacity: 0,
         scale: 0.9,
-        rotationY: 15 
+        rotationY: 15
       },
       {
         y: 0,
@@ -98,8 +98,8 @@ const FeaturedEvents = () => {
   };
 
   const getStatusColor = (status) => {
-    return status === 'upcoming' 
-      ? 'bg-gradient-to-r from-green-500 to-emerald-600' 
+    return status === 'upcoming'
+      ? 'bg-gradient-to-r from-green-500 to-emerald-600'
       : 'bg-gradient-to-r from-gray-500 to-gray-600';
   };
 
@@ -109,11 +109,11 @@ const FeaturedEvents = () => {
       'Conference': '👥',
       'Hackathon': '⚡'
     };
-    
+
   };
 
   return (
-    <section 
+    <section
       ref={sectionRef}
       className="py-24 bg-section-bg relative overflow-hidden"
     >
@@ -141,7 +141,7 @@ const FeaturedEvents = () => {
         {/* Events Grid */}
         <div className="events-grid grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
           {featuredEvents.map((event, index) => (
-            <div 
+            <div
               key={event.id}
               ref={addToEventsRef}
               className="event-card group relative"
@@ -151,7 +151,7 @@ const FeaturedEvents = () => {
                 <div className="relative h-48 overflow-hidden">
                   <div className={`absolute inset-0 ${getStatusColor(event.status)}`}></div>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                  
+
                   {/* Status Badge */}
                   <div className="absolute top-4 left-4">
                     <span className="bg-white/90 backdrop-blur-sm text-dark-gray px-3 py-1.5 rounded-full text-sm font-semibold shadow-sm">
@@ -191,13 +191,12 @@ const FeaturedEvents = () => {
 
                   {/* Action Buttons */}
                   <div className="flex space-x-3">
-                    <Link 
-                      to={`/events/${event.id}`}
+                    <Link
+                      to="/events"
                       className="flex-1 bg-gradient-to-r from-gdg-blue to-blue-600 text-white py-3 px-4 rounded-xl font-semibold text-center hover:shadow-glow hover:scale-105 transform transition-all duration-300"
                     >
                       Learn More
                     </Link>
-                 
                   </div>
                 </div>
 
@@ -210,7 +209,7 @@ const FeaturedEvents = () => {
 
         {/* CTA Section */}
         <div className="text-center">
-          <Link 
+          <Link
             to="/events"
             className="group inline-flex items-center space-x-3 bg-white text-dark-gray px-8 py-4 rounded-2xl font-semibold shadow-soft hover:shadow-medium border border-gray-200 hover:border-gray-300 hover:scale-105 transform transition-all duration-300"
           >
