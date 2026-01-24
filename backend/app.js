@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+
 import eventRoutes from "./routes/eventRoutes.js";
 import joinRoutes from "./routes/joinRoutes.js";
 import contactRoutes from "./routes/contactRoutes.js";
@@ -10,13 +11,18 @@ import adminRoutes from "./routes/adminRoutes.js";
 
 const app = express();
 
-app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "https://gdgoc-website-six.vercel.app/"
-  ],
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://gdgoc-website-six.vercel.app"
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 
 // Routes
