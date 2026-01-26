@@ -122,17 +122,15 @@ const AboutPreview = () => {
           <div ref={contentRef} className="about-content">
             <div className="inline-flex items-center space-x-2 bg-blue-50 text-gdg-blue px-4 py-2 rounded-2xl font-semibold text-sm mb-8">
               <div className="w-2 h-2 bg-gdg-blue rounded-full animate-pulse"></div>
-              <span>About GDG On-Campus</span>
+              <span>About GDG On-Campus ZCOER</span>
             </div>
 
             <h2 className="text-4xl md:text-5xl font-poppins font-bold text-dark-gray mb-6 leading-tight">
-              Building the Future of <span className="text-gradient">Tech Innovation</span>
+              Driving Innovation Through<span className="text-gradient">Technology and Community</span>
             </h2>
 
             <p className="text-xl text-medium-gray mb-8 leading-relaxed">
-              We are a vibrant community of student developers passionate about Google technologies.
-              Our mission is to create an ecosystem where students can grow their skills, collaborate
-              on innovative projects, and build meaningful connections.
+             GDG On-Campus ZCOER brings together passionate student developers to explore modern technologies, share knowledge, and work on meaningful projects. Our community fosters continuous learning, collaboration, and practical problem-solving.
             </p>
 
             <p className="text-lg text-medium-gray mb-8 leading-relaxed">

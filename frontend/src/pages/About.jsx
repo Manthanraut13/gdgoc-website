@@ -139,7 +139,7 @@ const About = () => {
   return (
     <div className="page-wrapper pt-20">
       {/* Hero Section */}
-      <section 
+      <section
         ref={heroRef}
         className="min-h-[60vh] bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex items-center relative overflow-hidden"
       >
@@ -153,7 +153,7 @@ const About = () => {
           <div className="page-hero-content text-center max-w-4xl mx-auto">
             <div className="inline-flex items-center space-x-2 bg-white/80 backdrop-blur-sm rounded-2xl px-4 py-2 shadow-soft mb-8">
               <div className="w-2 h-2 bg-gdg-blue rounded-full animate-pulse"></div>
-              <span className="text-sm font-semibold text-dark-gray">About GDG On-Campus</span>
+              <span className="text-sm font-semibold text-dark-gray">About GDG On-Campus ZCOER</span>
             </div>
 
             <h1 className="text-5xl md:text-6xl font-poppins font-bold text-dark-gray mb-6 leading-tight">
@@ -161,15 +161,14 @@ const About = () => {
             </h1>
 
             <p className="text-xl text-medium-gray leading-relaxed max-w-3xl mx-auto">
-              We are a vibrant community of student developers passionate about Google technologies, 
-              dedicated to creating an ecosystem where innovation thrives and skills transform into impact.
+              GDG On-Campus ZCOER brings together passionate student developers to explore modern technologies, share knowledge, and work on meaningful projects. Our community fosters continuous learning, collaboration, and practical problem-solving.
             </p>
           </div>
         </div>
       </section>
 
       {/* Mission & Vision Section */}
-      <section 
+      <section
         ref={missionRef}
         className="section-padding bg-white relative overflow-hidden"
       >
@@ -187,15 +186,11 @@ const About = () => {
               </h2>
 
               <p className="text-lg text-medium-gray mb-6 leading-relaxed">
-                To create a vibrant ecosystem where students can explore cutting-edge technologies, 
-                develop practical skills through hands-on experience, and build innovative solutions 
-                that make a positive impact on campus and beyond.
+                Our mission is to foster a dynamic and inclusive ecosystem where students can explore emerging technologies, gain practical experience, and develop innovative solutions with real-world impact.
               </p>
 
               <p className="text-lg text-medium-gray leading-relaxed">
-                We bridge the gap between academic learning and industry requirements, preparing 
-                students for successful careers in technology through mentorship, collaboration, 
-                and real-world project experience.
+                We aim to bridge the gap between academic learning and industry expectations by providing opportunities for mentorship, collaboration, and hands-on project development, preparing students for successful and sustainable careers in technology.
               </p>
             </div>
 
@@ -203,7 +198,7 @@ const About = () => {
             <div className="bg-gradient-to-br from-slate-900 to-blue-900 rounded-3xl p-8 text-white relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
               <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-12 -translate-x-12"></div>
-              
+
               <div className="relative z-10">
                 <div className="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-2xl font-semibold text-sm mb-6">
                   <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
@@ -215,7 +210,7 @@ const About = () => {
                 </h3>
 
                 <p className="text-blue-100 leading-relaxed mb-6">
-                  To be the premier platform for student developers to innovate, collaborate, 
+                  To be the premier platform for student developers to innovate, collaborate,
                   and lead in the rapidly evolving world of technology.
                 </p>
 
@@ -239,7 +234,7 @@ const About = () => {
       </section>
 
       {/* Values Section */}
-      <section 
+      <section
         ref={valuesRef}
         className="section-padding bg-slate-50 relative overflow-hidden"
       >
@@ -269,7 +264,7 @@ const About = () => {
           {/* Values Grid */}
           <div className="values-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {values.map((value, index) => (
-              <div 
+              <div
                 key={index}
                 className="value-card group"
               >
@@ -313,7 +308,7 @@ const About = () => {
 
           <div className="timeline-container max-w-4xl mx-auto">
             {timeline.map((item, index) => (
-              <div 
+              <div
                 key={index}
                 className="timeline-item relative flex items-start space-x-8 mb-12 last:mb-0"
               >
@@ -345,7 +340,7 @@ const About = () => {
       </section>
 
       {/* Code of Conduct Section */}
-      <section 
+      <section
         ref={conductRef}
         className="section-padding bg-slate-900 relative overflow-hidden"
       >
@@ -374,8 +369,8 @@ const About = () => {
 
             <div className="bg-white/5 backdrop-blur-md rounded-3xl p-8 border border-white/10">
               <p className="text-blue-100 text-lg leading-relaxed mb-8">
-                All participants in our community, including events, online spaces, and communications, 
-                are expected to follow this code of conduct. We are committed to providing a friendly, 
+                All participants in our community, including events, online spaces, and communications,
+                are expected to follow this code of conduct. We are committed to providing a friendly,
                 safe, and welcoming environment for all.
               </p>
 
@@ -402,7 +397,7 @@ const About = () => {
                     icon: '💼'
                   }
                 ].map((principle, index) => (
-                  <div 
+                  <div
                     key={index}
                     className="bg-white/5 rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-all duration-300"
                   >
@@ -429,9 +424,16 @@ const About = () => {
                 <p className="text-blue-100 mb-4">
                   Our community leaders are here to help. Reach out to us confidentially.
                 </p>
-                <button className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-6 py-3 rounded-2xl font-semibold hover:shadow-glow hover:scale-105 transform transition-all duration-300">
-                  Contact Community Leaders
-                </button>
+                <a
+                  href="https://forms.gle/8MPZkSyVaAJ33XkEA"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <button className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-6 py-3 rounded-2xl font-semibold hover:shadow-glow hover:scale-105 transform transition-all duration-300">
+                    Contact Community Leaders
+                  </button>
+                </a>
+
               </div>
             </div>
           </div>

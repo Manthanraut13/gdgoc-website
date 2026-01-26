@@ -392,7 +392,7 @@ const JoinUs = () => {
             <div className="text-center mt-8">
               <p className="text-gray-600 mb-4">Prefer to use Google Forms?</p>
               <a 
-                href="https://forms.gle/example" 
+                href="https://forms.gle/yhqSrUX4P5VAz8nz9" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="inline-flex items-center space-x-2 bg-[#34A853] text-white px-6 py-3 rounded-lg font-medium hover:bg-green-600 transition-colors duration-200"
