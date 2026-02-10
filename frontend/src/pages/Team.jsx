@@ -10,7 +10,6 @@ const Team = () => {
   const [imageErrors, setImageErrors] = useState({});
   const heroRef = useRef(null);
   const coreTeamRef = useRef(null);
-  const mentorRef = useRef(null);
   const modalRef = useRef(null);
 
   // Normalize image paths
@@ -441,22 +440,7 @@ const Team = () => {
 
   const teams = normalizeImagePaths(rawTeams);
 
-  const facultyMentor = {
-    name: "Dr. Michael Roberts",
-    role: "Faculty Advisor",
-    department: "Computer Science Department",
-    bio: "Professor with 15+ years of experience in software engineering and research. Passionate about bridging academic learning with industry practices. Provides invaluable guidance and support for our GDG activities, helping bridge academic learning with practical technology skills and industry insights.",
-    image: "/images/team/dr-roberts.jpg",
-    social: { linkedin: "#", email: "#", website: "#" },
-    gradient: "from-slate-600 to-blue-600",
-    expertise: [
-      'Software Engineering',
-      'Cloud Computing',
-      'Machine Learning',
-      'Research Methodology',
-      'Industry Partnerships'
-    ]
-  };
+  
 
   const teamCategories = [
     { key: 'core', label: 'Core Team', icon: '👑', count: teams.core.length },
@@ -777,11 +761,7 @@ const Team = () => {
         </div>
       </section>
 
-      {/* Faculty Mentor Section */}
-      <section 
-        ref={mentorRef}
-        className="section-padding bg-slate-50 relative overflow-hidden"
-      >
+     
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-0 left-0 w-96 h-96 bg-gdg-blue rounded-full blur-3xl"></div>
@@ -847,15 +827,7 @@ const Team = () => {
                   </div>
                 </div>
 
-                {/* Mentor Bio */}
-                <div className="md:w-3/5 p-8">
-                  <div className="mb-6">
-                    <h4 className="text-xl font-poppins font-bold text-dark-gray mb-4">About {facultyMentor.name}</h4>
-                    <p className="text-medium-gray leading-relaxed mb-4">
-                      {facultyMentor.bio}
-                    </p>
-                  </div>
-
+                
                   {/* Expertise */}
                   <div>
                     <h5 className="font-poppins font-bold text-dark-gray mb-3">Areas of Expertise</h5>
