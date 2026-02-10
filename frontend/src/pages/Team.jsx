@@ -440,8 +440,6 @@ const Team = () => {
 
   const teams = normalizeImagePaths(rawTeams);
 
-  
-
   const teamCategories = [
     { key: 'core', label: 'Core Team', icon: '👑', count: teams.core.length },
     { key: 'eventManagement', label: 'Event Management', icon: '🎪', count: teams.eventManagement.length },
@@ -524,22 +522,6 @@ const Team = () => {
         scrollTrigger: {
           trigger: '.teams-grid',
           start: 'top 80%',
-          toggleActions: 'play none none reverse',
-        }
-      }
-    );
-
-    // Mentor animation
-    gsap.fromTo(mentorRef.current,
-      { y: 60, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: mentorRef.current,
-          start: 'top 85%',
           toggleActions: 'play none none reverse',
         }
       }
@@ -757,94 +739,6 @@ const Team = () => {
               Showing {teams[activeTeam].length} members from the {teamCategories.find(t => t.key === activeTeam)?.label} department.
               Click on any member to view more details.
             </p>
-          </div>
-        </div>
-      </section>
-
-     
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-0 left-0 w-96 h-96 bg-gdg-blue rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 right-0 w-80 h-80 bg-gdg-green rounded-full blur-3xl"></div>
-        </div>
-
-        <div className="container-custom relative">
-          <div className="max-w-6xl mx-auto">
-            {/* Section Header */}
-            <div className="text-center mb-16">
-              <div className="inline-flex items-center space-x-2 bg-white/80 backdrop-blur-sm rounded-2xl px-4 py-2 shadow-soft mb-6">
-                <div className="w-2 h-2 bg-gdg-green rounded-full animate-pulse"></div>
-                <span className="text-sm font-semibold text-dark-gray">Faculty Guidance</span>
-              </div>
-
-              <h2 className="text-4xl md:text-5xl font-poppins font-bold text-dark-gray mb-6">
-                Faculty <span className="text-gradient">Mentor</span>
-              </h2>
-            </div>
-
-            {/* Mentor Card */}
-            <div className="bg-card-bg rounded-3xl shadow-large overflow-hidden border border-gray-100">
-              <div className="md:flex">
-                {/* Mentor Image/Info */}
-                <div className="md:w-2/5 bg-gradient-to-br from-slate-900 to-blue-900 p-8 text-white relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
-                  <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-12 -translate-x-12"></div>
-                  
-                  <div className="relative z-10 text-center md:text-left">
-                    <div className="w-32 h-32 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-2xl overflow-hidden mx-auto md:mx-0 mb-6 shadow-lg">
-                      {facultyMentor.image ? (
-                        <img 
-                          src={facultyMentor.image} 
-                          alt={facultyMentor.name}
-                          className="w-full h-full object-cover"
-                          onError={() => setImageErrors(prev => ({ ...prev, 'faculty': true }))}
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <span className="text-white text-4xl">👨‍🏫</span>
-                        </div>
-                      )}
-                    </div>
-                    
-                    <h3 className="text-2xl font-poppins font-bold mb-2">{facultyMentor.name}</h3>
-                    <p className="text-cyan-200 font-semibold text-lg mb-1">{facultyMentor.role}</p>
-                    <p className="text-blue-200 mb-4">{facultyMentor.department}</p>
-
-                    {/* Social Links */}
-                    <div className="flex space-x-3 justify-center md:justify-start">
-                      {Object.entries(facultyMentor.social).map(([platform, url]) => (
-                        <a
-                          key={platform}
-                          href={url}
-                          className="w-10 h-10 bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center text-white hover:bg-white/20 hover:scale-110 transform transition-all duration-300"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {getSocialIcon(platform)}
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                
-                  {/* Expertise */}
-                  <div>
-                    <h5 className="font-poppins font-bold text-dark-gray mb-3">Areas of Expertise</h5>
-                    <div className="flex flex-wrap gap-2">
-                      {facultyMentor.expertise.map((expertise, index) => (
-                        <span 
-                          key={index}
-                          className="bg-blue-50 text-gdg-blue px-3 py-1 rounded-full text-sm font-medium"
-                        >
-                          {expertise}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
