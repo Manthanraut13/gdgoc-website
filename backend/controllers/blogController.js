@@ -51,9 +51,13 @@ export const createBlog = async (req, res) => {
   try {
     const blog = await Blog.create(req.body);
     res.status(201).json({ data: blog });
-  } catch (err) {
-    console.error("Create Blog Error:", err);
-    res.status(500).json({ message: "Failed to create blog" });
+  } catch (error) {
+    console.error("❌ Create Blog Error:", error);
+    res.status(400).json({
+      message: "Failed to create blog",
+      error: error.message,
+      details: error.errors
+    });
   }
 };
 
@@ -64,14 +68,18 @@ export const updateBlog = async (req, res) => {
   try {
     const updated = await Blog.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
+      runValidators: true,
     });
-    if (!updated)
-      return res.status(404).json({ message: "Blog not found" });
+    if (!updated) return res.status(404).json({ message: "Blog not found" });
 
     res.json({ data: updated });
-  } catch (err) {
-    console.error("Update Blog Error:", err);
-    res.status(500).json({ message: "Failed to update blog" });
+  } catch (error) {
+    console.error("❌ Update Blog Error:", error);
+    res.status(400).json({
+      message: "Failed to update blog",
+      error: error.message,
+      details: error.errors,
+    });
   }
 };
 
@@ -82,8 +90,7 @@ export const deleteBlog = async (req, res) => {
   try {
     const deleted = await Blog.findByIdAndDelete(req.params.id);
 
-    if (!deleted)
-      return res.status(404).json({ message: "Blog not found" });
+    if (!deleted) return res.status(404).json({ message: "Blog not found" });
 
     res.json({ data: deleted, message: "Blog deleted" });
   } catch (err) {

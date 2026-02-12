@@ -49,6 +49,11 @@ const ManageEvents = () => {
       await loadEvents();
     } catch (err) {
       console.error("Save Error:", err);
+      if (err.response?.status === 401) {
+        alert("Session expired. Please login again.");
+        window.location.href = "/login";
+        return;
+      }
       alert("Error: " + (err.response?.data?.message || err.message));
     }
   };
@@ -60,6 +65,12 @@ const ManageEvents = () => {
       loadEvents();
     } catch (err) {
       console.error(err);
+      if (err.response?.status === 401) {
+        alert("Session expired. Please login again.");
+        window.location.href = "/login";
+        return;
+      }
+      alert("Error: " + (err.response?.data?.message || err.message));
     }
   };
 
@@ -68,7 +79,7 @@ const ManageEvents = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
         <h1 style={{ fontSize: '24px', fontWeight: '600' }}>Manage Events</h1>
       </div>
-      <button 
+      <button
         style={{
           padding: '10px 16px',
           backgroundColor: '#22c55e',
@@ -95,37 +106,61 @@ const ManageEvents = () => {
         <table style={{ width: '100%', backgroundColor: 'white', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', borderRadius: '4px' }}>
           <thead>
             <tr style={{ backgroundColor: '#e5e7eb', textAlign: 'left' }}>
-              <th style={{ padding: '8px' }}>Title</th>
-              <th style={{ padding: '8px' }}>Date</th>
-              <th style={{ padding: '8px' }}>Location</th>
-              <th style={{ padding: '8px' }}>Actions</th>
+              <th style={{ padding: '12px 8px' }}>Title</th>
+              <th style={{ padding: '12px 8px' }}>Type</th>
+              <th style={{ padding: '12px 8px' }}>Category</th>
+              <th style={{ padding: '12px 8px' }}>Date</th>
+              <th style={{ padding: '12px 8px' }}>Status</th>
+              <th style={{ padding: '12px 8px' }}>Actions</th>
             </tr>
           </thead>
           <tbody>
             {events.map((e) => (
               <tr key={e._id} style={{ borderBottom: '1px solid #e5e7eb' }}>
-                <td style={{ padding: '8px' }}>{e.title}</td>
-                <td style={{ padding: '8px' }}>{e.date}</td>
-                <td style={{ padding: '8px' }}>{e.location}</td>
-                <td style={{ padding: '8px', display: 'flex', gap: '8px' }}>
-                  <button
-                    style={{ padding: '4px 8px', backgroundColor: '#3b82f6', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
-                    onClick={() => {
-                      setSelected(e);
-                      setOpenForm(true);
-                    }}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    style={{ padding: '4px 8px', backgroundColor: '#ef4444', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
-                    onClick={() => {
-                      setSelected(e);
-                      setOpenDelete(true);
-                    }}
-                  >
-                    Delete
-                  </button>
+                <td style={{ padding: '12px 8px', fontWeight: '500' }}>{e.title}</td>
+                <td style={{ padding: '12px 8px' }}>
+                  <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: '#f3f4f6', borderRadius: '4px' }}>
+                    {e.type}
+                  </span>
+                </td>
+                <td style={{ padding: '12px 8px' }}>
+                  <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: '#eff6ff', color: '#1d4ed8', borderRadius: '4px' }}>
+                    {e.category}
+                  </span>
+                </td>
+                <td style={{ padding: '12px 8px' }}>{new Date(e.date).toLocaleDateString()}</td>
+                <td style={{ padding: '12px 8px' }}>
+                  <span style={{
+                    fontSize: '12px',
+                    padding: '2px 8px',
+                    borderRadius: '4px',
+                    backgroundColor: e.status === 'upcoming' ? '#dcfce7' : '#f3f4f6',
+                    color: e.status === 'upcoming' ? '#166534' : '#4b5563'
+                  }}>
+                    {e.status}
+                  </span>
+                </td>
+                <td style={{ padding: '12px 8px' }}>
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    <button
+                      style={{ padding: '4px 8px', backgroundColor: '#3b82f6', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+                      onClick={() => {
+                        setSelected(e);
+                        setOpenForm(true);
+                      }}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      style={{ padding: '4px 8px', backgroundColor: '#ef4444', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+                      onClick={() => {
+                        setSelected(e);
+                        setOpenDelete(true);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}

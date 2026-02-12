@@ -32,14 +32,38 @@ const resourceSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    longDescription: {
+      type: String,
+      default: "",
+    },
     icon: {
       type: String,
       default: "📘",
+    },
+    image: {
+      type: String,
+      default: "",
+    },
+    provider: {
+      type: String,
+      default: "GDG",
     },
     difficulty: {
       type: String,
       enum: ["Beginner", "Intermediate", "Advanced"],
       default: "Beginner",
+    },
+    language: {
+      type: String,
+      default: "English",
+    },
+    rating: {
+      type: Number,
+      default: 5,
+    },
+    tags: {
+      type: [String],
+      default: [],
     },
     featured: {
       type: Boolean,

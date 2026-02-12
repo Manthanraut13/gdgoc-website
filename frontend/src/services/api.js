@@ -1,19 +1,19 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api",
-  headers: {
-    "Content-Type": "application/json",
-  },
+   baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api",
+   headers: {
+      "Content-Type": "application/json",
+   },
 });
 
 /* ===========================
    AUTH TOKEN ATTACH
 =========================== */
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) config.headers.Authorization = `Bearer ${token}`;
-  return config;
+   const token = localStorage.getItem("token");
+   if (token) config.headers.Authorization = `Bearer ${token}`;
+   return config;
 });
 
 
@@ -97,6 +97,20 @@ export const submitJoinApplication = (data) => api.post("/join", data);
 // Admin
 export const getJoinApplications = () => api.get("/join");
 export const deleteJoin = (id) => api.delete(`/join/${id}`);
+
+
+/* ===========================
+   UTILITY / UPLOADS
+=========================== */
+export const uploadImage = (file) => {
+   const formData = new FormData();
+   formData.append("image", file);
+   return api.post("/upload", formData, {
+      headers: {
+         "Content-Type": "multipart/form-data",
+      },
+   });
+};
 
 
 /* ===========================

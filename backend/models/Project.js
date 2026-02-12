@@ -11,9 +11,17 @@ const projectSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    detailedDescription: {
+      type: String,
+      default: "",
+    },
+    longDescription: {
+      type: String,
+      default: "",
+    },
     status: {
       type: String,
-      enum: ['planning', 'ongoing', 'completed'],
+      enum: ['planning', 'ongoing', 'completed', 'archived'],
       default: 'planning',
     },
     progress: {
@@ -24,8 +32,17 @@ const projectSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      enum: ['web', 'mobile', 'ai-ml', 'iot', 'cloud'],
+      enum: ['web', 'mobile', 'ai-ml', 'iot', 'cloud', 'blockchain', 'cybersecurity'],
       default: 'web',
+    },
+    type: {
+      type: String,
+      default: "Open Source",
+    },
+    difficulty: {
+      type: String,
+      enum: ['beginner', 'intermediate', 'advanced'],
+      default: 'intermediate',
     },
     technologies: {
       type: [String],
@@ -35,18 +52,37 @@ const projectSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
+    toolsUsed: {
+      type: [String],
+      default: [],
+    },
     timeline: {
       type: String,
       default: 'TBD',
     },
+    milestones: [{
+      title: String,
+      date: String,
+      status: { type: String, enum: ['pending', 'completed'], default: 'pending' }
+    }],
     impact: {
       type: String,
       default: '',
     },
-    team: {
+    features: {
       type: [String],
       default: [],
     },
+    keyFeatures: {
+      type: [String],
+      default: [],
+    },
+    team: [{
+      name: String,
+      role: String,
+      github: String,
+      image: String
+    }],
     github: {
       type: String,
       default: null,
@@ -59,6 +95,18 @@ const projectSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    demoVideo: {
+      type: String,
+      default: "",
+    },
+    documentation: {
+      type: String,
+      default: "",
+    },
+    resources: [{
+      name: String,
+      url: String
+    }],
     link: {
       type: String,
       default: null,
@@ -66,6 +114,10 @@ const projectSchema = new mongoose.Schema(
     image: {
       type: String,
       default: "",
+    },
+    images: {
+      type: [String],
+      default: [],
     },
     featured: {
       type: Boolean,

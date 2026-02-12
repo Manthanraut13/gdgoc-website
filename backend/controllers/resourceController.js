@@ -16,7 +16,12 @@ export const createResource = async (req, res) => {
     const newRes = await Resource.create(req.body);
     res.status(201).json({ data: newRes });
   } catch (error) {
-    res.status(400).json({ message: "Failed to create resource" });
+    console.error("❌ Resource Create Error:", error);
+    res.status(400).json({
+      message: "Failed to create resource",
+      error: error.message,
+      details: error.errors
+    });
   }
 };
 
@@ -25,10 +30,17 @@ export const updateResource = async (req, res) => {
   try {
     const updated = await Resource.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
+      runValidators: true
     });
+    if (!updated) return res.status(404).json({ message: "Resource not found" });
     res.json({ data: updated });
   } catch (error) {
-    res.status(400).json({ message: "Failed to update resource" });
+    console.error("❌ Resource Update Error:", error);
+    res.status(400).json({
+      message: "Failed to update resource",
+      error: error.message,
+      details: error.errors
+    });
   }
 };
 

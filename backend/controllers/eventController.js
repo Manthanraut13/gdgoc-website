@@ -33,35 +33,39 @@ export const getEventById = async (req, res) => {
   }
 };
 
-/* ===========================
-   CREATE EVENT (ADMIN)
-=========================== */
+// CREATE EVENT (ADMIN)
 export const createEvent = async (req, res) => {
   try {
     const event = await Event.create(req.body);
     res.status(201).json({ data: event });
   } catch (error) {
-    console.error("Create Event Error:", error);
-    res.status(500).json({ message: "Failed to create event" });
+    console.error("❌ Create Event Error:", error);
+    res.status(400).json({
+      message: "Failed to create event",
+      error: error.message,
+      details: error.errors
+    });
   }
 };
 
-/* ===========================
-   UPDATE EVENT (ADMIN)
-=========================== */
+// UPDATE EVENT (ADMIN)
 export const updateEvent = async (req, res) => {
   try {
     const updated = await Event.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { new: true }
+      { new: true, runValidators: true }
     );
     if (!updated) return res.status(404).json({ message: "Event not found" });
 
     res.json({ data: updated });
   } catch (error) {
-    console.error("Update Event Error:", error);
-    res.status(500).json({ message: "Failed to update event" });
+    console.error("❌ Update Event Error:", error);
+    res.status(400).json({
+      message: "Failed to update event",
+      error: error.message,
+      details: error.errors
+    });
   }
 };
 

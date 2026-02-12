@@ -16,7 +16,12 @@ export const createProject = async (req, res) => {
     const newProject = await Project.create(req.body);
     res.status(201).json({ data: newProject });
   } catch (error) {
-    res.status(400).json({ message: "Failed to create project" });
+    console.error("❌ Project Create Error:", error);
+    res.status(400).json({
+      message: "Failed to create project",
+      error: error.message,
+      details: error.errors
+    });
   }
 };
 
@@ -25,10 +30,19 @@ export const updateProject = async (req, res) => {
   try {
     const updated = await Project.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
+      runValidators: true
     });
+    if (!updated) {
+      return res.status(404).json({ message: "Project not found" });
+    }
     res.json({ data: updated });
   } catch (error) {
-    res.status(400).json({ message: "Failed to update project" });
+    console.error("❌ Project Update Error:", error);
+    res.status(400).json({
+      message: "Failed to update project",
+      error: error.message,
+      details: error.errors
+    });
   }
 };
 

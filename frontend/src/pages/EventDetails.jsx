@@ -40,9 +40,16 @@ const EventDetails = () => {
   return (
     <div className="page-wrapper pt-20 bg-white">
       {/* Hero Banner */}
-      <div className={`${getStatusColor(event.status)} h-64 flex items-center justify-center`}>
-        <div className="text-center text-white">
-          <span className="inline-block px-4 py-2 bg-white/20 rounded-full text-sm font-semibold mb-4">
+      <div className={`relative h-64 flex items-center justify-center overflow-hidden`}>
+        {event.image ? (
+          <img src={event.image} alt={event.title} className="absolute inset-0 w-full h-full object-cover" />
+        ) : (
+          <div className={`absolute inset-0 ${getStatusColor(event.status)}`}></div>
+        )}
+        <div className="absolute inset-0 bg-black/40"></div>
+
+        <div className="relative z-10 text-center text-white">
+          <span className="inline-block px-4 py-2 bg-white/20 rounded-full text-sm font-semibold backdrop-blur-md">
             {event.status === 'upcoming' ? 'Upcoming Event' : 'Past Event'}
           </span>
         </div>
@@ -51,7 +58,7 @@ const EventDetails = () => {
       {/* Content */}
       <div className="max-w-5xl mx-auto px-4 py-12">
         <h1 className="text-4xl font-bold mb-4">{event.title}</h1>
-        
+
         <p className="text-lg text-gray-600 mb-8">{event.description}</p>
 
         {/* Info Grid */}

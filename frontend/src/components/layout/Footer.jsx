@@ -10,33 +10,33 @@ const Footer = () => {
   const footerRef = useRef(null);
   const sectionsRef = useRef([]);
 
- const socialLinks = [
-  {
-    name: 'GitHub',
-    img: '/images/GitHub-Symbol.png',
-    url: 'https://github.com/gdg',
-    color: 'hover:text-gray-700'
-  },
-  {
-    name: 'LinkedIn',
-    img: '/images/linkedin-logo.jpg',
-    url: 'https://linkedin.com/company/gdg',
-    color: 'hover:text-blue-600'
-  },
-  {
-    name: 'Twitter',
-    img: '/images/twitter.webp',
-    url: 'https://twitter.com/gdg',
-    color: 'hover:text-sky-500'
-  },
-  {
-    name: 'Discord',
-    img: '/images/discord.jpg',
-    url: 'https://discord.gg/gdg',
-    color: 'hover:text-purple-500'
-  },
+  const socialLinks = [
+    {
+      name: 'GitHub',
+      img: '/images/GitHub-Symbol.png',
+      url: 'https://github.com/gdg',
+      color: 'hover:text-gray-700'
+    },
+    {
+      name: 'LinkedIn',
+      img: '/images/linkedin-logo.jpg',
+      url: 'https://linkedin.com/company/gdg',
+      color: 'hover:text-blue-600'
+    },
+    {
+      name: 'Twitter',
+      img: '/images/twitter.webp',
+      url: 'https://twitter.com/gdg',
+      color: 'hover:text-sky-500'
+    },
+    {
+      name: 'Discord',
+      img: '/images/discord.jpg',
+      url: 'https://discord.gg/gdg',
+      color: 'hover:text-purple-500'
+    },
 
-];
+  ];
 
 
   const quickLinks = [
@@ -118,11 +118,11 @@ const Footer = () => {
   };
 
   return (
-    <footer 
+    <footer
       ref={footerRef}
       className="bg-dark-gray text-white relative overflow-hidden"
     >
-      
+
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-0 left-0 w-96 h-96 bg-gdg-blue rounded-full blur-3xl"></div>
@@ -135,48 +135,45 @@ const Footer = () => {
           {/* Brand Section */}
           <div ref={addToSectionsRef} className="footer-section lg:col-span-1">
             <div className="flex items-center space-x-3 mb-6">
-                <div className="w-12 h-12 flex items-center justify-center">
-                                <img src={logo} alt="GDG Logo" className="w-10 h-7" />
-                              </div>
-              
+              <div className="w-12 h-12 flex items-center justify-center">
+                <img src={logo} alt="GDG Logo" className="w-10 h-7" />
+              </div>
+
               <div className="flex flex-col">
                 <span className="font-poppins font-bold text-xl text-white">GDG On-Campus</span>
                 <span className="text-gray-400 text-sm font-medium">Google Developer Group</span>
               </div>
             </div>
             <p className="text-gray-300 leading-relaxed mb-6">
-              Empowering student developers through workshops, study jams, and community events. 
+              Empowering student developers through workshops, study jams, and community events.
               Join us to learn, build, and grow together in the world of technology.
             </p>
-            
+
             {/* Social Links */}
-            <div className="flex gap-4">
-  {socialLinks.map((item, index) => (
-<a
-  key={index}
-  href={item.url}
-  target="_blank"
-  rel="noopener noreferrer"
-  className={item.color}
->
-  <div
-    className="w-10 h-10 bg-white rounded-full overflow-hidden
+            <div className="flex gap-4 social-links">
+              {socialLinks.map((item, index) => (
+                <a
+                  key={index}
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`${item.color} social-link`}
+                >
+                  <div
+                    className="w-10 h-10 bg-white rounded-full overflow-hidden
                flex items-center justify-center
                transition-all duration-300
                hover:scale-110 hover:shadow-lg"
-  >
-    <img
-      src={item.img}
-      alt={item.name}
-      className="w-7 h-7 object-contain"
-    />
-  </div>
-</a>
-
-
-
-  ))}
-</div>
+                  >
+                    <img
+                      src={item.img}
+                      alt={item.name}
+                      className="w-7 h-7 object-contain"
+                    />
+                  </div>
+                </a>
+              ))}
+            </div>
 
           </div>
 
@@ -236,7 +233,7 @@ const Footer = () => {
           </div>
 
           {/* Newsletter */}
-          
+
         </div>
 
         {/* Footer Bottom */}

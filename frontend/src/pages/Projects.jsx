@@ -9,6 +9,8 @@ const Projects = () => {
   const [viewMode, setViewMode] = useState('grid');
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedProject, setSelectedProject] = useState(null);
+
   const heroRef = useRef(null);
   const projectsRef = useRef(null);
   const projectCardsRef = useRef([]);
@@ -30,109 +32,7 @@ const Projects = () => {
     fetchProjects();
   }, []);
 
-  // Demo projects (fallback)
-  const demoProjects = [
-    {
-      id: 1,
-      title: "Campus Navigation App",
-      description: "A Flutter-based mobile application that helps students navigate campus with real-time updates, event discovery, and interactive maps. Features include indoor navigation and AR wayfinding.",
-      status: "ongoing",
-      progress: 75,
-      category: "mobile",
-      tech: ["Flutter", "Firebase", "Google Maps API", "Dart", "ARCore"],
-      team: ["Alex Johnson", "Sarah Chen", "Mike Rodriguez"],
-      github: "https://github.com/gdg/campus-nav",
-      demo: "https://campus-nav.demo.com",
-      timeline: "6 months",
-      impact: "Helping 5000+ students navigate campus daily"
-    },
-    {
-      id: 2,
-      title: "Study Group Platform",
-      description: "Web platform for students to form study groups, share resources, and collaborate on assignments in real-time. Includes video conferencing and collaborative document editing.",
-      status: "completed",
-      progress: 100,
-      category: "web",
-      tech: ["React", "Node.js", "MongoDB", "Socket.io", "WebRTC"],
-      team: ["David Kim", "Lisa Wang", "Emily Watson"],
-      github: "https://github.com/gdg/study-groups",
-      demo: "https://study-groups.demo.com",
-      timeline: "4 months",
-      impact: "200+ active study groups formed"
-    },
-    {
-      id: 3,
-      title: "GDG Event Manager",
-      description: "Internal tool for managing GDG events, member registrations, and automated communication workflows. Streamlines event planning and participant engagement.",
-      status: "ongoing",
-      progress: 60,
-      category: "web",
-      tech: ["Next.js", "TypeScript", "PostgreSQL", "Prisma", "SendGrid"],
-      team: ["John Smith", "Maria Garcia"],
-      github: "https://github.com/gdg/event-manager",
-      demo: null,
-      timeline: "3 months",
-      impact: "Automating event management for 50+ events yearly"
-    },
-    {
-      id: 4,
-      title: "AI Learning Assistant",
-      description: "Machine learning-powered chatbot that helps students with programming questions and learning resources. Uses natural language processing to provide personalized assistance.",
-      status: "planning",
-      progress: 20,
-      category: "ai-ml",
-      tech: ["Python", "TensorFlow", "FastAPI", "React", "Docker"],
-      team: ["Chris Lee", "Anna Brown"],
-      github: null,
-      demo: null,
-      timeline: "8 months",
-      impact: "Providing 24/7 programming assistance to students"
-    },
-    {
-      id: 5,
-      title: "Eco Campus Initiative",
-      description: "IoT-based sustainability platform that monitors campus energy consumption and provides insights for reducing carbon footprint. Includes smart sensors and data visualization.",
-      status: "ongoing",
-      progress: 45,
-      category: "iot",
-      tech: ["Python", "Raspberry Pi", "AWS IoT", "React", "D3.js"],
-      team: ["Tom Wilson", "Sarah Martinez"],
-      github: "https://github.com/gdg/eco-campus",
-      demo: "https://eco-campus.demo.com",
-      timeline: "5 months",
-      impact: "Monitoring 10 campus buildings for energy efficiency"
-    },
-    {
-      id: 6,
-      title: "Code Review Platform",
-      description: "Platform for peer code reviews and collaborative learning. Features include automated code analysis, review workflows, and learning progress tracking.",
-      status: "completed",
-      progress: 100,
-      category: "web",
-      tech: ["Vue.js", "Express.js", "MySQL", "Docker", "GitHub API"],
-      team: ["Kevin Davis", "Rachel Green"],
-      github: "https://github.com/gdg/code-review",
-      demo: "https://code-review.demo.com",
-      timeline: "6 months",
-      impact: "5000+ code reviews conducted"
-    }
-  ];
-
-  // Use API projects if available, otherwise show demo projects
-  const displayProjects = projects.length > 0 ? projects.map(p => ({
-    id: p._id || p.id,
-    title: p.title,
-    description: p.description,
-    status: p.status || 'planning',
-    progress: p.progress || 0,
-    category: p.category || 'web',
-    tech: Array.isArray(p.technologies) ? p.technologies : (p.tech || []),
-    team: p.team || [],
-    github: p.github || null,
-    demo: p.demo || null,
-    timeline: p.timeline || 'TBD',
-    impact: p.impact || ''
-  })) : demoProjects;
+  const displayProjects = projects;
 
   const filters = [
     { key: 'all', label: 'All Projects', icon: '🎯', count: displayProjects.length },
@@ -185,16 +85,19 @@ const Projects = () => {
     );
 
     // Animate projects when filters change
-    animateProjectCards();
+    const cards = document.querySelectorAll('.project-card');
+    if (cards.length > 0) {
+      animateProjectCards();
+    }
 
-  }, [activeFilter, viewMode]);
+  }, [activeFilter, viewMode, projects]);
 
   const animateProjectCards = () => {
     gsap.fromTo('.project-card',
-      { 
-        y: 60, 
-        opacity: 0, 
-        scale: 0.9 
+      {
+        y: 60,
+        opacity: 0,
+        scale: 0.9
       },
       {
         y: 0,
@@ -207,17 +110,12 @@ const Projects = () => {
     );
   };
 
-  const addToProjectCardsRef = (el) => {
-    if (el && !projectCardsRef.current.includes(el)) {
-      projectCardsRef.current.push(el);
-    }
-  };
-
   const getStatusColor = (status) => {
     const colors = {
       'ongoing': { bg: 'from-blue-500 to-cyan-500', text: 'text-blue-600', badge: 'bg-blue-50 text-blue-700' },
       'completed': { bg: 'from-green-500 to-emerald-500', text: 'text-green-600', badge: 'bg-green-50 text-green-700' },
-      'planning': { bg: 'from-yellow-500 to-orange-500', text: 'text-yellow-600', badge: 'bg-yellow-50 text-yellow-700' }
+      'planning': { bg: 'from-yellow-500 to-orange-500', text: 'text-yellow-600', badge: 'bg-yellow-50 text-yellow-700' },
+      'archived': { bg: 'from-gray-500 to-slate-500', text: 'text-gray-600', badge: 'bg-gray-50 text-gray-700' }
     };
     return colors[status] || { bg: 'from-gray-500 to-slate-500', text: 'text-gray-600', badge: 'bg-gray-50 text-gray-700' };
   };
@@ -227,7 +125,10 @@ const Projects = () => {
       'mobile': '📱',
       'web': '🌐',
       'ai-ml': '🧠',
-      'iot': '🔌'
+      'iot': '🔌',
+      'cloud': '☁️',
+      'blockchain': '⛓️',
+      'cybersecurity': '🛡️'
     };
     return icons[category] || '🚀';
   };
@@ -235,11 +136,10 @@ const Projects = () => {
   return (
     <div className="page-wrapper pt-20">
       {/* Hero Section */}
-      <section 
+      <section
         ref={heroRef}
         className="min-h-[50vh] bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex items-center relative overflow-hidden"
       >
-        {/* Background Elements */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-20 left-20 w-96 h-96 bg-gdg-blue rounded-full blur-3xl"></div>
           <div className="absolute bottom-20 right-20 w-80 h-80 bg-gdg-green rounded-full blur-3xl"></div>
@@ -249,7 +149,7 @@ const Projects = () => {
           <div className="page-hero-content text-center max-w-4xl mx-auto">
             <div className="inline-flex items-center space-x-2 bg-white/80 backdrop-blur-sm rounded-2xl px-4 py-2 shadow-soft mb-8">
               <div className="w-2 h-2 bg-gdg-blue rounded-full animate-pulse"></div>
-              <span className="text-sm font-semibold text-dark-gray">Our Projects</span>
+              <span className="text-sm font-semibold text-dark-gray">Innovation in Action</span>
             </div>
 
             <h1 className="text-5xl md:text-6xl font-poppins font-bold text-dark-gray mb-6 leading-tight">
@@ -257,7 +157,7 @@ const Projects = () => {
             </h1>
 
             <p className="text-xl text-medium-gray leading-relaxed max-w-3xl mx-auto">
-              Explore the innovative projects our community is building to solve real-world problems 
+              Explore the innovative projects our community is building to solve real-world problems
               and create meaningful impact on campus and beyond.
             </p>
           </div>
@@ -265,7 +165,7 @@ const Projects = () => {
       </section>
 
       {/* Projects Section */}
-      <section 
+      <section
         ref={projectsRef}
         className="section-padding bg-white relative overflow-hidden"
       >
@@ -279,15 +179,14 @@ const Projects = () => {
                   <button
                     key={filter.key}
                     onClick={() => setActiveFilter(filter.key)}
-                    className={`px-4 py-3 rounded-2xl font-semibold transition-all duration-300 flex items-center space-x-2 ${
-                      activeFilter === filter.key
-                        ? 'bg-gdg-blue text-white shadow-md'
-                        : 'bg-slate-100 text-medium-gray hover:bg-slate-200'
-                    }`}
+                    className={`px-4 py-2 rounded-2xl font-semibold transition-all duration-300 flex items-center space-x-2 ${activeFilter === filter.key
+                      ? 'bg-gdg-blue text-white shadow-xl shadow-blue-200'
+                      : 'bg-slate-100 text-medium-gray hover:bg-slate-200'
+                      }`}
                   >
                     <span className="text-lg">{filter.icon}</span>
                     <span>{filter.label}</span>
-                    <span className="bg-white/20 px-2 py-1 rounded-full text-xs">
+                    <span className={`px-2 py-0.5 rounded-full text-xs ${activeFilter === filter.key ? 'bg-white/20' : 'bg-slate-200'}`}>
                       {filter.count}
                     </span>
                   </button>
@@ -298,238 +197,288 @@ const Projects = () => {
               <div className="flex items-center space-x-2 bg-slate-100 rounded-2xl p-1">
                 <button
                   onClick={() => setViewMode('grid')}
-                  className={`p-2 rounded-2xl transition-all duration-300 ${
-                    viewMode === 'grid' ? 'bg-white text-dark-gray shadow-sm' : 'text-medium-gray'
-                  }`}
+                  className={`p-2.5 rounded-xl transition-all duration-300 ${viewMode === 'grid' ? 'bg-white text-dark-gray shadow-md' : 'text-medium-gray'
+                    }`}
                 >
                   <span className="text-lg">⏹️</span>
                 </button>
                 <button
                   onClick={() => setViewMode('list')}
-                  className={`p-2 rounded-2xl transition-all duration-300 ${
-                    viewMode === 'list' ? 'bg-white text-dark-gray shadow-sm' : 'text-medium-gray'
-                  }`}
+                  className={`p-2.5 rounded-xl transition-all duration-300 ${viewMode === 'list' ? 'bg-white text-dark-gray shadow-md' : 'text-medium-gray'
+                    }`}
                 >
                   <span className="text-lg">📋</span>
                 </button>
               </div>
             </div>
-
-            {/* Category Filters */}
-            <div className="flex flex-wrap gap-3 justify-center">
-              {categories.map((category) => (
-                <button
-                  key={category.key}
-                  className="px-4 py-2 rounded-2xl font-medium transition-all duration-300 flex items-center space-x-2 bg-slate-100 text-medium-gray hover:bg-slate-200"
-                >
-                  <span className="text-lg">{category.icon}</span>
-                  <span>{category.label}</span>
-                </button>
-              ))}
-            </div>
           </div>
 
           {/* Projects Grid/List */}
-          <div className={`${
-            viewMode === 'grid' 
-              ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'
-              : 'space-y-6'
-          }`}>
+          <div className={`${viewMode === 'grid'
+            ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'
+            : 'space-y-6'
+            }`}>
             {loading ? (
-              <div className="col-span-full text-center py-16">
-                <p className="text-gray-500 text-lg">Loading projects...</p>
+              <div className="col-span-full text-center py-20">
+                <div className="w-16 h-16 border-4 border-gdg-blue border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                <p className="text-gray-500 font-medium">Loading our innovation portfolio...</p>
               </div>
             ) : filteredProjects.map((project, index) => (
-              <Link
-                to={`/projects/${project.id}`}
-                key={project.id}
-                className="block"
+              <div
+                key={project._id}
+                className="project-card group"
+                onClick={() => setSelectedProject(project)}
               >
-                <div 
-                  ref={addToProjectCardsRef}
-                  className="project-card group"
-                >
-                  <div className={`bg-card-bg rounded-3xl shadow-soft hover:shadow-large transition-all duration-500 border border-gray-100 hover:border-gray-200 overflow-hidden cursor-pointer ${
-                    viewMode === 'list' ? 'flex' : 'h-full flex flex-col'
+                <div className={`bg-white rounded-[2.5rem] shadow-soft hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-blue-100 overflow-hidden cursor-pointer relative h-full flex flex-col ${viewMode === 'list' ? 'lg:flex-row' : ''
                   }`}>
                   {/* Project Visual */}
-                  <div className={`${
-                    viewMode === 'list' ? 'w-48 flex-shrink-0' : 'h-48'
-                  } relative overflow-hidden`}>
-                    <div className={`absolute inset-0 bg-gradient-to-br ${getStatusColor(project.status).bg}`}></div>
-                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors duration-300"></div>
-                    
+                  <div className={`${viewMode === 'list' ? 'lg:w-72 flex-shrink-0' : 'h-56'
+                    } relative overflow-hidden`}>
+                    <img
+                      src={project.image || "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1000&auto=format&fit=crop"}
+                      alt={project.title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
                     {/* Status Badge */}
-                    <div className="absolute top-4 left-4">
-                      <span className={`px-3 py-1.5 rounded-full text-sm font-semibold shadow-sm ${getStatusColor(project.status).badge}`}>
-                        {project.status === 'ongoing' ? '🚀 In Progress' : 
-                         project.status === 'completed' ? '✅ Completed' : '📋 Planning'}
+                    <div className="absolute top-6 left-6">
+                      <span className={`px-4 py-2 rounded-2xl text-xs font-bold shadow-lg backdrop-blur-md ${getStatusColor(project.status).badge}`}>
+                        {getStatusColor(project.status).icon} {project.status.toUpperCase()}
                       </span>
                     </div>
 
                     {/* Category Icon */}
-                    <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm w-12 h-12 rounded-2xl flex items-center justify-center shadow-sm">
+                    <div className="absolute top-6 right-6 bg-white/90 backdrop-blur-md w-10 h-10 rounded-xl flex items-center justify-center shadow-lg group-hover:rotate-12 transition-transform">
                       <span className="text-xl">{getCategoryIcon(project.category)}</span>
-                    </div>
-
-                    {/* Project Info Overlay */}
-                    <div className="absolute bottom-4 left-4 right-4">
-                      <h3 className="text-xl font-poppins font-bold text-white mb-2 line-clamp-2">
-                        {project.title}
-                      </h3>
-                      <div className="flex items-center space-x-2 text-white/90 text-sm">
-                        <span>⏱️ {project.timeline}</span>
-                        <span>•</span>
-                        <span>👥 {project.team.length} members</span>
-                      </div>
                     </div>
                   </div>
 
                   {/* Project Content */}
-                  <div className={`p-6 flex-grow flex flex-col ${
-                    viewMode === 'list' ? 'flex-1' : ''
-                  }`}>
-                    {/* Description */}
-                    <p className="text-gray-600 leading-relaxed mb-4 line-clamp-3">
+                  <div className="p-8 flex-grow flex flex-col">
+                    <h3 className="text-2xl font-poppins font-bold text-dark-gray mb-3 group-hover:text-gdg-blue transition-colors">
+                      {project.title}
+                    </h3>
+
+                    <p className="text-gray-600 leading-relaxed mb-6 line-clamp-2 text-sm">
                       {project.description}
                     </p>
 
-                    {/* Impact */}
-                    <div className="mb-4">
-                      <span className="text-sm font-semibold text-dark-gray">Impact: </span>
-                      <span className="text-sm text-medium-gray">{project.impact}</span>
-                    </div>
-
                     {/* Progress Bar */}
                     {project.status === 'ongoing' && (
-                      <div className="mb-4">
-                        <div className="flex items-center justify-between text-sm text-medium-gray mb-2">
-                          <span>Development Progress</span>
-                          <span>{project.progress}%</span>
+                      <div className="mb-6">
+                        <div className="flex items-center justify-between text-[10px] font-bold text-gray-400 mb-2 tracking-widest uppercase">
+                          <span>Progress</span>
+                          <span className="text-gdg-blue">{project.progress}%</span>
                         </div>
-                        <div className="w-full bg-slate-200 rounded-full h-2">
-                          <div 
-                            className="bg-gradient-to-r from-blue-500 to-cyan-500 h-2 rounded-full transition-all duration-1000"
+                        <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                          <div
+                            className="bg-gradient-to-r from-blue-500 to-cyan-400 h-full rounded-full transition-all duration-1000 shadow-[0_0_10px_rgba(59,130,246,0.5)]"
                             style={{ width: `${project.progress}%` }}
                           ></div>
                         </div>
                       </div>
                     )}
 
-                    {/* Tech Stack */}
-                    <div className="mb-4">
-                      <h4 className="text-sm font-semibold text-dark-gray mb-2">Tech Stack</h4>
-                      <div className="flex flex-wrap gap-2">
-                        {project.tech.map((tech, techIndex) => (
-                          <span 
-                            key={techIndex}
-                            className="bg-slate-100 text-slate-600 px-2 py-1 rounded-full text-xs font-medium"
-                          >
-                            {tech}
-                          </span>
+                    {/* Bottom Info */}
+                    <div className="mt-auto pt-6 border-t border-gray-50 flex items-center justify-between">
+                      <div className="flex -space-x-3">
+                        {(project.team || []).slice(0, 3).map((m, i) => (
+                          <div key={i} className="w-8 h-8 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 border-2 border-white flex items-center justify-center text-[10px] font-bold text-gray-500 overflow-hidden shadow-sm">
+                            {m.image ? <img src={m.image} alt={m.name} /> : (m.name ? m.name[0] : '?')}
+                          </div>
                         ))}
+                        {(project.team || []).length > 3 && (
+                          <div className="w-8 h-8 rounded-full bg-white border-2 border-gray-100 flex items-center justify-center text-[10px] font-bold text-gray-400 shadow-sm">
+                            +{(project.team || []).length - 3}
+                          </div>
+                        )}
                       </div>
-                    </div>
-
-                    {/* Team */}
-                    <div className="mb-6">
-                      <h4 className="text-sm font-semibold text-dark-gray mb-2">Team</h4>
-                      <div className="flex flex-wrap gap-1">
-                        {project.team.map((member, memberIndex) => (
-                          <span 
-                            key={memberIndex}
-                            className="bg-blue-50 text-gdg-blue px-2 py-1 rounded-full text-xs font-medium"
-                          >
-                            {member}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Action Buttons */}
-                    <div className="flex space-x-3 mt-auto">
-                      {project.github && (
-                        <a
-                          href={project.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex-1 bg-slate-100 text-slate-600 py-2 px-4 rounded-2xl font-semibold text-center hover:bg-slate-200 hover:scale-105 transform transition-all duration-300 flex items-center justify-center space-x-2"
-                        >
-                          <span>💻</span>
-                          <span>GitHub</span>
-                        </a>
-                      )}
-                      {project.demo && (
-                        <a
-                          href={project.demo}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex-1 bg-gradient-to-r from-gdg-blue to-blue-600 text-white py-2 px-4 rounded-2xl font-semibold text-center hover:shadow-glow hover:scale-105 transform transition-all duration-300 flex items-center justify-center space-x-2"
-                        >
-                          <span>🚀</span>
-                          <span>Live Demo</span>
-                        </a>
-                      )}
-                      {!project.demo && !project.github && (
-                        <button className="flex-1 bg-slate-100 text-slate-600 py-2 px-4 rounded-2xl font-semibold hover:bg-slate-200 hover:scale-105 transform transition-all duration-300">
-                          Coming Soon
-                        </button>
-                      )}
+                      <span className="text-xs font-bold text-blue-600 group-hover:translate-x-1 transition-transform flex items-center gap-1">
+                        View Details <span>→</span>
+                      </span>
                     </div>
                   </div>
-
-                  {/* Hover Effect */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-gdg-blue/5 to-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                 </div>
               </div>
-              </Link>
             ))}
-            {!loading && filteredProjects.length === 0 && (
-              <div className="col-span-full text-center py-16">
-                <div className="w-24 h-24 bg-slate-100 rounded-3xl flex items-center justify-center mx-auto mb-6">
-                  <span className="text-3xl">🚀</span>
-                </div>
-                <h3 className="text-2xl font-poppins font-bold text-dark-gray mb-3">
-                  No Projects Found
-                </h3>
-                <p className="text-medium-gray mb-6 max-w-md mx-auto">
-                  {activeFilter !== 'all' 
-                    ? `There are no ${filters.find(f => f.key === activeFilter)?.label.toLowerCase()} at the moment.`
-                    : 'No projects match your current filters.'
-                  }
-                </p>
-                <button 
-                  onClick={() => setActiveFilter('all')}
-                  className="bg-gdg-blue text-white px-6 py-3 rounded-2xl font-semibold hover:shadow-glow hover:scale-105 transform transition-all duration-300"
-                >
-                  View All Projects
-                </button>
-              </div>
-            )}
           </div>
 
-          {/* CTA Section */}
-          <div className="mt-16 bg-gradient-to-r from-slate-900 to-blue-900 rounded-3xl p-8 text-white">
-            <div className="max-w-4xl mx-auto text-center">
-              <h3 className="text-2xl md:text-3xl font-poppins font-bold mb-4">
-                Ready to Start Your Own Project?
-              </h3>
-              <p className="text-blue-100 mb-6 leading-relaxed">
-                Join our community of builders and innovators. Get support, mentorship, and resources 
-                to turn your ideas into reality.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-6 py-3 rounded-2xl font-semibold hover:shadow-glow hover:scale-105 transform transition-all duration-300">
-                  Propose a Project
-                </button>
-                <button className="bg-white/10 backdrop-blur-sm text-white px-6 py-3 rounded-2xl font-semibold border border-white/20 hover:bg-white/20 hover:scale-105 transform transition-all duration-300">
-                  Join a Team
-                </button>
+          {/* Empty State */}
+          {!loading && filteredProjects.length === 0 && (
+            <div className="text-center py-32 bg-slate-50 rounded-[3rem] border-2 border-dashed border-slate-200">
+              <div className="text-6xl mb-6">🔭</div>
+              <h3 className="text-2xl font-bold text-dark-gray mb-2">No projects found in this category</h3>
+              <p className="text-medium-gray mb-8">We're always brainstorming new ideas. Check back soon!</p>
+              <button
+                onClick={() => setActiveFilter('all')}
+                className="bg-white text-gdg-blue px-8 py-3 rounded-2xl font-bold shadow-soft hover:shadow-large transition-all"
+              >
+                Show All Projects
+              </button>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* BIG CARD MODAL (Matching Events.jsx style) */}
+      {selectedProject && (
+        <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 lg:p-8 animate-in fade-in duration-300">
+          <div
+            className="absolute inset-0 bg-dark-gray/90 backdrop-blur-xl"
+            onClick={() => setSelectedProject(null)}
+          ></div>
+
+          <div className="relative bg-white w-full max-w-6xl max-h-[90vh] rounded-[3rem] shadow-2xl overflow-hidden flex flex-col lg:flex-row animate-in zoom-in-95 duration-500">
+            <button
+              onClick={() => setSelectedProject(null)}
+              className="absolute top-6 right-6 z-[1] bg-white/10 hover:bg-white/20 text-white backdrop-blur-md w-12 h-12 rounded-2xl flex items-center justify-center transition-all group lg:text-gray-900 lg:bg-gray-100 lg:hover:bg-gray-200"
+            >
+              <span className="text-2xl group-hover:rotate-90 transition-transform">✕</span>
+            </button>
+
+            {/* Left: Visual Component */}
+            <div className="lg:w-1/2 h-64 lg:h-auto relative overflow-hidden">
+              <img
+                src={selectedProject.image || "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1000&auto=format&fit=crop"}
+                alt={selectedProject.title}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+
+              <div className="absolute bottom-8 left-8 right-8">
+                <span className={`px-4 py-2 rounded-2xl text-xs font-bold mb-4 inline-block backdrop-blur-md ${getStatusColor(selectedProject.status).badge}`}>
+                  {getStatusColor(selectedProject.status).icon} {selectedProject.status.toUpperCase()}
+                </span>
+                <h2 className="text-4xl lg:text-5xl font-poppins font-bold text-white mb-2 leading-tight">
+                  {selectedProject.title}
+                </h2>
+                <div className="flex items-center gap-4 text-white/80 text-sm font-medium">
+                  <span className="flex items-center gap-1.5">🌐 {selectedProject.category.toUpperCase()}</span>
+                  <span>•</span>
+                  <span className="flex items-center gap-1.5">⏱️ {selectedProject.timeline}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Right: Content Component */}
+            <div className="lg:w-1/2 p-8 lg:p-12 overflow-y-auto bg-white flex flex-col">
+              <div className="space-y-8">
+                {/* description */}
+                <div>
+                  <h4 className="text-[10px] font-bold text-blue-600 tracking-[0.2em] uppercase mb-4">Overview</h4>
+                  <p className="text-lg text-gray-700 leading-relaxed font-medium">
+                    {selectedProject.detailedDescription || selectedProject.description}
+                  </p>
+                </div>
+
+                {/* Long Description */}
+                {(selectedProject.longDescription) && (
+                  <div>
+                    <h4 className="text-[10px] font-bold text-gray-400 tracking-[0.2em] uppercase mb-4">The Solution</h4>
+                    <p className="text-gray-600 leading-relaxed">
+                      {selectedProject.longDescription}
+                    </p>
+                  </div>
+                )}
+
+                {/* Progress */}
+                {selectedProject.status === 'ongoing' && (
+                  <div className="bg-blue-50/50 p-6 rounded-3xl border border-blue-100">
+                    <div className="flex justify-between items-center mb-3">
+                      <span className="text-sm font-bold text-blue-900 uppercase">Development Roadmap</span>
+                      <span className="text-2xl font-black text-blue-600">{selectedProject.progress}%</span>
+                    </div>
+                    <div className="h-3 w-full bg-white rounded-full overflow-hidden shadow-inner">
+                      <div
+                        className="h-full bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full"
+                        style={{ width: `${selectedProject.progress}%` }}
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {/* Tech Stack */}
+                {(selectedProject.technologies?.length > 0) && (
+                  <div>
+                    <h4 className="text-[10px] font-bold text-gray-400 tracking-[0.2em] uppercase mb-4">Tech Stack</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedProject.technologies.map((t, i) => (
+                        <span key={i} className="px-4 py-2 bg-gray-100 text-gray-700 rounded-xl text-sm font-bold hover:bg-gdg-blue hover:text-white transition-all cursor-default">
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Team */}
+                {(selectedProject.team?.length > 0) && (
+                  <div>
+                    <h4 className="text-[10px] font-bold text-gray-400 tracking-[0.2em] uppercase mb-4">The Team</h4>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {selectedProject.team.map((m, i) => (
+                        <div key={i} className="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-100 hover:border-blue-200 transition-all group">
+                          <div className="w-12 h-12 rounded-xl bg-white shadow-sm flex items-center justify-center text-lg font-bold text-blue-600 overflow-hidden">
+                            {m.image ? <img src={m.image} alt={m.name} className="w-full h-full object-cover" /> : (m.name ? m.name[0] : '?')}
+                          </div>
+                          <div>
+                            <div className="font-bold text-gray-900 group-hover:text-blue-600 transition-colors">{m.name || 'Anonymous'}</div>
+                            <div className="text-xs text-gray-500 font-medium">{m.role}</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Gallery */}
+                {(selectedProject.images?.length > 0) && (
+                  <div>
+                    <h4 className="text-[10px] font-bold text-gray-400 tracking-[0.2em] uppercase mb-4">Gallery</h4>
+                    <div className="grid grid-cols-2 gap-4">
+                      {selectedProject.images.map((img, i) => (
+                        <img key={i} src={img} className="rounded-2xl h-32 w-full object-cover shadow-sm hover:scale-105 transition-transform" />
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* CTA Section */}
+              <div className="mt-12 lg:mt-auto pt-8 border-t border-gray-100 flex flex-wrap gap-4">
+                {selectedProject.github && (
+                  <a
+                    href={selectedProject.github}
+                    target="_blank"
+                    className="flex-1 min-w-[140px] bg-gray-900 text-white px-8 py-4 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-gray-800 transition-all hover:-translate-y-1 shadow-xl"
+                  >
+                    <span>💻</span> GitHub
+                  </a>
+                )}
+                {selectedProject.demo && (
+                  <a
+                    href={selectedProject.demo}
+                    target="_blank"
+                    className="flex-1 min-w-[140px] bg-gdg-blue text-white px-8 py-4 rounded-2xl font-bold flex items-center justify-center gap-2 hover:shadow-blue-200 hover:shadow-xl transition-all hover:-translate-y-1"
+                  >
+                    <span>🚀</span> Live Demo
+                  </a>
+                )}
+                {selectedProject.documentation && (
+                  <a
+                    href={selectedProject.documentation}
+                    target="_blank"
+                    className="flex-1 min-w-[140px] bg-slate-100 text-slate-700 px-8 py-4 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-slate-200 transition-all hover:-translate-y-1"
+                  >
+                    <span>📄</span> Docs
+                  </a>
+                )}
               </div>
             </div>
           </div>
         </div>
-      </section>
+      )}
     </div>
   );
 };

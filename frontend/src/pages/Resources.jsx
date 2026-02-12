@@ -57,7 +57,7 @@ const Resources = () => {
   const filteredResources = getAllResources().filter(resource => {
     const matchesCategory = activeCategory === 'all' || resource.category === activeCategory;
     const matchesSearch = resource.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         resource.description.toLowerCase().includes(searchQuery.toLowerCase());
+      resource.description.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
 
@@ -117,10 +117,10 @@ const Resources = () => {
 
   const animateResourceCards = () => {
     gsap.fromTo('.resource-card',
-      { 
-        y: 60, 
-        opacity: 0, 
-        scale: 0.9 
+      {
+        y: 60,
+        opacity: 0,
+        scale: 0.9
       },
       {
         y: 0,
@@ -181,7 +181,7 @@ const Resources = () => {
   return (
     <div className="page-wrapper pt-20">
       {/* Hero Section */}
-      <section 
+      <section
         ref={heroRef}
         className="min-h-[50vh] bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex items-center relative overflow-hidden"
       >
@@ -203,7 +203,7 @@ const Resources = () => {
             </h1>
 
             <p className="text-xl text-medium-gray leading-relaxed max-w-3xl mx-auto">
-              Access curated learning materials, workshop recordings, and study resources 
+              Access curated learning materials, workshop recordings, and study resources
               designed to accelerate your development journey and build practical skills.
             </p>
           </div>
@@ -211,7 +211,7 @@ const Resources = () => {
       </section>
 
       {/* Resources Section */}
-      <section 
+      <section
         ref={resourcesRef}
         className="section-padding bg-white relative overflow-hidden"
       >
@@ -240,11 +240,10 @@ const Resources = () => {
                 <button
                   key={category.key}
                   onClick={() => setActiveCategory(category.key)}
-                  className={`px-4 py-3 rounded-2xl font-semibold transition-all duration-300 flex items-center space-x-2 ${
-                    activeCategory === category.key
-                      ? 'bg-gdg-blue text-white shadow-md'
-                      : 'bg-slate-100 text-medium-gray hover:bg-slate-200'
-                  }`}
+                  className={`px-4 py-3 rounded-2xl font-semibold transition-all duration-300 flex items-center space-x-2 ${activeCategory === category.key
+                    ? 'bg-gdg-blue text-white shadow-md'
+                    : 'bg-slate-100 text-medium-gray hover:bg-slate-200'
+                    }`}
                 >
                   <span className="text-lg">{category.icon}</span>
                   <span>{category.label}</span>
@@ -283,14 +282,22 @@ const Resources = () => {
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {featuredResources.slice(0, 2).map((resource, index) => (
-                  <div 
+                  <div
                     key={resource._id}
                     className="featured-resource group"
                   >
-                    <div className="bg-gradient-to-br from-slate-900 to-blue-900 rounded-3xl p-8 text-white relative overflow-hidden">
+                    <div className="bg-slate-900 rounded-3xl p-8 text-white relative overflow-hidden h-full">
+                      {resource.image && (
+                        <img
+                          src={resource.image}
+                          alt=""
+                          className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:scale-110 transition-transform duration-1000"
+                        />
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-br from-slate-900/80 to-blue-900/40"></div>
                       <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
                       <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-12 -translate-x-12"></div>
-                      
+
                       <div className="relative z-10">
                         <div className="flex items-center justify-between mb-4">
                           <span className={`px-3 py-1 rounded-full text-sm font-semibold ${getTypeColor(resource.category).badge} text-dark-gray`}>
@@ -342,77 +349,104 @@ const Resources = () => {
                 key={resource._id || resource.id}
                 className="block"
               >
-                <div 
+                <div
                   ref={addToResourceCardsRef}
                   className="resource-card group"
                 >
                   <div className="bg-card-bg rounded-3xl shadow-soft hover:shadow-large transition-all duration-500 border border-gray-100 hover:border-gray-200 overflow-hidden h-full flex flex-col cursor-pointer">
-                  {/* Resource Header */}
-                  <div className="relative h-32 overflow-hidden">
-                    <div className={`absolute inset-0 bg-gradient-to-br ${getTypeColor(resource.category).bg}`}></div>
-                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors duration-300"></div>
-                    
-                    {/* Type Badge */}
-                    <div className="absolute top-4 left-4">
-                      <span className={`px-3 py-1 rounded-full text-sm font-semibold shadow-sm ${getTypeColor(resource.category).badge}`}>
-                        {resource.category}
-                      </span>
-                    </div>
+                    {/* Resource Header */}
+                    <div className="relative h-48 overflow-hidden">
+                      {resource.image ? (
+                        <img
+                          src={resource.image}
+                          alt={resource.title}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        />
+                      ) : (
+                        <div className={`absolute inset-0 bg-gradient-to-br ${getTypeColor(resource.category).bg}`}></div>
+                      )}
+                      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors duration-300"></div>
 
-                    {/* Format Icon */}
-                    <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm w-10 h-10 rounded-2xl flex items-center justify-center shadow-sm">
-                      <span className="text-lg">{getFormatIcon(resource.category)}</span>
-                    </div>
-
-                    {/* Featured Badge */}
-                    {resource.featured && (
-                      <div className="absolute bottom-4 left-4">
-                        <span className="bg-yellow-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
-                          Featured
+                      {/* Type Badge */}
+                      <div className="absolute top-4 left-4">
+                        <span className={`px-3 py-1 rounded-full text-sm font-semibold shadow-sm ${getTypeColor(resource.category).badge}`}>
+                          {resource.category}
                         </span>
                       </div>
-                    )}
-                  </div>
 
-                  {/* Resource Content */}
-                  <div className="p-6 flex-grow flex flex-col">
-                    {/* Title & Rating */}
-                    <div className="flex items-start justify-between mb-3">
-                      <h3 className="text-xl font-poppins font-bold text-dark-gray line-clamp-2 flex-1">
+                      {/* Format Icon */}
+                      <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm w-10 h-10 rounded-2xl flex items-center justify-center shadow-sm">
+                        <span className="text-lg">{getFormatIcon(resource.category)}</span>
+                      </div>
+
+                      {/* Featured Badge */}
+                      {resource.featured && (
+                        <div className="absolute bottom-4 left-4">
+                          <span className="bg-yellow-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
+                            Featured
+                          </span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Resource Content */}
+                    <div className="p-6 flex-grow flex flex-col relative z-20">
+                      {/* Header: Cat & Rating */}
+                      <div className="flex items-center justify-between mb-4">
+                        <div className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${getTypeColor(resource.category).badge}`}>
+                          {getFormatIcon(resource.category)} {resource.category}
+                        </div>
+                        <div className="flex items-center gap-1.5 bg-yellow-50 px-2 py-1 rounded-lg">
+                          <span className="text-sm">⭐</span>
+                          <span className="text-xs font-black text-amber-700">{resource.rating || '5.0'}</span>
+                        </div>
+                      </div>
+
+                      {/* Title */}
+                      <h3 className="text-xl font-poppins font-bold text-dark-gray line-clamp-2 mb-3 group-hover:text-gdg-blue transition-colors">
                         {resource.title}
                       </h3>
-                      <span className="text-yellow-500 text-sm flex items-center space-x-1 ml-2">
-                        <span>⭐</span>
-                        <span>{resource.rating || 4.5}</span>
-                      </span>
+
+                      {/* Description */}
+                      <p className="text-medium-gray text-sm leading-relaxed mb-6 line-clamp-2">
+                        {resource.description}
+                      </p>
+
+                      {/* Rich Metadata Section */}
+                      <div className="mt-auto pt-6 border-t border-gray-50 grid grid-cols-2 gap-4">
+                        <div className="space-y-1">
+                          <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest block">Provider</span>
+                          <span className="text-xs font-bold text-gray-700 truncate">{resource.provider || 'GDG Group'}</span>
+                        </div>
+                        <div className="space-y-1">
+                          <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest block">Language</span>
+                          <span className="text-xs font-bold text-gray-700">{resource.language || 'English'}</span>
+                        </div>
+                        <div className="space-y-1">
+                          <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest block">Difficulty</span>
+                          <span className={`text-xs font-bold px-2 py-0.5 rounded-md inline-block ${getLevelColor(resource.difficulty)}`}>
+                            {resource.difficulty || 'Beginner'}
+                          </span>
+                        </div>
+                        <div className="space-y-1">
+                          <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest block">Format</span>
+                          <span className="text-xs font-bold text-gray-700">{resource.category}</span>
+                        </div>
+                      </div>
+
+                      {/* Action Button */}
+                      <div className="mt-8">
+                        <button className="w-full bg-slate-900 group-hover:bg-gdg-blue text-white py-4 px-6 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] shadow-xl shadow-gray-200 group-hover:shadow-blue-200 transition-all duration-500 overflow-hidden relative">
+                          <span className="relative z-10">Access Knowledge Asset</span>
+                          <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        </button>
+                      </div>
                     </div>
 
-                    {/* Description */}
-                    <p className="text-gray-600 leading-relaxed mb-4 line-clamp-3 flex-grow">
-                      {resource.description}
-                    </p>
-
-                    {/* Meta Information */}
-                    <div className="flex items-center justify-between mb-4 text-sm text-medium-gray">
-                      <span className={`px-2 py-1 rounded-full ${getLevelColor(resource.difficulty)}`}>
-                        {resource.difficulty}
-                      </span>
-                      <span className="flex items-center space-x-1">
-                        <span>📥</span>
-                        <span>{resource.downloads || 0}</span>
-                      </span>
-                    </div>
-
-                    {/* Action Button */}
-                    <button className="w-full bg-gradient-to-r from-gdg-blue to-blue-600 text-white py-3 px-4 rounded-2xl font-semibold hover:shadow-glow hover:scale-105 transform transition-all duration-300">
-                      Access Resource
-                    </button>
+                    {/* Hover Effect */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-gdg-blue/5 to-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                   </div>
-
-                  {/* Hover Effect */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-gdg-blue/5 to-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                 </div>
-              </div>
               </Link>
             ))}
           </div>
@@ -427,13 +461,13 @@ const Resources = () => {
                 No Resources Found
               </h3>
               <p className="text-medium-gray mb-6 max-w-md mx-auto">
-                {searchQuery 
+                {searchQuery
                   ? `No resources found for "${searchQuery}". Try different keywords or browse all categories.`
                   : `No resources found in the ${categories.find(cat => cat.key === activeCategory)?.label.toLowerCase()}.`
                 }
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button 
+                <button
                   onClick={() => {
                     setSearchQuery('');
                     setActiveCategory('all');
@@ -456,7 +490,7 @@ const Resources = () => {
                 Want More Learning Resources?
               </h3>
               <p className="text-blue-100 mb-6 leading-relaxed">
-                Join our community to get access to exclusive resources, mentorship programs, 
+                Join our community to get access to exclusive resources, mentorship programs,
                 and collaborative learning opportunities with fellow developers.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
