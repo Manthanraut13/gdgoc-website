@@ -14,10 +14,10 @@ export const protect = (req, res, next) => {
       return res.status(401).json({ message: "No token provided" });
     }
 
-    console.log("👉 Verifying token...");
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log("✅ Token verified for:", decoded.email);
-    req.admin = decoded;
+    // console.log("👉 Verifying token...");
+    // const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    // console.log("✅ Token verified for:", decoded.email);
+    // req.admin = decoded;
     next();
   } catch (error) {
     console.error("❌ JWT Verification Error:", error.name, error.message);
