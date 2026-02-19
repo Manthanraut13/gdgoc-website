@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import ImageUpload from "./ImageUpload";
+import MultiImageUpload from "./MultiImageUpload";
 
 const EventFormModal = ({ open, onClose, onSave, editData }) => {
   const [activeSection, setActiveSection] = useState("basic");
@@ -13,7 +14,7 @@ const EventFormModal = ({ open, onClose, onSave, editData }) => {
     description: "",
     detailedDescription: "",
     longDescription: "",
-    images: "",
+    images: [],
     image: "",
     status: "upcoming",
     difficulty: "Beginner",
@@ -45,7 +46,7 @@ const EventFormModal = ({ open, onClose, onSave, editData }) => {
         ...editData,
         date: dateValue,
         tags: Array.isArray(editData.tags) ? editData.tags.join(', ') : (editData.tags || ''),
-        images: Array.isArray(editData.images) ? editData.images.join('\n') : (editData.images || ''),
+        images: Array.isArray(editData.images) ? editData.images : [],
         prerequisites: Array.isArray(editData.prerequisites) ? editData.prerequisites.join('\n') : (editData.prerequisites || ''),
         takeaways: Array.isArray(editData.takeaways) ? editData.takeaways.join('\n') : (editData.takeaways || ''),
         agenda: Array.isArray(editData.agenda) ? editData.agenda.join('\n') : (editData.agenda || ''),
@@ -65,7 +66,7 @@ const EventFormModal = ({ open, onClose, onSave, editData }) => {
         description: "",
         detailedDescription: "",
         longDescription: "",
-        images: "",
+        images: [],
         image: "",
         status: "upcoming",
         difficulty: "Beginner",
@@ -124,7 +125,7 @@ const EventFormModal = ({ open, onClose, onSave, editData }) => {
     const formData = {
       ...form,
       tags: typeof form.tags === 'string' ? form.tags.split(',').map(tag => tag.trim()).filter(tag => tag) : form.tags,
-      images: splitLines(form.images),
+      images: Array.isArray(form.images) ? form.images : [],
       prerequisites: splitLines(form.prerequisites),
       takeaways: splitLines(form.takeaways),
       agenda: splitLines(form.agenda),
@@ -277,18 +278,13 @@ const EventFormModal = ({ open, onClose, onSave, editData }) => {
           )}
 
           {activeSection === 'media' && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-              <div className="col-span-2 space-y-4">
+            <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <div className="space-y-4">
                 <ImageUpload
                   label="Primary Event Cover Image"
                   value={form.image}
                   onChange={(url) => setForm({ ...form, image: url })}
                 />
-              </div>
-
-              <div className="space-y-3">
-                <label className="text-sm font-bold text-gray-700 uppercase tracking-wider">Gallery Links (One per line)</label>
-                <textarea name="images" value={form.images} onChange={handleChange} rows="3" className="w-full border-2 border-gray-100 p-4 rounded-2xl focus:border-blue-500 focus:outline-none font-mono text-sm" />
               </div>
 
               <div className="space-y-3">

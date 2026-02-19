@@ -1,21 +1,12 @@
 import express from "express";
 import multer from "multer";
-import path from "path";
+import StoredImage from "../models/StoredImage.js";
 
 const router = express.Router();
 
-// Configure storage
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, "uploads/");
-    },
-    filename: (req, file, cb) => {
-        const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-        cb(null, uniqueSuffix + path.extname(file.originalname));
-    },
-});
+// Memory storage for temporary processing
+const storage = multer.memoryStorage();
 
-// File filter
 const fileFilter = (req, file, cb) => {
     if (file.mimetype.startsWith("image/")) {
         cb(null, true);
@@ -30,24 +21,47 @@ const upload = multer({
     limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit
 });
 
-// POST /api/upload
-router.post("/", upload.single("image"), (req, res) => {
+// POST /api/upload - Save to MongoDB
+router.post("/", upload.single("image"), async (req, res) => {
     try {
         if (!req.file) {
             return res.status(400).json({ message: "No file uploaded" });
         }
 
-        // Build the character file URL
-        // In production, you'd use your domain. For local dev, we assume localhost:5000 (or whatever backend port is)
+        const newImage = new StoredImage({
+            name: req.file.originalname,
+            contentType: req.file.mimetype,
+            data: req.file.buffer
+        });
+
+        const savedImage = await newImage.save();
+
         const baseUrl = `${req.protocol}://${req.get("host")}`;
-        const fileUrl = `${baseUrl}/uploads/${req.file.filename}`;
+        const fileUrl = `${baseUrl}/api/upload/image/${savedImage._id}`;
 
         res.json({
             data: fileUrl,
-            message: "Image uploaded successfully"
+            message: "Image stored in database successfully"
         });
     } catch (error) {
-        res.status(500).json({ message: "Upload failed", error: error.message });
+        res.status(500).json({ message: "Store failed", error: error.message });
+    }
+});
+
+// GET /api/upload/image/:id - Serve image from MongoDB
+router.get("/image/:id", async (req, res) => {
+    try {
+        const image = await StoredImage.findById(req.params.id);
+        if (!image) {
+            return res.status(404).json({ message: "Image not found" });
+        }
+
+        res.set("Content-Type", image.contentType);
+        // Cache for 30 days to improve performance
+        res.set("Cache-Control", "public, max-age=2592000");
+        res.send(image.data);
+    } catch (error) {
+        res.status(500).json({ message: "Error fetching image", error: error.message });
     }
 });
 
