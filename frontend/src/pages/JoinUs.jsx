@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
 import { submitJoinApplication } from "../services/api";
 
 const JoinUs = () => {
@@ -15,146 +14,128 @@ const JoinUs = () => {
     message: ''
   });
 
-  const joinRef = useRef(null);
-  const benefitsRef = useRef([]);
+  const pageRef = useRef(null);
+  const heroRef = useRef(null);
   const formRef = useRef(null);
 
   const benefits = [
     {
-      icon: '📚',
-      title: 'Learn New Technologies',
-      description: 'Hands-on experience with Google technologies and modern development tools through workshops and study jams.'
+      icon: '🛡️',
+      title: 'Architect Technologies',
+      description: 'Master Google Cloud, Flutter, and AI through deep-intel study jams and hands-on laboratory sessions.'
     },
     {
-      icon: '👥',
-      title: 'Build Your Network',
-      description: 'Connect with like-minded students, industry professionals, and potential collaborators for your projects.'
+      icon: '🌐',
+      title: 'Global Mesh Network',
+      description: 'Integrate with a worldwide cluster of elite developers and industry pioneers across over 100 countries.'
     },
     {
-      icon: '💼',
-      title: 'Career Opportunities',
-      description: 'Gain skills that employers value and access internship opportunities through our industry partnerships.'
+      icon: '🏛️',
+      title: 'Career Dossier',
+      description: 'Elevate your professional trajectory with high-impact internships and industry-standard technical certifications.'
     },
     {
-      icon: '🚀',
-      title: 'Project Experience',
-      description: 'Work on real-world projects and build your portfolio with guidance from experienced mentors.'
+      icon: '⚡',
+      title: 'Rapid Prototyping',
+      description: 'Transition from ideation to production-ready deployments with mentor-guided architectural support.'
     },
     {
-      icon: '🌍',
-      title: 'Global Community',
-      description: 'Join a worldwide network of developers and participate in global Google Developer events and programs.'
+      icon: '📡',
+      title: 'Infrastructure Access',
+      description: 'Gain specialized access to exclusive Google Cloud resources and emerging experimental hardware.'
     },
     {
-      icon: '🏆',
-      title: 'Recognition',
-      description: 'Get certificates for completed study jams, showcase your projects, and earn recognition for your contributions.'
+      icon: '💎',
+      title: 'Elite Recognition',
+      description: 'Differentiate your profile with accredited project showcases and leadership badges within the GDG ecosystem.'
     }
   ];
 
   const interests = [
-    'Android Development',
-    'Flutter',
-    'Web Development',
-    'Cloud Computing',
-    'Machine Learning',
-    'UI/UX Design',
-    'DevOps',
-    'Open Source'
+    'Android Systems',
+    'Flutter SDK',
+    'Frontend Engine',
+    'Cloud Cluster',
+    'Neural Networks',
+    'UI Architect',
+    'Infrastructure',
+    'Kernel Lab'
   ];
 
   const experienceLevels = [
-    'Beginner',
-    'Intermediate',
-    'Advanced'
+    'Apprentice',
+    'Practitioner',
+    'Architect'
   ];
+
+  const splitText = (text) => {
+    return text.split(" ").map((word, i) => (
+      <span key={i} className="inline-block relative overflow-hidden mr-[0.2em] last:mr-0">
+        <span className="inline-block translate-y-[110%] opacity-0 join-word">
+          {word}
+        </span>
+      </span>
+    ));
+  };
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
-    // Page hero animation
-    gsap.fromTo('.page-hero h1',
-      { y: 50, opacity: 0 },
-      {
+    const ctx = gsap.context(() => {
+      // Hero Entrance
+      gsap.to('.join-word', {
         y: 0,
         opacity: 1,
-        duration: 1,
-        ease: 'power3.out'
-      }
-    );
-
-    gsap.fromTo('.page-hero p',
-      { y: 30, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.8,
-        delay: 0.3,
-        ease: 'power2.out'
-      }
-    );
-
-    // Join section animation
-    gsap.fromTo(joinRef.current,
-      { y: 80, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: joinRef.current,
-          start: 'top 80%',
-          toggleActions: 'play none none reverse',
-        }
-      }
-    );
-
-    // Benefits stagger animation
-    gsap.fromTo('.benefit-card',
-      { y: 60, opacity: 0, scale: 0.9 },
-      {
-        y: 0,
-        opacity: 1,
-        scale: 1,
-        duration: 0.8,
+        duration: 1.2,
         stagger: 0.1,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: '.benefits-grid',
-          start: 'top 75%',
-          toggleActions: 'play none none reverse',
-        }
-      }
-    );
+        ease: 'expo.out',
+        delay: 0.3
+      });
 
-    // Form animation
-    gsap.fromTo(formRef.current,
-      { x: 50, opacity: 0 },
-      {
-        x: 0,
-        opacity: 1,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: formRef.current,
-          start: 'top 80%',
-          toggleActions: 'play none none reverse',
-        }
-      }
-    );
+      gsap.fromTo('.hero-sub',
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 0.6, duration: 1.5, ease: 'power3.out', delay: 0.8 }
+      );
 
+      // Benefits Stagger
+      gsap.fromTo('.directive-card',
+        { y: 60, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          stagger: 0.1,
+          ease: 'power4.out',
+          scrollTrigger: {
+            trigger: '.directives-grid',
+            start: 'top 85%'
+          }
+        }
+      );
+
+      // Portal Entrance
+      gsap.fromTo('.registration-portal',
+        { y: 100, opacity: 0, scale: 0.98 },
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 1.5,
+          ease: 'power4.out',
+          scrollTrigger: {
+            trigger: '.registration-portal',
+            start: 'top 90%'
+          }
+        }
+      );
+    }, pageRef);
+
+    return () => ctx.revert();
   }, []);
-
-  const addToBenefitsRef = (el) => {
-    if (el && !benefitsRef.current.includes(el)) {
-      benefitsRef.current.push(el);
-    }
-  };
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
-    
+
     if (type === 'checkbox') {
       if (checked) {
         setFormData(prev => ({
@@ -176,236 +157,236 @@ const JoinUs = () => {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    await submitJoinApplication(formData);
-    alert("Application submitted successfully!");
-    setFormData({
-      name:"",
-      email:"",
-      year:"",
-      major:"",
-      interests:[],
-      experience:"",
-      message:""
-    });
-  } catch {
-    alert("Submission failed");
-  }
-};
+    e.preventDefault();
+    try {
+      await submitJoinApplication(formData);
+      alert("Registration Successful. Intel Received.");
+      setFormData({
+        name: "",
+        email: "",
+        year: "",
+        major: "",
+        interests: [],
+        experience: "",
+        message: ""
+      });
+    } catch {
+      alert("Uplink Failure. Please retry.");
+    }
+  };
 
   return (
-    <div className="page-wrapper pt-20">
-      <section className="page-hero">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">Join Us</h1>
-          <p className="text-xl text-dark-blue-100">Become part of our growing developer community</p>
+    <div ref={pageRef} className="bg-white min-h-screen selection:bg-blue-600/10 overflow-hidden">
+
+      {/* Hero Section: The Entrance Portal */}
+      <section ref={heroRef} className="min-h-[75vh] bg-slate-950 relative flex items-center justify-center overflow-hidden pt-20 pb-20">
+        <div className="absolute inset-0">
+          <div className="absolute top-0 right-0 w-[60vw] h-[60vw] bg-blue-600/10 rounded-full blur-[160px]"></div>
+          <div className="absolute bottom-0 left-0 w-[50vw] h-[50vw] bg-teal-600/5 rounded-full blur-[160px]"></div>
+          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] mix-blend-overlay"></div>
         </div>
+
+        <div className="container-custom relative z-10 px-6">
+          <div className="text-center max-w-6xl mx-auto">
+            <div className="inline-flex items-center space-x-3 bg-white/5 backdrop-blur-3xl border border-white/10 px-8 py-3 rounded-full mb-12 shadow-2xl">
+              <span className="w-2.5 h-2.5 rounded-full bg-blue-500 animate-pulse"></span>
+              <span className="text-[10px] font-black uppercase tracking-[0.6em] text-blue-100/70">Protocol Recruitment / Phase 2</span>
+            </div>
+
+            <h1 className="text-6xl md:text-[11rem] font-poppins font-black text-white leading-[0.8] tracking-tighter mb-14 uppercase">
+              {splitText("JOIN THE COMMUNITY")}
+            </h1>
+          </div>
+        </div>
+
+        <div className="absolute bottom-0 inset-x-0 h-64 bg-gradient-to-t from-white to-transparent"></div>
       </section>
 
-      <section 
-        ref={joinRef}
-        className="section-padding bg-white"
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Benefits Section */}
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Why Join GDG On-Campus?</h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Join a vibrant community of student developers and accelerate your learning journey with hands-on experience, 
-              mentorship, and real-world projects.
+      {/* Directives Section: Benefits of Connection */}
+      <section className="relative z-20 py-32 bg-white">
+        <div className="container-custom px-6 lg:px-12">
+          <div className="text-center mb-24">
+            <h2 className="text-4xl md:text-6xl font-poppins font-black text-slate-950 mb-8 tracking-tighter">Operational <span className="italic text-slate-400">Directives.</span></h2>
+            <p className="text-slate-500 text-xl font-medium max-w-3xl mx-auto leading-relaxed">
+              Integration grants access to specialized operational subsystems designed to accelerate your technical and professional development.
             </p>
           </div>
 
-          <div className="benefits-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-            {benefits.map((benefit, index) => (
-              <div 
-                key={index}
-                ref={addToBenefitsRef}
-                className="benefit-card bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 group hover:-translate-y-2"
-              >
-                <div className="text-4xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-14 directives-grid">
+            {benefits.map((benefit, idx) => (
+              <div key={idx} className="directive-card group flex flex-col h-full bg-slate-50/50 p-12 rounded-[3.5rem] border border-slate-100 hover:bg-white hover:shadow-[0_60px_120px_rgba(0,0,0,0.08)] transition-all duration-700 hover:-translate-y-3">
+                <div className="w-16 h-16 rounded-2xl bg-white shadow-sm flex items-center justify-center text-3xl mb-10 group-hover:bg-slate-950 group-hover:text-white transition-colors duration-500">
                   {benefit.icon}
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-[#4285F4] transition-colors duration-200">
+                <h3 className="text-2xl font-poppins font-black text-slate-900 mb-6 tracking-tight group-hover:text-blue-600 transition-colors">
                   {benefit.title}
                 </h3>
-                <p className="text-gray-600 leading-relaxed">
+                <p className="text-slate-500 text-lg leading-relaxed font-medium opacity-80 group-hover:opacity-100 transition-opacity">
                   {benefit.description}
                 </p>
               </div>
             ))}
           </div>
+        </div>
+      </section>
 
-          {/* Registration Form */}
-          <div className="max-w-4xl mx-auto">
-            <div className="bg-gray-50 rounded-2xl p-8">
-              <div className="text-center mb-8">
-                <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Ready to Join?</h2>
-                <p className="text-gray-600">
-                  Fill out the form below to become a member of GDG On-Campus. We'll add you to our communication 
-                  channels and keep you updated about upcoming events and opportunities.
+      {/* Recruitment Portal: Registration Form */}
+      <section className="py-48 bg-slate-50 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-[40vw] h-[40vw] bg-blue-50 rounded-full blur-[140px]"></div>
+
+        <div className="container-custom px-6 relative z-10">
+          <div className="max-w-5xl mx-auto">
+            <div className="registration-portal bg-white rounded-[5rem] shadow-[0_100px_200px_rgba(0,0,0,0.1)] overflow-hidden border border-white p-10 md:p-24">
+
+              <div className="text-center mb-24">
+                <div className="inline-block px-8 py-3 rounded-full bg-slate-50 border border-slate-100 text-blue-600 text-[9px] font-black uppercase tracking-[0.5em] mb-10 italic">Secure Uplink Portal</div>
+                <h2 className="text-4xl md:text-7xl font-poppins font-black text-slate-950 tracking-tighter mb-8 leading-none">Initialize <span className="italic text-slate-400">Intake.</span></h2>
+                <p className="text-slate-500 text-xl font-medium max-w-2xl mx-auto leading-relaxed">
+                  Complete the credentials below to authorize your membership. Our recruitment team will review your dossier within 48 operational hours.
                 </p>
               </div>
 
-              <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                      Full Name *
-                    </label>
+              <form onSubmit={handleSubmit} className="space-y-12">
+                {/* Personal Intel Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                  <div className="space-y-4">
+                    <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 pl-4">Identification Protocol</label>
                     <input
-                      type="text"
-                      id="name"
                       name="name"
                       value={formData.name}
                       onChange={handleInputChange}
+                      placeholder="FULL NAME"
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4285F4] focus:border-transparent transition-colors duration-200"
-                      placeholder="Your full name"
+                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-[2rem] px-10 py-6 text-sm font-black text-slate-950 placeholder-slate-300 focus:outline-none focus:border-blue-500/30 transition-all"
                     />
                   </div>
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                      Email Address *
-                    </label>
+                  <div className="space-y-4">
+                    <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 pl-4">Digital Communications</label>
                     <input
                       type="email"
-                      id="email"
                       name="email"
                       value={formData.email}
                       onChange={handleInputChange}
+                      placeholder="EMAIL ADDRESS"
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4285F4] focus:border-transparent transition-colors duration-200"
-                      placeholder="your.email@university.edu"
+                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-[2rem] px-10 py-6 text-sm font-black text-slate-950 placeholder-slate-300 focus:outline-none focus:border-blue-500/30 transition-all"
                     />
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label htmlFor="year" className="block text-sm font-medium text-gray-700 mb-2">
-                      Academic Year *
-                    </label>
+                {/* Academic Metadata Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                  <div className="space-y-4">
+                    <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 pl-4">Temporal Academic Rank</label>
                     <select
-                      id="year"
                       name="year"
                       value={formData.year}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4285F4] focus:border-transparent transition-colors duration-200"
+                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-[2rem] px-10 py-6 text-sm font-black text-slate-900 focus:outline-none focus:border-blue-500/30 transition-all appearance-none"
                     >
-                      <option value="">Select your year</option>
-                      <option value="Freshman">Freshman</option>
-                      <option value="Sophomore">Sophomore</option>
-                      <option value="Junior">Junior</option>
-                      <option value="Senior">Senior</option>
-                      <option value="Graduate">Graduate</option>
+                      <option value="">SELECT YEAR...</option>
+                      <option value="Freshman">FRESHMAN</option>
+                      <option value="Sophomore">SOPHOMORE</option>
+                      <option value="Junior">JUNIOR</option>
+                      <option value="Senior">SENIOR</option>
+                      <option value="Graduate">GRADUATE</option>
                     </select>
                   </div>
-                  <div>
-                    <label htmlFor="major" className="block text-sm font-medium text-gray-700 mb-2">
-                      Major/Field of Study *
-                    </label>
+                  <div className="space-y-4">
+                    <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 pl-4">Primary Technical Sector</label>
                     <input
-                      type="text"
-                      id="major"
                       name="major"
                       value={formData.major}
                       onChange={handleInputChange}
+                      placeholder="FIELD OF STUDY (E.G. CS)"
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4285F4] focus:border-transparent transition-colors duration-200"
-                      placeholder="Computer Science, Engineering, etc."
+                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-[2rem] px-10 py-6 text-sm font-black text-slate-950 placeholder-slate-300 focus:outline-none focus:border-blue-500/30 transition-all"
                     />
                   </div>
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-3">
-                    Technical Interests (Select all that apply) *
-                  </label>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                {/* Interest Cluster */}
+                <div className="space-y-8 py-8 border-y border-slate-50">
+                  <label className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-600 block text-center">Operational Interests Checklist</label>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     {interests.map((interest) => (
-                      <label key={interest} className="flex items-center space-x-2">
+                      <label key={interest} className={`flex items-center justify-center p-4 rounded-2xl border-2 transition-all cursor-pointer font-black text-[9px] uppercase tracking-widest ${formData.interests.includes(interest) ? 'bg-slate-950 border-slate-950 text-white shadow-xl scale-105' : 'bg-white border-slate-100 text-slate-400 hober:border-slate-200'}`}>
                         <input
                           type="checkbox"
                           value={interest}
                           checked={formData.interests.includes(interest)}
                           onChange={handleInputChange}
-                          className="rounded border-gray-300 text-[#4285F4] focus:ring-[#4285F4]"
+                          className="hidden"
                         />
-                        <span className="text-sm text-gray-700">{interest}</span>
+                        <span>{interest}</span>
                       </label>
                     ))}
                   </div>
                 </div>
 
-                <div>
-                  <label htmlFor="experience" className="block text-sm font-medium text-gray-700 mb-2">
-                    Programming Experience Level *
-                  </label>
-                  <select
-                    id="experience"
-                    name="experience"
-                    value={formData.experience}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4285F4] focus:border-transparent transition-colors duration-200"
-                  >
-                    <option value="">Select your experience level</option>
-                    {experienceLevels.map((level) => (
-                      <option key={level} value={level}>{level}</option>
+                {/* Experience Rank */}
+                <div className="space-y-4">
+                  <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 pl-4 text-center block">Technical Proficiency Baseline</label>
+                  <div className="flex flex-wrap justify-center gap-6">
+                    {experienceLevels.map((lvl) => (
+                      <button
+                        key={lvl}
+                        type="button"
+                        onClick={() => setFormData(p => ({ ...p, experience: lvl }))}
+                        className={`px-12 py-5 rounded-3xl font-black text-[10px] uppercase tracking-[0.2em] transition-all ${formData.experience === lvl ? 'bg-blue-600 text-white shadow-2xl scale-110' : 'bg-slate-50 text-slate-400 hover:bg-slate-100'}`}
+                      >
+                        {lvl}
+                      </button>
                     ))}
-                  </select>
+                  </div>
                 </div>
 
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                    Why do you want to join GDG? (Optional)
-                  </label>
+                {/* Narrative Mission Statement */}
+                <div className="space-y-4">
+                  <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 pl-4">Narrative Intent (Optional)</label>
                   <textarea
-                    id="message"
                     name="message"
                     value={formData.message}
                     onChange={handleInputChange}
-                    rows={4}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4285F4] focus:border-transparent transition-colors duration-200"
-                    placeholder="Tell us about your interests, goals, or what you hope to gain from the community..."
+                    rows={5}
+                    placeholder="DEFINE YOUR TECHNICAL OBJECTIVES AND INTENT WITHIN THE COMMUNITY..."
+                    className="w-full bg-slate-50 border-2 border-slate-100 rounded-[3rem] px-10 py-8 text-sm font-black text-slate-950 placeholder-slate-300 focus:outline-none focus:border-blue-500/30 transition-all resize-none"
                   />
                 </div>
 
-                <div className="text-center">
+                {/* Action Terminal */}
+                <div className="text-center pt-10">
                   <button
                     type="submit"
-                    className="bg-[#4285F4] text-white px-8 py-4 rounded-lg font-medium hover:bg-blue-600 transition-colors duration-200 transform hover:scale-105 text-lg"
+                    className="bg-slate-950 text-white px-20 py-8 rounded-[2.5rem] font-black text-[14px] uppercase tracking-[0.5em] hover:bg-blue-600 hover:shadow-[0_40px_100px_rgba(66,133,244,0.3)] transition-all active:scale-95 transform"
                   >
-                    Submit Application
+                    Authorize Membership
                   </button>
-                  <p className="text-sm text-gray-500 mt-3">
-                    We'll contact you within 2-3 business days with next steps.
-                  </p>
+                  <p className="text-[10px] text-slate-300 font-bold mt-8 tracking-widest uppercase italic">Secure Uplink Terminal v4.0 // 256-bit Encryption Active</p>
                 </div>
               </form>
             </div>
 
-            {/* Alternative Registration */}
-            <div className="text-center mt-8">
-              <p className="text-gray-600 mb-4">Prefer to use Google Forms?</p>
-              <a 
-                href="https://forms.gle/yhqSrUX4P5VAz8nz9" 
-                target="_blank" 
+            {/* External Protocol Link */}
+            <div className="text-center mt-20">
+              <p className="text-slate-400 text-sm font-medium mb-8">Execute enrollment via alternative external protocol?</p>
+              <a
+                href="https://forms.gle/yhqSrUX4P5VAz8nz9"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center space-x-2 bg-[#34A853] text-white px-6 py-3 rounded-lg font-medium hover:bg-green-600 transition-colors duration-200"
+                className="inline-flex items-center space-x-4 bg-slate-950/5 hover:bg-slate-950 hover:text-white px-10 py-5 rounded-2xl transition-all duration-500 font-black text-[10px] uppercase tracking-widest"
               >
-                <span>Register via Google Forms</span>
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                </svg>
+                <span>Via Google Engine Forms</span>
+                <span className="text-lg">↗</span>
               </a>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Footer Buffer Section */}
+      <section className="bg-white py-24"></section>
     </div>
   );
 };

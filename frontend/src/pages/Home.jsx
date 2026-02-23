@@ -48,48 +48,72 @@ const Home = () => {
       {/* Call to Action Section */}
       <section
         ref={ctaRef}
-        className="py-20 bg-gradient-to-br from-slate-700 via-blue-700 to-orange-600 relative overflow-hidden"
+        className="py-32 bg-slate-900 relative overflow-hidden"
       >
-        {/* Background Elements */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-0 w-96 h-96 bg-cyan-500 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-0 right-0 w-80 h-80 bg-purple-500 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        {/* Advanced Background Elements */}
+        <div className="absolute inset-0 opacity-20 pointer-events-none">
+          <div className="absolute -top-24 -left-24 w-[600px] h-[600px] bg-gdg-blue rounded-full blur-[150px] animate-pulse"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(52,168,83,0.15),transparent_60%)] animate-pulse" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute -bottom-24 -right-24 w-[500px] h-[500px] bg-gdg-red rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '2s' }}></div>
         </div>
 
-        <div className="container-custom relative">
-          <div className="max-w-4xl mx-auto text-center">
-            {/* Badge */}
-            <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm text-white/90 px-4 py-2 rounded-2xl font-semibold text-sm mb-8 border border-white/20">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              <span>Join Our Community</span>
+        {/* Mesh Gradient Overlay */}
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] contrast-150 brightness-150"></div>
+
+        <div className="container-custom relative z-10">
+          <div className="max-w-5xl mx-auto text-center px-6">
+            {/* Ultra Premium Badge */}
+            <div className="inline-flex items-center space-x-3 bg-white/5 backdrop-blur-2xl text-white px-6 py-2.5 rounded-full font-black text-[10px] uppercase tracking-[0.4em] mb-12 border border-white/10 shadow-2xl">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-gdg-green opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-gdg-green"></span>
+              </span>
+              <span>Propel Your Career</span>
             </div>
 
-            {/* Heading */}
-            <h2 className="text-4xl md:text-5xl font-poppins font-bold text-white mb-6">
-              Ready to <span className="bg-gradient-to-r from-cyan-400 to-green-400 bg-clip-text text-transparent">Transform</span> Your Future?
+            {/* Cinematic Heading */}
+            <h2 className="text-5xl md:text-7xl lg:text-8xl font-poppins font-black text-white mb-10 leading-[1.05] tracking-tight">
+              Shape the Future <br />
+              <span className="bg-gradient-to-r from-gdg-blue via-gdg-green to-gdg-yellow bg-clip-text text-transparent italic">
+                of Technology.
+              </span>
             </h2>
 
-            {/* Description */}
-            <p className="text-xl text-blue-100 mb-8 leading-relaxed max-w-2xl mx-auto">
-              Join hundreds of students who are building their skills, launching projects,
-              and shaping the future of technology through our vibrant developer community.
+            {/* Impactful Description */}
+            <p className="text-xl md:text-2xl text-slate-400 mb-14 leading-relaxed max-w-3xl mx-auto font-medium">
+              Join a high-performance community of developers, innovators, and leaders at ZCOER. Your journey to mastery starts here.
             </p>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            {/* Polished CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Link
                 to="/join"
-                className="group relative bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-8 py-4 rounded-2xl font-semibold shadow-lg hover:shadow-glow hover:scale-105 transform transition-all duration-300 overflow-hidden text-center"
+                className="group relative bg-white text-slate-950 px-12 py-5 rounded-[2rem] font-black text-sm uppercase tracking-widest shadow-[0_20px_50px_rgba(255,255,255,0.1)] hover:shadow-[0_20px_50px_rgba(66,133,244,0.3)] hover:-translate-y-1 transform transition-all duration-500 overflow-hidden text-center"
               >
-                <span className="relative z-10">Start Your Journey</span>
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-cyan-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <span className="relative z-10 group-hover:text-white transition-colors duration-500">Become a Member</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-gdg-blue to-indigo-600 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
               </Link>
               <Link
                 to="/events"
-                className="group relative bg-white/10 backdrop-blur-sm text-white px-8 py-4 rounded-2xl font-semibold border border-white/20 hover:bg-white/20 hover:scale-105 transform transition-all duration-300 text-center"
+                className="group relative bg-white/5 backdrop-blur-xl text-white px-12 py-5 rounded-[2rem] font-black text-sm uppercase tracking-widest border border-white/10 hover:border-white/20 hover:bg-white/10 hover:-translate-y-1 transform transition-all duration-500 text-center"
               >
-                <span className="relative z-10">Explore Events</span>
+                <span className="relative z-10">Attend Workshop</span>
               </Link>
+            </div>
+
+            {/* Social Proof */}
+            <div className="mt-20 flex flex-col items-center">
+              <div className="flex -space-x-3 mb-4">
+                {[1, 2, 3, 4, 5].map(i => (
+                  <div key={i} className="w-10 h-10 rounded-full border-2 border-slate-900 bg-slate-800 flex items-center justify-center text-[10px] font-bold text-white">
+                    U{i}
+                  </div>
+                ))}
+                <div className="w-10 h-10 rounded-full border-2 border-slate-900 bg-gdg-blue flex items-center justify-center text-[10px] font-bold text-white">
+                  +500
+                </div>
+              </div>
+              <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em]">Joined student developers</p>
             </div>
           </div>
         </div>

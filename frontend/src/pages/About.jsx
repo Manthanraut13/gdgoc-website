@@ -3,35 +3,38 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 const About = () => {
-  const heroRef = useRef(null);
-  const missionRef = useRef(null);
-  const valuesRef = useRef(null);
-  const conductRef = useRef(null);
+  const pageRef = useRef(null);
+  const spotlightRef = useRef(null);
+  const magneticCtaRef = useRef(null);
 
   const values = [
     {
       icon: '🚀',
       title: 'Innovation',
       description: 'We embrace cutting-edge technologies and encourage creative problem-solving.',
-      gradient: 'from-purple-500 to-pink-500'
+      color: 'text-gdg-blue',
+      glow: 'shadow-blue-500/20'
     },
     {
       icon: '👥',
       title: 'Community',
       description: 'We believe in the power of collaboration and building together.',
-      gradient: 'from-blue-500 to-cyan-500'
+      color: 'text-gdg-red',
+      glow: 'shadow-red-500/20'
     },
     {
       icon: '🌱',
       title: 'Growth',
       description: 'We foster continuous learning and personal development for all members.',
-      gradient: 'from-green-500 to-emerald-500'
+      color: 'text-gdg-green',
+      glow: 'shadow-green-500/20'
     },
     {
       icon: '💡',
       title: 'Excellence',
       description: 'We strive for quality in everything we do, from events to projects.',
-      gradient: 'from-orange-500 to-red-500'
+      color: 'text-gdg-yellow',
+      glow: 'shadow-yellow-500/20'
     }
   ];
 
@@ -39,194 +42,276 @@ const About = () => {
     {
       year: '2022',
       title: 'GDG On-Campus Founded',
-      description: 'Launched with 50 founding members and our first Android workshop series.'
+      description: 'Launched with 50 founding members and our first Android workshop series.',
+      color: 'bg-gdg-blue'
     },
     {
       year: '2023',
       title: 'Community Growth',
-      description: 'Expanded to 300+ members with monthly hackathons and study jams.'
+      description: 'Expanded to 300+ members with monthly hackathons and study jams.',
+      color: 'bg-gdg-green'
     },
     {
       year: '2024',
       title: 'Innovation Hub',
-      description: 'Became the premier tech community on campus with industry partnerships.'
+      description: 'Became the premier tech community on campus with industry partnerships.',
+      color: 'bg-gdg-red'
     }
   ];
+
+  // Split text for word-by-word animation
+  const splitText = (text) => {
+    return text.split(" ").map((word, i) => (
+      <span key={i} className="inline-block relative overflow-hidden mr-[0.25em] last:mr-0">
+        <span className="inline-block translate-y-full opacity-0 about-word-anim">
+          {word}
+        </span>
+      </span>
+    ));
+  };
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
-    // Hero animation
-    gsap.fromTo('.page-hero-content',
-      { y: 80, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 1.2,
-        ease: 'power3.out'
-      }
-    );
+    const tl = gsap.timeline();
 
-    // Mission section
-    gsap.fromTo(missionRef.current,
-      { y: 100, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: missionRef.current,
-          start: 'top 85%',
-          toggleActions: 'play none none reverse',
+    // Hero Reveal
+    tl.to('.about-word-anim', {
+      y: 0,
+      opacity: 1,
+      duration: 1,
+      stagger: 0.1,
+      ease: 'expo.out'
+    })
+      .fromTo('.about-hero-sub',
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 0.7, duration: 1.2, ease: 'power3.out' },
+        '-=0.7'
+      );
+
+    // Section reveal animations
+    const sections = ['.reveal-mission', '.reveal-values', '.reveal-timeline', '.reveal-conduct'];
+    sections.forEach(selector => {
+      gsap.fromTo(selector,
+        { y: 60, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.2,
+          ease: 'power4.out',
+          scrollTrigger: {
+            trigger: selector,
+            start: 'top 85%',
+            toggleActions: 'play none none reverse'
+          }
         }
-      }
-    );
+      );
+    });
 
-    // Values cards animation
-    gsap.fromTo('.value-card',
-      { y: 60, opacity: 0, scale: 0.9 },
-      {
-        y: 0,
-        opacity: 1,
-        scale: 1,
-        duration: 0.8,
-        stagger: 0.15,
-        ease: 'back.out(1.7)',
-        scrollTrigger: {
-          trigger: '.values-grid',
-          start: 'top 80%',
-          toggleActions: 'play none none reverse',
-        }
-      }
-    );
+    // Interactive Spotlight & Parallax
+    const handleMouseMove = (e) => {
+      const { clientX, clientY } = e;
+      if (!pageRef.current) return;
+      const rect = pageRef.current.getBoundingClientRect();
+      const x = clientX;
+      const y = clientY + window.scrollY;
 
-    // Timeline animation
-    gsap.fromTo('.timeline-item',
-      { x: -100, opacity: 0 },
-      {
-        x: 0,
-        opacity: 1,
+      gsap.to(spotlightRef.current, {
+        x: clientX,
+        y: clientY,
         duration: 0.8,
-        stagger: 0.2,
+        ease: 'power2.out'
+      });
+
+      // Global Parallax
+      const xPos = (clientX / window.innerWidth - 0.5) * 2;
+      const yPos = (clientY / window.innerHeight - 0.5) * 2;
+      gsap.to('.about-bg-icon', {
+        x: xPos * 40,
+        y: yPos * 40,
+        duration: 2.5,
         ease: 'power2.out',
-        scrollTrigger: {
-          trigger: '.timeline-container',
-          start: 'top 80%',
-          toggleActions: 'play none none reverse',
+        stagger: 0.1
+      });
+
+      // Magnetic CTA
+      if (magneticCtaRef.current) {
+        const ctaRect = magneticCtaRef.current.getBoundingClientRect();
+        const ctaCenterX = ctaRect.left + ctaRect.width / 2;
+        const ctaCenterY = ctaRect.top + ctaRect.height / 2;
+        const dist = Math.hypot(clientX - ctaCenterX, clientY - ctaCenterY);
+
+        if (dist < 150) {
+          const mX = (clientX - ctaCenterX) * 0.4;
+          const mY = (clientY - ctaCenterY) * 0.4;
+          gsap.to(magneticCtaRef.current, {
+            x: mX,
+            y: mY,
+            scale: 1.05,
+            duration: 0.4,
+            ease: 'power2.out'
+          });
+        } else {
+          gsap.to(magneticCtaRef.current, {
+            x: 0,
+            y: 0,
+            scale: 1,
+            duration: 0.6,
+            ease: 'elastic.out(1, 0.3)'
+          });
         }
       }
-    );
+    };
 
-    // Code of conduct animation
-    gsap.fromTo(conductRef.current,
-      { y: 60, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: conductRef.current,
-          start: 'top 85%',
-          toggleActions: 'play none none reverse',
-        }
-      }
-    );
-
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  return (
-    <div className="page-wrapper pt-20">
-      {/* Hero Section */}
-      <section
-        ref={heroRef}
-        className="min-h-[60vh] bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex items-center relative overflow-hidden"
-      >
-        {/* Background Elements */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-20 w-96 h-96 bg-gdg-blue rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 right-20 w-80 h-80 bg-gdg-green rounded-full blur-3xl"></div>
-        </div>
+  const handleCardTilt = (e, cardEl) => {
+    if (!cardEl) return;
+    const rect = cardEl.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rX = (y - centerY) * 0.05;
+    const rY = (centerX - x) * 0.05;
 
-        <div className="container-custom relative">
-          <div className="page-hero-content text-center max-w-4xl mx-auto">
-            <div className="inline-flex items-center space-x-2 bg-white/80 backdrop-blur-sm rounded-2xl px-4 py-2 shadow-soft mb-8">
-              <div className="w-2 h-2 bg-gdg-blue rounded-full animate-pulse"></div>
-              <span className="text-sm font-semibold text-dark-gray">About GDG On-Campus ZCOER</span>
+    gsap.to(cardEl, {
+      rotateX: rX,
+      rotateY: rY,
+      duration: 0.5,
+      ease: 'power2.out'
+    });
+  };
+
+  const resetCardTilt = (cardEl) => {
+    if (!cardEl) return;
+    gsap.to(cardEl, {
+      rotateX: 0,
+      rotateY: 0,
+      duration: 1,
+      ease: 'elastic.out(1, 0.3)'
+    });
+  };
+
+  return (
+    <div ref={pageRef} className="page-wrapper bg-slate-950 text-white selection:bg-gdg-blue/30 overflow-hidden">
+
+      {/* Global Interactive Elements */}
+      <div className="fixed inset-0 pointer-events-none z-[1]">
+        <div
+          ref={spotlightRef}
+          className="absolute -top-[500px] -left-[500px] w-[1000px] h-[1000px] bg-[radial-gradient(circle_at_center,rgba(66,133,244,0.08),transparent_70%)] opacity-0 lg:opacity-100 transition-opacity duration-1000"
+        ></div>
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff02_1px,transparent_1px),linear-gradient(to_bottom,#ffffff02_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+        <div className="absolute inset-0 opacity-[0.02] mix-blend-overlay" style={{ backgroundImage: `url('https://grainy-gradients.vercel.app/noise.svg')` }}></div>
+      </div>
+
+      {/* Floating Icons */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden h-full w-full">
+        {[
+          { icon: '</>', top: '15%', left: '8%', size: 'text-6xl' },
+          { icon: '{ }', top: '25%', right: '12%', size: 'text-5xl' },
+          { icon: '✕', bottom: '20%', left: '18%', size: 'text-3xl' },
+          { icon: '○', bottom: '65%', right: '10%', size: 'text-7xl' }
+        ].map((item, i) => (
+          <div key={i} className={`about-bg-icon absolute text-white/[0.03] font-black ${item.size}`} style={{ top: item.top, left: item.left, right: item.right, bottom: item.bottom }}>
+            {item.icon}
+          </div>
+        ))}
+      </div>
+
+      {/* Hero Section */}
+      <section className="min-h-screen flex items-center relative pt-20">
+        <div className="container-custom relative z-10">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="inline-flex items-center space-x-3 bg-white/5 backdrop-blur-2xl px-6 py-2.5 rounded-full border border-white/10 mb-10 shadow-2xl">
+              <span className="flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-gdg-blue opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-gdg-blue"></span>
+              </span>
+              <span className="text-[10px] font-black uppercase tracking-[0.4em] text-gdg-blue opacity-70">Chapter ZCOER</span>
             </div>
 
-            <h1 className="text-5xl md:text-6xl font-poppins font-bold text-dark-gray mb-6 leading-tight">
-              Building the Future of <span className="text-gradient">Tech Innovation</span>
+            <h1 className="text-6xl md:text-8xl lg:text-[7rem] font-poppins font-black text-white mb-10 leading-[0.95] tracking-tighter">
+              <div className="block">
+                {splitText("Building The")}
+              </div>
+              <div className="block mt-2">
+                <span className="text-6xl md:text-8xl lg:text-[7rem] font-poppins font-black text-white mb-10 leading-[0.95] tracking-tighter">
+                  {splitText("Digital Legacy.")}
+                </span>
+              </div>
             </h1>
 
-            <p className="text-xl text-medium-gray leading-relaxed max-w-3xl mx-auto">
-              GDG On-Campus ZCOER brings together passionate student developers to explore modern technologies, share knowledge, and work on meaningful projects. Our community fosters continuous learning, collaboration, and practical problem-solving.
+            <p className="about-hero-sub text-xl md:text-2xl text-slate-400 leading-relaxed max-w-3xl mx-auto font-medium opacity-70">
+              Transforming curiosity into expertise. Join a global pulse of innovators dedicated to mastering the technologies of tomorrow, today.
             </p>
           </div>
         </div>
       </section>
 
       {/* Mission & Vision Section */}
-      <section
-        ref={missionRef}
-        className="section-padding bg-white relative overflow-hidden"
-      >
-        <div className="container-custom">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            {/* Mission */}
-            <div className="text-center lg:text-left">
-              <div className="inline-flex items-center space-x-2 bg-blue-50 text-gdg-blue px-4 py-2 rounded-2xl font-semibold text-sm mb-8">
-                <div className="w-2 h-2 bg-gdg-blue rounded-full animate-pulse"></div>
-                <span>Our Mission</span>
-              </div>
+      <section className="section-padding relative overflow-hidden reveal-mission">
+        <div className="container-custom relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
 
-              <h2 className="text-4xl md:text-5xl font-poppins font-bold text-dark-gray mb-6 leading-tight">
-                Empowering <span className="text-gradient">Student Developers</span>
-              </h2>
+            {/* Mission Visual Card */}
+            <div
+              onMouseMove={(e) => handleCardTilt(e, e.currentTarget)}
+              onMouseLeave={(e) => resetCardTilt(e.currentTarget)}
+              className="relative group transform-gpu perspective-2000"
+            >
+              <div className="bg-white/[0.02] backdrop-blur-3xl rounded-[3rem] p-12 border border-white/5 shadow-2xl relative overflow-hidden transition-all duration-700 hover:border-white/20 hover:bg-white/[0.04]">
+                <div className="absolute -top-32 -left-32 w-64 h-64 bg-gdg-blue/10 rounded-full blur-[80px]"></div>
+                <div className="absolute -bottom-32 -right-32 w-64 h-64 bg-gdg-red/10 rounded-full blur-[80px]"></div>
 
-              <p className="text-lg text-medium-gray mb-6 leading-relaxed">
-                Our mission is to foster a dynamic and inclusive ecosystem where students can explore emerging technologies, gain practical experience, and develop innovative solutions with real-world impact.
-              </p>
-
-              <p className="text-lg text-medium-gray leading-relaxed">
-                We aim to bridge the gap between academic learning and industry expectations by providing opportunities for mentorship, collaboration, and hands-on project development, preparing students for successful and sustainable careers in technology.
-              </p>
-            </div>
-
-            {/* Vision */}
-            <div className="bg-gradient-to-br from-slate-900 to-blue-900 rounded-3xl p-8 text-white relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
-              <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-12 -translate-x-12"></div>
-
-              <div className="relative z-10">
-                <div className="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-2xl font-semibold text-sm mb-6">
-                  <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
-                  <span>Our Vision</span>
-                </div>
-
-                <h3 className="text-2xl md:text-3xl font-poppins font-bold mb-6">
-                  Shaping Tomorrow's <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">Tech Leaders</span>
+                <h3 className="text-4xl font-black text-white mb-10 font-poppins leading-tight tracking-tight">
+                  Empowering <br />
+                  <span className="text-gdg-blue">Leaders.</span>
                 </h3>
 
-                <p className="text-blue-100 leading-relaxed mb-6">
-                  To be the premier platform for student developers to innovate, collaborate,
-                  and lead in the rapidly evolving world of technology.
-                </p>
-
-                <ul className="space-y-3">
+                <div className="space-y-6">
                   {[
-                    'Foster innovation through hands-on learning',
-                    'Build a supportive and inclusive community',
-                    'Connect students with industry opportunities',
-                    'Drive technological advancement on campus'
-                  ].map((item, index) => (
-                    <li key={index} className="flex items-center space-x-3 text-blue-100">
-                      <div className="w-2 h-2 bg-cyan-400 rounded-full"></div>
-                      <span>{item}</span>
-                    </li>
+                    "Bridge academic-industry gaps",
+                    "Master emerging stack paradigms",
+                    "Lead high-impact projects",
+                    "Scale community-first innovation"
+                  ].map((text, i) => (
+                    <div key={i} className="flex items-center space-x-4 group/item cursor-default">
+                      <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group-hover/item:border-gdg-blue transition-all">
+                        <div className="w-1.5 h-1.5 bg-gdg-blue rounded-full"></div>
+                      </div>
+                      <span className="text-slate-400 font-bold text-sm tracking-wide group-hover/item:text-white transition-colors capitalize">{text}</span>
+                    </div>
                   ))}
-                </ul>
+                </div>
+              </div>
+              <div className="absolute -inset-1 bg-gradient-to-r from-gdg-blue to-cyan-500 rounded-[3rem] blur opacity-10 group-hover:opacity-20 transition duration-1000"></div>
+            </div>
+
+            {/* Mission Text */}
+            <div className="text-center lg:text-left">
+              <div className="inline-flex items-center space-x-3 bg-white/5 px-5 py-2 rounded-full border border-white/10 mb-8">
+                <span className="text-[10px] font-black text-gdg-blue uppercase tracking-[0.4em]">Our Mission</span>
+              </div>
+              <h2 className="text-5xl md:text-6xl font-poppins font-black text-white mb-8 leading-tight tracking-tight">
+                Architecting <br />
+                The <span className="italic text-slate-500">Next Gen.</span>
+              </h2>
+              <p className="text-lg text-slate-400 leading-relaxed mb-8 font-medium opacity-80">
+                We don't just teach code; we cultivate a mindset. Our ecosystem at ZCOER is designed to turn theoretical potential into field-ready mastery, ensuring every member is prepared for the rapid evolution of the tech industry.
+              </p>
+              <div className="grid grid-cols-2 gap-8 text-left">
+                <div>
+                  <div className="text-4xl font-black text-white mb-2 font-poppins">98%</div>
+                  <div className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">Skill Growth</div>
+                </div>
+                <div>
+                  <div className="text-4xl font-black text-white mb-2 font-poppins">50+</div>
+                  <div className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">Live Projects</div>
+                </div>
               </div>
             </div>
           </div>
@@ -234,57 +319,32 @@ const About = () => {
       </section>
 
       {/* Values Section */}
-      <section
-        ref={valuesRef}
-        className="section-padding bg-slate-50 relative overflow-hidden"
-      >
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-gdg-red rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 left-0 w-80 h-80 bg-gdg-yellow rounded-full blur-3xl"></div>
-        </div>
-
-        <div className="container-custom relative">
-          {/* Section Header */}
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center space-x-2 bg-white/80 backdrop-blur-sm rounded-2xl px-4 py-2 shadow-soft mb-6">
-              <div className="w-2 h-2 bg-gdg-green rounded-full animate-pulse"></div>
-              <span className="text-sm font-semibold text-dark-gray">Our Values</span>
-            </div>
-
-            <h2 className="text-4xl md:text-5xl font-poppins font-bold text-dark-gray mb-6">
-              What <span className="text-gradient">Drives Us</span>
+      <section className="section-padding bg-slate-950/50 reveal-values">
+        <div className="container-custom relative z-10">
+          <div className="text-center mb-24">
+            <h2 className="text-5xl md:text-7xl font-poppins font-black text-white mb-8 tracking-tighter">
+              Core <span className="text-gradient">Principles.</span>
             </h2>
-
-            <p className="text-xl text-medium-gray max-w-2xl mx-auto leading-relaxed">
-              Our core principles guide everything we do, from event planning to community building
+            <p className="text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed font-medium opacity-70">
+              The foundational DNA that guides every workshop, project, and interaction within our community.
             </p>
           </div>
 
-          {/* Values Grid */}
-          <div className="values-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {values.map((value, index) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {values.map((v, i) => (
               <div
-                key={index}
-                className="value-card group"
+                key={i}
+                onMouseMove={(e) => handleCardTilt(e, e.currentTarget)}
+                onMouseLeave={(e) => resetCardTilt(e.currentTarget)}
+                className="transform-gpu perspective-1000"
               >
-                <div className="bg-card-bg rounded-3xl p-6 shadow-soft hover:shadow-large transition-all duration-500 border border-gray-100 hover:border-gray-200 h-full text-center">
-                  {/* Icon */}
-                  <div className={`w-16 h-16 bg-gradient-to-br ${value.gradient} rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg mx-auto mb-6 group-hover:scale-110 transform transition-all duration-300`}>
-                    {value.icon}
+                <div className="h-full bg-white/[0.02] backdrop-blur-3xl rounded-[2.5rem] p-10 border border-white/5 hover:border-white/20 transition-all duration-500 flex flex-col items-center text-center shadow-xl group">
+                  <div className={`w-20 h-20 rounded-[1.5rem] bg-slate-900 border border-white/5 flex items-center justify-center text-3xl mb-8 group-hover:scale-110 group-hover:shadow-2xl ${v.glow} transition-all duration-500 shadow-inner`}>
+                    {v.icon}
                   </div>
-
-                  {/* Content */}
-                  <h3 className="text-xl font-poppins font-bold text-dark-gray mb-4">
-                    {value.title}
-                  </h3>
-
-                  <p className="text-medium-gray leading-relaxed">
-                    {value.description}
-                  </p>
-
-                  {/* Decorative Line */}
-                  <div className={`mt-6 w-12 h-1 bg-gradient-to-r ${value.gradient} rounded-full mx-auto opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
+                  <h3 className={`text-2xl font-black font-poppins mb-6 ${v.color}`}>{v.title}</h3>
+                  <p className="text-slate-500 text-sm leading-relaxed font-medium">{v.description}</p>
+                  <div className={`mt-10 h-1 w-12 rounded-full opacity-20 bg-current ${v.color}`}></div>
                 </div>
               </div>
             ))}
@@ -293,46 +353,39 @@ const About = () => {
       </section>
 
       {/* Timeline Section */}
-      <section className="section-padding bg-white relative overflow-hidden">
-        <div className="container-custom">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center space-x-2 bg-blue-50 text-gdg-blue px-4 py-2 rounded-2xl font-semibold text-sm mb-6">
-              <div className="w-2 h-2 bg-gdg-blue rounded-full animate-pulse"></div>
-              <span>Our Journey</span>
+      <section className="section-padding reveal-timeline">
+        <div className="container-custom relative z-10">
+          <div className="text-center mb-24">
+            <div className="inline-flex items-center space-x-3 bg-white/5 px-5 py-2 rounded-full border border-white/10 mb-8">
+              <span className="text-[10px] font-black text-gdg-green uppercase tracking-[0.4em]">Historical Log</span>
             </div>
-
-            <h2 className="text-4xl md:text-5xl font-poppins font-bold text-dark-gray mb-6">
-              Building <span className="text-gradient">Together</span>
+            <h2 className="text-5xl md:text-7xl font-poppins font-black text-white mb-8 tracking-tighter">
+              Our <span className="italic text-slate-500">Timeline.</span>
             </h2>
           </div>
 
-          <div className="timeline-container max-w-4xl mx-auto">
-            {timeline.map((item, index) => (
-              <div
-                key={index}
-                className="timeline-item relative flex items-start space-x-8 mb-12 last:mb-0"
-              >
-                {/* Year */}
-                <div className="flex-shrink-0">
-                  <div className="w-24 h-24 bg-gradient-to-br from-gdg-blue to-blue-600 rounded-2xl flex items-center justify-center text-white font-poppins font-bold text-xl shadow-lg">
-                    {item.year}
+          <div className="max-w-4xl mx-auto relative">
+            <div className="absolute left-1/2 -translate-x-1/2 h-full w-[1px] bg-gradient-to-b from-gdg-blue via-gdg-red to-gdg-yellow opacity-10 hidden md:block"></div>
+
+            {timeline.map((t, i) => (
+              <div key={i} className={`flex flex-col md:flex-row items-center justify-between mb-20 last:mb-0 ${i % 2 === 0 ? '' : 'md:flex-row-reverse'}`}>
+                <div className="w-full md:w-[45%]">
+                  <div
+                    onMouseMove={(e) => handleCardTilt(e, e.currentTarget)}
+                    onMouseLeave={(e) => resetCardTilt(e.currentTarget)}
+                    className="bg-white/[0.02] backdrop-blur-3xl border border-white/5 p-10 rounded-[2.5rem] shadow-2xl hover:bg-white/[0.04] transition-all duration-500"
+                  >
+                    <div className={`inline-block mb-6 px-4 py-1.5 rounded-full text-[10px] font-black text-white uppercase tracking-[0.3em] ${t.color}`}>
+                      Session {t.year}
+                    </div>
+                    <h3 className="text-3xl font-black text-white mb-4 font-poppins">{t.title}</h3>
+                    <p className="text-slate-500 text-sm leading-relaxed font-medium">{t.description}</p>
                   </div>
                 </div>
 
-                {/* Content */}
-                <div className="flex-grow bg-slate-50 rounded-3xl p-6 shadow-soft border border-gray-100">
-                  <h3 className="text-2xl font-poppins font-bold text-dark-gray mb-3">
-                    {item.title}
-                  </h3>
-                  <p className="text-medium-gray leading-relaxed">
-                    {item.description}
-                  </p>
-                </div>
+                <div className="absolute left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-slate-900 border-2 border-slate-800 z-10 hidden md:block shadow-[0_0_15px_rgba(255,255,255,0.1)]"></div>
 
-                {/* Connector Line */}
-                {index < timeline.length - 1 && (
-                  <div className="absolute left-12 top-24 w-0.5 h-16 bg-gradient-to-b from-gdg-blue to-blue-600 -bottom-12"></div>
-                )}
+                <div className="w-full md:w-[45%] h-full hidden md:block"></div>
               </div>
             ))}
           </div>
@@ -340,105 +393,59 @@ const About = () => {
       </section>
 
       {/* Code of Conduct Section */}
-      <section
-        ref={conductRef}
-        className="section-padding bg-slate-900 relative overflow-hidden"
-      >
-        {/* Background Elements */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-0 w-96 h-96 bg-cyan-500 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 right-0 w-80 h-80 bg-purple-500 rounded-full blur-3xl"></div>
-        </div>
+      <section className="section-padding bg-slate-950 reveal-conduct">
+        <div className="container-custom relative z-10">
+          <div className="max-w-5xl mx-auto">
+            <div className="bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 rounded-[4rem] p-12 md:p-20 border border-white/5 shadow-2xl relative overflow-hidden group/conduct">
 
-        <div className="container-custom relative">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm text-white/90 px-4 py-2 rounded-2xl font-semibold text-sm mb-6 border border-white/20">
-                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                <span>Community Guidelines</span>
-              </div>
+              <div className="relative z-10 text-center">
+                <div className="inline-flex items-center space-x-3 bg-white/5 px-6 py-2.5 rounded-full border border-white/10 mb-10">
+                  <span className="w-2 h-2 bg-gdg-green rounded-full animate-pulse shadow-[0_0_10px_#0f9d58]"></span>
+                  <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/50">Safe Ecosystem</span>
+                </div>
 
-              <h2 className="text-4xl md:text-5xl font-poppins font-bold text-white mb-6">
-                Code of <span className="bg-gradient-to-r from-cyan-400 to-green-400 bg-clip-text text-transparent">Conduct</span>
-              </h2>
+                <h2 className="text-5xl md:text-7xl font-poppins font-black text-white mb-10 tracking-tighter">
+                  Community <br />
+                  <span className="text-gradient">Protocol.</span>
+                </h2>
 
-              <p className="text-xl text-blue-100 leading-relaxed">
-                We are dedicated to providing a harassment-free and inclusive experience for everyone
-              </p>
-            </div>
-
-            <div className="bg-white/5 backdrop-blur-md rounded-3xl p-8 border border-white/10">
-              <p className="text-blue-100 text-lg leading-relaxed mb-8">
-                All participants in our community, including events, online spaces, and communications,
-                are expected to follow this code of conduct. We are committed to providing a friendly,
-                safe, and welcoming environment for all.
-              </p>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {[
-                  {
-                    title: 'Be Respectful',
-                    description: 'Value each other\'s ideas, styles, and viewpoints. We may not always agree, but disagreement is no excuse for poor manners.',
-                    icon: '🤝'
-                  },
-                  {
-                    title: 'Be Inclusive',
-                    description: 'Seek diverse perspectives. Diversity of views and people powers innovation, even if it is uncomfortable.',
-                    icon: '🌍'
-                  },
-                  {
-                    title: 'Be Collaborative',
-                    description: 'Work together to build up the community. The power of our community comes from its collaborative nature.',
-                    icon: '👥'
-                  },
-                  {
-                    title: 'Be Professional',
-                    description: 'Keep your communication professional and appropriate for a professional audience including people of many different backgrounds.',
-                    icon: '💼'
-                  }
-                ].map((principle, index) => (
-                  <div
-                    key={index}
-                    className="bg-white/5 rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-all duration-300"
-                  >
-                    <div className="flex items-center space-x-4 mb-4">
-                      <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-2xl flex items-center justify-center text-white text-lg">
-                        {principle.icon}
-                      </div>
-                      <h3 className="text-xl font-poppins font-bold text-white">
-                        {principle.title}
-                      </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left mt-20">
+                  {[
+                    { t: 'Extreme Respect', d: 'Value diverse styles and viewpoints. Disagreement is no excuse for poor manners.', i: '🤝' },
+                    { t: 'Radical Inclusion', d: 'Diversity powers innovation. We actively seek perspectives outside the norm.', i: '🌍' },
+                    { t: 'High Collaboration', d: 'Build together. Our collective power defines our community strength.', i: '🚀' },
+                    { t: 'Domain Excellence', d: 'Keep communication professional and focused on technological advancement.', i: '🔥' }
+                  ].map((p, i) => (
+                    <div key={i} className="p-8 bg-white/[0.02] rounded-[2rem] border border-white/5 hover:bg-white/[0.05] transition-all duration-300">
+                      <div className="text-3xl mb-4">{p.i}</div>
+                      <h4 className="text-xl font-black text-white mb-3 font-poppins">{p.t}</h4>
+                      <p className="text-slate-500 text-sm leading-relaxed font-medium opacity-80">{p.d}</p>
                     </div>
-                    <p className="text-blue-100 leading-relaxed">
-                      {principle.description}
-                    </p>
+                  ))}
+                </div>
+
+                <div className="mt-24">
+                  <div ref={magneticCtaRef} className="inline-block">
+                    <a
+                      href="https://forms.gle/8MPZkSyVaAJ33XkEA"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group relative bg-white text-dark-gray px-12 py-6 rounded-[2rem] font-black text-[11px] uppercase tracking-[0.4em] shadow-[0_20px_50px_rgba(255,255,255,0.05)] hover:shadow-glow transition-all duration-500 block overflow-hidden"
+                    >
+                      <span className="relative z-10">Report An Incident</span>
+                      <div className="absolute inset-0 bg-gradient-to-r from-slate-100 to-white transition-opacity"></div>
+                    </a>
                   </div>
-                ))}
+                </div>
               </div>
 
-              {/* CTA */}
-              <div className="mt-8 p-6 bg-white/10 rounded-2xl border border-white/20 text-center">
-                <h4 className="text-white font-poppins font-bold text-lg mb-3">
-                  Need to Report an Issue?
-                </h4>
-                <p className="text-blue-100 mb-4">
-                  Our community leaders are here to help. Reach out to us confidentially.
-                </p>
-                <a
-                  href="https://forms.gle/8MPZkSyVaAJ33XkEA"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <button className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-6 py-3 rounded-2xl font-semibold hover:shadow-glow hover:scale-105 transform transition-all duration-300">
-                    Contact Community Leaders
-                  </button>
-                </a>
-
-              </div>
+              {/* Decorative Shine */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-gdg-blue/5 via-transparent to-transparent opacity-0 group-hover/conduct:opacity-100 transition-opacity duration-1000"></div>
             </div>
           </div>
         </div>
       </section>
+
     </div>
   );
 };
