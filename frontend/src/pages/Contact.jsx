@@ -1,201 +1,148 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import React, { useState } from 'react';
 import { submitContactForm } from '../services/api';
+import emailIcon from '../assets/email.png';
+import locationIcon from '../assets/location.png';
+import timeIcon from '../assets/time.png';
+import linkedinIcon from '../assets/LinkedIn.png';
+
+
+const contactInfo = [
+  { icon: emailIcon, title: 'Email', val: 'gdg@zcoer.edu', color: 'var(--g-blue)' },
+  { icon: locationIcon, title: 'Location', val: 'ZCOER Campus, Pune', color: 'var(--g-red)' },
+  { icon: timeIcon, title: 'Meetings', val: 'Friday @ 9 PM', color: 'var(--g-green)' },
+  { icon: linkedinIcon, title: 'Social', val: '@gdg_zcoer', color: 'var(--g-yellow)' }
+];
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    category: '',
-    message: ''
-  });
-
-  const [loading, setLoading] = useState(false);
-
-  const contactRef = useRef(null);
-  const infoCardsRef = useRef([]);
-  const formRef = useRef(null);
-
-  const contactInfo = [
-    {
-      icon: '📧',
-      title: 'Email Us',
-      details: 'gdg@youruniversity.edu',
-      description: 'Send us an email for general inquiries',
-      color: 'from-[#4285F4] to-blue-500'
-    },
-    {
-      icon: '📍',
-      title: 'Visit Us',
-      details: 'Your University Campus',
-      description: 'City, State 12345',
-      color: 'from-[#34A853] to-green-500'
-    },
-    {
-      icon: '🕒',
-      title: 'Meeting Times',
-      details: 'Every Wednesday',
-      description: '6:00 PM - 8:00 PM',
-      color: 'from-[#FBBC04] to-yellow-500'
-    },
-    {
-      icon: '📱',
-      title: 'Social Media',
-      details: '@gdgoncampus',
-      description: 'Follow us for updates',
-      color: 'from-[#EA4335] to-red-500'
-    }
-  ];
-
-  const categories = [
-    'General Inquiry',
-    'Event Collaboration',
-    'Speaker Opportunity',
-    'Technical Support',
-    'Partnership',
-    'Feedback',
-    'Other'
-  ];
-
-  useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-
-    gsap.fromTo('.page-hero h1',
-      { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1, ease: 'power3.out' }
-    );
-
-    gsap.fromTo('.page-hero p',
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, delay: 0.3, ease: 'power2.out' }
-    );
-
-    gsap.fromTo(contactRef.current,
-      { y: 80, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: contactRef.current,
-          start: 'top 80%',
-        }
-      }
-    );
-
-    gsap.fromTo('.info-card',
-      { y: 60, opacity: 0, scale: 0.9 },
-      {
-        y: 0,
-        opacity: 1,
-        scale: 1,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: '.info-grid',
-          start: 'top 75%',
-        }
-      }
-    );
-
-    gsap.fromTo(formRef.current,
-      { x: 50, opacity: 0 },
-      {
-        x: 0,
-        opacity: 1,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: formRef.current,
-          start: 'top 80%',
-        }
-      }
-    );
-  }, []);
-
-  const addToInfoCardsRef = (el) => {
-    if (el && !infoCardsRef.current.includes(el)) {
-      infoCardsRef.current.push(el);
-    }
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
+  const [form, setForm] = useState({ name: '', email: '', subject: '', category: 'General', message: '' });
+  const [sent, setSent] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      setLoading(true);
-      await submitContactForm(formData);
-      alert('Thank you for your message! We will get back to you soon.');
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        category: '',
-        message: ''
-      });
-    } catch (err) {
-      alert('Failed to send message. Please try again.');
-    } finally {
-      setLoading(false);
+      await submitContactForm(form);
+      setSent(true);
+    } catch {
+      alert('Failed to send. Try again!');
     }
   };
 
   return (
-    <div className="page-wrapper pt-20">
-      <section className="page-hero">
-        <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">Contact Us</h1>
-          <p className="text-xl text-blue-100">Get in touch with our team</p>
+    <div id="contact" style={{ borderTop: '2px solid var(--ink-900)' }}>
+      {/* Hero — Blush (#fce8e6) */}
+      <section
+        style={{
+          background: '#fce8e6',
+          paddingTop: '120px',
+          paddingBottom: '64px',
+          position: 'relative',
+          overflow: 'hidden',
+        }}
+      >
+        <div style={{ position: 'absolute', top: '-80px', left: '25%', width: '500px', height: '250px', background: 'radial-gradient(ellipse, rgba(52,168,83,0.1) 0%, transparent 65%)', pointerEvents: 'none' }} />
+        <div className="page-container relative z-10" style={{ textAlign: 'center' }}>
+          <div className="section-label" style={{ color: 'var(--g-blue)' }}>The Connection</div>
+          <h1
+            className="font-display"
+            style={{
+              fontSize: 'clamp(36px, 5vw, 56px)',
+              fontWeight: 800,
+              color: 'var(--ink-900)',
+              letterSpacing: '-2px',
+              lineHeight: 1.1,
+              marginBottom: '16px',
+            }}
+          >
+            Let's <span style={{ color: 'var(--g-blue)' }}>Talk Tech</span>
+          </h1>
+          <p style={{ fontSize: '15px', color: 'var(--ink-400)', maxWidth: '400px', margin: '0 auto' }}>
+            Have a question, collaboration idea, or just want to say hi? We're all ears.
+          </p>
         </div>
       </section>
 
-      <section ref={contactRef} className="section-padding bg-white">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="info-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-            {contactInfo.map((info, index) => (
-              <div
-                key={index}
-                ref={addToInfoCardsRef}
-                className="info-card bg-gradient-to-br text-white rounded-2xl p-6 text-center"
-              >
-                <div className={`${info.color} rounded-2xl p-6 h-full`}>
-                  <div className="text-4xl mb-4">{info.icon}</div>
-                  <h3 className="text-xl font-bold mb-2">{info.title}</h3>
-                  <p className="font-semibold">{info.details}</p>
-                  <p className="text-sm opacity-90">{info.description}</p>
-                </div>
+
+      <section className="section-wrapper" style={{ background: '#fce8e6' }}>
+        <div className="page-container">
+          <div className="grid gap-12" style={{ gridTemplateColumns: '1fr 1.2fr' }}>
+            {/* Info */}
+            <div>
+              <div className="section-label">Contact Details</div>
+              <h2 className="font-display" style={{ fontSize: '24px', fontWeight: 800, marginBottom: '24px' }}>Reach Out <span style={{ color: 'var(--g-blue)' }}>Directly</span></h2>
+
+              <div className="grid grid-cols-1 gap-4">
+                {contactInfo.map((info) => (
+                  <div key={info.title} className="neo-card" style={{ padding: '16px', display: 'flex', alignItems: 'center', gap: '16px' }}>
+                    <div style={{ width: '32px', height: '32px', flexShrink: 0 }}>
+                      <img src={info.icon} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                    </div>
+                    <div>
+                      <p className="font-mono" style={{ fontSize: '9px', fontWeight: 700, textTransform: 'uppercase', color: 'var(--ink-400)' }}>{info.title}</p>
+                      <p className="font-body" style={{ fontSize: '14px', fontWeight: 700, color: 'var(--ink-900)' }}>{info.val}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
+
+            {/* Form */}
+            <div className="neo-card" style={{ padding: '32px' }}>
+              {sent ? (
+                <div style={{ textAlign: 'center', padding: '40px 0' }}>
+                  <p style={{ fontSize: '48px', marginBottom: '16px' }}>✉️</p>
+                  <h3 className="font-display" style={{ fontSize: '24px', fontWeight: 800 }}>Message Sent!</h3>
+                  <p style={{ fontSize: '14px', color: 'var(--ink-400)', marginTop: '8px' }}>We'll get back to you shortly.</p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit}>
+                  <div className="grid grid-cols-2 gap-4 mb-4">
+                    <Field label="Name" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} />
+                    <Field label="Email" type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} />
+                  </div>
+                  <Field label="Subject" value={form.subject} onChange={e => setForm({ ...form, subject: e.target.value })} containerStyle={{ marginBottom: '16px' }} />
+                  <div style={{ marginBottom: '20px' }}>
+                    <label className="font-mono" style={{ fontSize: '9px', fontWeight: 700, textTransform: 'uppercase', color: 'var(--ink-400)', display: 'block', marginBottom: '6px' }}>Message</label>
+                    <textarea
+                      required
+                      rows={4}
+                      value={form.message}
+                      onChange={e => setForm({ ...form, message: e.target.value })}
+                      style={inputStyle}
+                      placeholder="Your message..."
+                    />
+                  </div>
+                  <button type="submit" className="btn-primary-pill" style={{ width: '100%', justifyContent: 'center', background: 'var(--ink-900)' }}>
+                    Send Message
+                  </button>
+                </form>
+              )}
+            </div>
           </div>
 
-          <div ref={formRef}>
-            <h2 className="text-3xl font-bold mb-6">Send us a Message</h2>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <input name="name" value={formData.name} onChange={handleInputChange} placeholder="Name" required className="w-full p-3 border rounded" />
-              <input name="email" value={formData.email} onChange={handleInputChange} placeholder="Email" required className="w-full p-3 border rounded" />
-              <input name="subject" value={formData.subject} onChange={handleInputChange} placeholder="Subject" required className="w-full p-3 border rounded" />
-              <select name="category" value={formData.category} onChange={handleInputChange} required className="w-full p-3 border rounded">
-                <option value="">Select Category</option>
-                {categories.map(c => <option key={c} value={c}>{c}</option>)}
-              </select>
-              <textarea name="message" value={formData.message} onChange={handleInputChange} rows={5} placeholder="Message" required className="w-full p-3 border rounded" />
-              <button type="submit" disabled={loading} className="bg-[#4285F4] text-white px-6 py-3 rounded">
-                {loading ? 'Sending...' : 'Send Message'}
-              </button>
-            </form>
-          </div>
+          <style>{`@media (max-width: 800px) { .grid { grid-template-columns: 1fr !important; } }`}</style>
         </div>
       </section>
     </div>
   );
 };
+
+const inputStyle = {
+  width: '100%',
+  padding: '12px 16px',
+  borderRadius: '12px',
+  border: '2px solid #eee',
+  fontSize: '14px',
+  fontFamily: 'var(--font-body)',
+  outline: 'none',
+  background: '#fff',
+  transition: 'border-color 150ms ease'
+};
+
+const Field = ({ label, containerStyle, ...props }) => (
+  <div style={containerStyle}>
+    <label className="font-mono" style={{ fontSize: '9px', fontWeight: 700, textTransform: 'uppercase', color: 'var(--ink-400)', display: 'block', marginBottom: '6px' }}>{label}</label>
+    <input required style={inputStyle} {...props} />
+  </div>
+);
 
 export default Contact;

@@ -1,151 +1,247 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { gsap } from 'gsap';
 import logo from "../../assets/google_developers_logo.png";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState('hero');
   const location = useLocation();
   const headerRef = useRef(null);
-  const logoRef = useRef(null);
+
+  const navItems = [
+    { path: '/#hero', label: 'Home', id: 'hero' },
+    { path: '/#about', label: 'About', id: 'about' },
+    { path: '/#team', label: 'Teams', id: 'team' },
+    { path: '/#events', label: 'Events', id: 'events' },
+    { path: '/#projects', label: 'Projects', id: 'projects' },
+    { path: '/#resources', label: 'Resources', id: 'resources' },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      setIsScrolled(scrollTop > 50);
+      setIsScrolled(window.scrollY > 80);
     };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Intersection Observer for ScrollSpy
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline();
-      tl.fromTo(logoRef.current,
-        { filter: 'blur(10px)', opacity: 0, x: -20 },
-        { filter: 'blur(0px)', opacity: 1, x: 0, duration: 1, ease: 'expo.out' }
-      )
-        .fromTo('.nav-item-animate',
-          { y: -10, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.8, stagger: 0.05, ease: 'power3.out' },
-          '-=0.6'
-        );
-    }, headerRef);
+    const observerOptions = {
+      root: null,
+      rootMargin: '-20% 0px -70% 0px',
+      threshold: 0
+    };
 
-    return () => ctx.revert();
-  }, []);
+    const observerCallback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    };
 
-  const navItems = [
-    { path: '/', label: 'Home' },
-    { path: '/about', label: 'About' },
-    { path: '/team', label: 'Team' },
-    { path: '/events', label: 'Events' },
-    { path: '/projects', label: 'Projects' },
-    { path: '/resources', label: 'Resources' },
-    { path: '/blog', label: 'Blog' },
-  ];
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    // Target all sections that have IDs matching our nav items
+    navItems.forEach((item) => {
+      const el = document.getElementById(item.id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, [location.pathname]); // Re-run if path changes (e.g. from subpage back to home)
+
+  // Close mobile menu on hash change
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location.hash]);
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [isMenuOpen]);
+
+  // Active check for hash links (using scrollspy state)
+  const isActive = (item) => {
+    if (location.pathname !== '/') return false;
+    return activeSection === item.id;
+  };
 
   return (
     <header
       ref={headerRef}
-      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-700 ease-in-out ${isScrolled ? 'py-4' : 'py-8'
-        }`}
+      className="fixed top-0 left-0 right-0 z-[1000] transition-all duration-300"
+      style={{ height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
     >
-      <div className="container-custom px-6">
-        <div className={`relative flex items-center justify-between px-8 py-4 transition-all duration-700 ease-in-out border bg-slate-950/90 backdrop-blur-3xl rounded-[2.5rem] shadow-[0_30px_60px_rgba(0,0,0,0.2)] border-white/10`}>
-
-          {/* Subtle Scan-line Effect */}
-          <div className="absolute inset-0 rounded-[2.5rem] overflow-hidden pointer-events-none">
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500/5 to-transparent -translate-x-full animate-[scan_3s_infinite]"></div>
-          </div>
-
-          {/* Logo Section */}
-          <Link
-            to="/"
-            ref={logoRef}
-            className="flex items-center space-x-4 group relative z-10"
-          >
-            <div className="relative w-12 h-12 flex items-center justify-center bg-white/5 rounded-2xl border border-white/10 group-hover:border-blue-500/30 transition-all duration-500 p-2 shadow-inner">
-              <img src={logo} alt="GDG Logo" className="w-10 h-7 object-contain group-hover:scale-110 transition-transform duration-500" />
+      {/* Floating pill container — shrinks and rounds on scroll */}
+      <div
+        className="transition-all duration-500"
+        style={{
+          width: isScrolled ? 'min(860px, calc(100% - 48px))' : '100%',
+          maxWidth: isScrolled ? '860px' : '100%',
+          borderRadius: isScrolled ? '999px' : '0px',
+          background: isScrolled ? 'rgba(255,255,255,0.97)' : 'transparent',
+          backdropFilter: isScrolled ? 'blur(20px)' : 'none',
+          border: isScrolled ? '1.5px solid rgba(0,0,0,0.08)' : '1.5px solid transparent',
+          boxShadow: isScrolled ? '0 4px 24px rgba(0,0,0,0.08)' : 'none',
+          padding: isScrolled ? '0 6px' : '0 32px',
+          height: isScrolled ? '48px' : '56px',
+        }}
+      >
+        <div className="flex items-center justify-between h-full px-4">
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-2 group shrink-0">
+            <div className="w-8 h-8 flex items-center justify-center">
+              <img src={logo} alt="GDG Logo" className="w-7 h-5" />
             </div>
-            <div className="flex flex-col">
-              <span className="font-poppins font-black text-xl tracking-tight leading-none text-white">
-                GDG <span className="text-blue-500">On-Campus</span>
-              </span>
-              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40">
-                ZCOER ARCHIVE
-              </span>
-            </div>
+            <span
+              className="font-display font-bold leading-tight transition-colors duration-300"
+              style={{
+                fontSize: isScrolled ? '15px' : '18px',
+                color: 'var(--ink-900)',
+              }}
+            >
+              GDGoC <span style={{ color: 'var(--g-blue)' }}>ZCOER</span>
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-1 relative z-10">
-            {navItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`nav-item-animate relative px-6 py-2.5 rounded-xl text-[11px] font-black uppercase tracking-[0.15em] transition-all duration-500 group ${location.pathname === item.path
-                    ? 'text-white'
-                    : 'text-white/50 hover:text-white'
-                  }`}
-              >
-                <span className="relative z-10">{item.label}</span>
-                {location.pathname === item.path && (
-                  <div className={`absolute inset-0 rounded-xl transition-all duration-500 bg-white/10 shadow-inner`} />
-                )}
-                <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-[2px] rounded-full transition-all duration-500 group-hover:w-4 bg-blue-500"></div>
-              </Link>
-            ))}
+          <nav className="hidden lg:flex items-center" style={{ gap: isScrolled ? '20px' : '28px' }}>
+            {navItems.map((item) => {
+              const active = isActive(item);
+              return (
+                <a
+                  key={item.path}
+                  href={item.path}
+                  className="font-body font-semibold transition-all duration-200 relative"
+                  style={{
+                    fontSize: isScrolled ? '12px' : '13px',
+                    color: active
+                      ? 'var(--g-blue)'
+                      : 'var(--ink-400)',
+                    textDecoration: 'none',
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!active) e.target.style.color = 'var(--g-blue)';
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!active) e.target.style.color = 'var(--ink-400)';
+                  }}
+                >
+                  {item.label}
+                </a>
+              );
+            })}
           </nav>
 
-          {/* Action Terminal */}
-          <div className="hidden lg:flex items-center space-x-6 relative z-10">
-            <Link
-              to="/join"
-              className={`px-8 py-3 rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] transition-all duration-500 shadow-2xl active:scale-95 bg-white text-slate-950 hover:bg-blue-100 hover:shadow-blue-500/20`}
+          {/* CTA Button */}
+          <div className="hidden lg:block shrink-0">
+            <a
+              href="/#join"
+              className="font-body font-bold transition-all duration-200"
+              style={{
+                fontSize: '11px',
+                padding: isScrolled ? '7px 16px' : '9px 20px',
+                borderRadius: '999px',
+                background: 'var(--ink-900)',
+                color: '#fff',
+                textDecoration: 'none',
+                border: '2px solid var(--ink-900)',
+                boxShadow: '3px 3px 0px var(--g-blue)',
+                display: 'inline-block',
+                letterSpacing: '0.5px',
+              }}
             >
-              Initialize Intake
-            </Link>
+              Join Community
+            </a>
           </div>
 
-          {/* Mobile Terminal Toggle */}
+          {/* Mobile Menu Button */}
           <button
-            className="lg:hidden relative z-[60] w-12 h-12 flex flex-col items-center justify-center space-y-1.5 rounded-2xl transition-all duration-300 group"
+            className="lg:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle menu"
           >
-            <div className={`w-6 h-[2px] transition-all duration-500 rounded-full bg-white ${isMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></div>
-            <div className={`w-6 h-[2px] transition-all duration-500 rounded-full bg-white ${isMenuOpen ? 'opacity-0' : 'opacity-100'}`}></div>
-            <div className={`w-6 h-[2px] transition-all duration-500 rounded-full bg-white ${isMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></div>
+            <span
+              className="block w-6 h-0.5 transition-all duration-300 origin-center"
+              style={{
+                background: isMenuOpen ? '#fff' : 'var(--ink-900)',
+                transform: isMenuOpen ? 'rotate(45deg) translateY(4px)' : 'none',
+              }}
+            />
+            <span
+              className="block w-6 h-0.5 transition-all duration-300"
+              style={{
+                background: isMenuOpen ? '#fff' : 'var(--ink-900)',
+                opacity: isMenuOpen ? 0 : 1,
+              }}
+            />
+            <span
+              className="block w-6 h-0.5 transition-all duration-300 origin-center"
+              style={{
+                background: isMenuOpen ? '#fff' : 'var(--ink-900)',
+                transform: isMenuOpen ? 'rotate(-45deg) translateY(-4px)' : 'none',
+              }}
+            />
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Menu — Full height dark drawer */}
+      <div
+        className="lg:hidden fixed inset-0 top-0 transition-all duration-300"
+        style={{
+          background: 'var(--ink-900)',
+          opacity: isMenuOpen ? 1 : 0,
+          pointerEvents: isMenuOpen ? 'auto' : 'none',
+          transform: isMenuOpen ? 'translateX(0)' : 'translateX(100%)',
+          zIndex: 999,
+        }}
+      >
+        {/* Close button */}
+        <div className="flex justify-end p-6">
+          <button
+            onClick={() => setIsMenuOpen(false)}
+            className="text-white w-10 h-10 flex items-center justify-center"
+            aria-label="Close menu"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
           </button>
         </div>
 
-        {/* Mobile Elite Portal */}
-        <div className={`lg:hidden fixed inset-0 z-50 bg-slate-950 flex flex-col items-center justify-center transition-all duration-700 ease-[cubic-bezier(0.85,0,0.15,1)] ${isMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full pointer-events-none'
-          }`}>
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-transparent"></div>
-          <div className="relative z-10 flex flex-col items-center space-y-8">
-            {navItems.map((item, idx) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`text-4xl font-black uppercase tracking-tighter transition-all duration-500 hover:text-blue-400 ${location.pathname === item.path ? 'text-white' : 'text-white/30'
-                  }`}
-                style={{ transitionDelay: `${idx * 50}ms` }}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {item.label}
-              </Link>
-            ))}
-            <Link
-              to="/join"
-              className="mt-12 bg-white text-slate-950 px-12 py-5 rounded-[2rem] font-black text-sm uppercase tracking-[0.3em] active:scale-95 transition-all"
+        <div className="flex flex-col items-center justify-center gap-8 px-6 pt-8">
+          {navItems.map((item) => (
+            <a
+              key={item.path}
+              href={item.path}
+              className="font-display text-2xl font-bold transition-colors duration-200"
+              style={{
+                color: isActive(item) ? 'var(--g-blue)' : '#fff',
+                textDecoration: 'none',
+              }}
               onClick={() => setIsMenuOpen(false)}
             >
-              Initialize Intake
-            </Link>
-          </div>
+              {item.label}
+            </a>
+          ))}
+          <a
+            href="/#join"
+            className="btn-yellow-pill w-full max-w-xs text-center mt-4"
+            onClick={() => setIsMenuOpen(false)}
+            style={{ textDecoration: 'none' }}
+          >
+            Join Community
+          </a>
         </div>
       </div>
     </header>

@@ -3,20 +3,18 @@ import AppRoutes from './routes/AppRoutes';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import { AnimationProvider } from './context/AnimationContext';
+import ScrollToTop from './components/ScrollToTop';
 import './index.css';
 
 function App() {
   return (
     <AnimationProvider>
-      {/* Full height, stacked layout + ensure bg is visible */}
-      <div className="min-h-screen flex flex-col bg-white">
+      <ScrollToTop />
+      <div className="min-h-screen flex flex-col" style={{ background: 'var(--surface-0)' }}>
         <Header />
-
-        {/* Content pushes footer down */}
         <main className="flex-grow">
           <AppRoutes />
         </main>
-
         <Footer />
       </div>
     </AnimationProvider>
