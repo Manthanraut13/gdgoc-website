@@ -33,14 +33,14 @@ const ResourceDetails = () => {
           <div className="flex justify-center mb-6">
             <span style={{ fontSize: '32px' }}>{res.icon || "📘"}</span>
           </div>
-          <h1 className="font-display" style={{ fontSize: 'clamp(32px, 6vw, 56px)', fontWeight: 800, color: 'var(--ink-900)', letterSpacing: '-1.5px', marginBottom: '20px' }}>
+          <h1 className="font-display" style={{ fontSize: 'clamp(32px, 6vw, 56px)', fontWeight: 700, color: 'var(--ink-900)', letterSpacing: '-1.5px', marginBottom: '20px' }}>
             {res.title}
           </h1>
           <div className="flex justify-center gap-4">
-            <span style={{ fontSize: '10px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', background: '#fff', border: '1.5px solid var(--ink-900)', padding: '4px 12px', borderRadius: '6px' }}>
+            <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', background: '#fff', border: '1.5px solid var(--ink-900)', padding: '4px 12px', borderRadius: '6px' }}>
               {res.category}
             </span>
-            <span style={{ fontSize: '10px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', background: '#fff', border: '1.5px solid var(--ink-900)', padding: '4px 12px', borderRadius: '6px' }}>
+            <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', background: '#fff', border: '1.5px solid var(--ink-900)', padding: '4px 12px', borderRadius: '6px' }}>
               {res.difficulty || 'Beginner'}
             </span>
           </div>
@@ -52,7 +52,7 @@ const ResourceDetails = () => {
           {/* Metadata Sidebar */}
           <div>
             <div className="neo-card" style={{ padding: '24px' }}>
-              <h3 className="font-mono" style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', marginBottom: '24px' }}>Asset Index</h3>
+              <h3 className="font-mono" style={{ fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', marginBottom: '24px' }}>Asset Index</h3>
 
               <div className="space-y-6 mb-12">
                 <IndexItem label="Provider" val={res.provider || 'GDGOC'} />
@@ -72,7 +72,7 @@ const ResourceDetails = () => {
           {/* Detailed Content */}
           <div>
             <div className="section-label">Knowledge Overview</div>
-            <h2 className="font-display" style={{ fontSize: '28px', fontWeight: 800, marginBottom: '24px' }}>Deep <span style={{ color: 'var(--g-green)' }}>Dive</span></h2>
+            <h2 className="font-display" style={{ fontSize: '28px', fontWeight: 700, marginBottom: '24px' }}>Deep <span style={{ color: 'var(--g-green)' }}>Dive</span></h2>
 
             <div style={{ fontSize: '17px', lineHeight: 1.8, color: '#444', whiteSpace: 'pre-wrap' }}>
               {res.longDescription || res.description}

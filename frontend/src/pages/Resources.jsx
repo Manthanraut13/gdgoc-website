@@ -37,7 +37,7 @@ const Resources = () => {
         <div style={{ position: 'absolute', top: '-80px', left: '50%', width: '500px', height: '250px', background: 'radial-gradient(ellipse, rgba(26,115,232,0.1) 0%, transparent 65%)', pointerEvents: 'none', transform: 'translateX(-50%)' }} />
         <div className="page-container relative z-10" style={{ textAlign: 'center' }}>
           <div className="section-label" style={{ color: 'var(--yellow-deep)' }}>THE RESOURCES</div>
-          <h1 className="font-display" style={{ fontSize: 'clamp(36px, 5vw, 56px)', fontWeight: 800, color: 'var(--ink-900)', letterSpacing: '-2px', lineHeight: 1.1, marginBottom: '16px' }}>
+          <h1 className="font-display" style={{ fontSize: 'clamp(36px, 5vw, 56px)', fontWeight: 700, color: 'var(--ink-900)', letterSpacing: '-2px', lineHeight: 1.1, marginBottom: '16px' }}>
             Learn <span style={{ color: 'var(--yellow-deep)' }}>Smarter</span>
           </h1>
           <p style={{ fontSize: '15px', color: 'var(--ink-400)', maxWidth: '400px', margin: '0 auto' }}>
@@ -95,12 +95,12 @@ const Resources = () => {
                   <a key={r._id || r.id} href={r.url} target="_blank" rel="noreferrer" style={{ textDecoration: 'none' }}>
                     <div className="neo-card" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                       <div style={{ padding: '20px', borderBottom: '1px solid #f0f0f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span style={{ fontSize: '9px', fontWeight: 800, textTransform: 'uppercase', background: cc.bg, color: cc.color, padding: '4px 12px', borderRadius: '6px', border: `1.5px solid ${cc.color}` }}>
+                        <span style={{ fontSize: '9px', fontWeight: 700, textTransform: 'uppercase', background: cc.bg, color: cc.color, padding: '4px 12px', borderRadius: '6px', border: `1.5px solid ${cc.color}` }}>
                           {catIcon[r.category] || '📚'} {r.category}
                         </span>
                       </div>
                       <div style={{ padding: '24px', flex: 1 }}>
-                        <h3 className="font-display" style={{ fontSize: '18px', fontWeight: 800, color: 'var(--ink-900)', marginBottom: '8px', lineHeight: 1.2 }}>{r.title}</h3>
+                        <h3 className="font-display" style={{ fontSize: '18px', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '8px', lineHeight: 1.2 }}>{r.title}</h3>
                         <p style={{ fontSize: '12px', color: 'var(--ink-400)', lineHeight: 1.6 }}>{r.description?.slice(0, 80)}...</p>
                       </div>
                     </div>

@@ -35,7 +35,7 @@ const TechTicker = () => {
                             style={{
                                 fontFamily: 'var(--font-mono)',
                                 fontSize: '10px',
-                                fontWeight: 800,
+                                fontWeight: 700,
                                 color: item.color,
                                 whiteSpace: 'nowrap',
                                 letterSpacing: '1px',
@@ -44,7 +44,7 @@ const TechTicker = () => {
                         >
                             {item.name}
                         </span>
-                        <span style={{ color: '#ccc', fontSize: '10px', fontWeight: 800 }}>•</span>
+                        <span style={{ color: '#ccc', fontSize: '10px', fontWeight: 700 }}>•</span>
                     </React.Fragment>
                 ))}
             </div>

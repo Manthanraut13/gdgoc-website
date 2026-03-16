@@ -15,7 +15,7 @@ const Stats = () => {
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '64px' }}>
           <div className="section-label" style={{ color: 'var(--ink-400)' }}>Our Impact</div>
-          <h2 className="font-display" style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 800, color: 'var(--ink-900)', letterSpacing: '-2px', marginBottom: '16px' }}>
+          <h2 className="font-display" style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 700, color: 'var(--ink-900)', letterSpacing: '-2px', marginBottom: '16px' }}>
             Driving <span style={{ color: 'var(--g-blue)' }}>Innovation</span> Forward
           </h2>
           <p style={{ fontSize: '15px', color: 'var(--ink-400)', maxWidth: '500px', margin: '0 auto' }}>
@@ -42,10 +42,10 @@ const Stats = () => {
               <div style={{ width: '56px', height: '56px', borderRadius: '12px', background: s.tint, color: s.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', marginBottom: '20px', border: `1.5px solid ${s.color}` }}>
                 {s.icon}
               </div>
-              <div className="font-display" style={{ fontSize: '44px', fontWeight: 800, color: 'var(--ink-900)', lineHeight: 1, marginBottom: '4px' }}>
+              <div className="font-display" style={{ fontSize: '44px', fontWeight: 700, color: 'var(--ink-900)', lineHeight: 1, marginBottom: '4px' }}>
                 {s.number}{s.suffix}
               </div>
-              <div className="font-mono" style={{ fontSize: '10px', fontWeight: 800, color: 'var(--ink-400)', textTransform: 'uppercase', letterSpacing: '1px' }}>
+              <div className="font-mono" style={{ fontSize: '10px', fontWeight: 700, color: 'var(--ink-400)', textTransform: 'uppercase', letterSpacing: '1px' }}>
                 {s.label}
               </div>
             </div>
@@ -55,7 +55,7 @@ const Stats = () => {
         {/* Ready to Join? — Unified lime (#f7fcd4) */}
         <div className="neo-card" style={{ marginTop: '80px', padding: '48px', background: '#f7fcd4', border: '2px solid var(--ink-900)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '32px', flexWrap: 'wrap' }}>
           <div>
-            <h3 className="font-display" style={{ fontSize: '28px', fontWeight: 800, color: 'var(--ink-900)', marginBottom: '8px' }}>Ready to <span style={{ color: 'var(--g-blue)' }}>Make Your Mark?</span></h3>
+            <h3 className="font-display" style={{ fontSize: '28px', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '8px' }}>Ready to <span style={{ color: 'var(--g-blue)' }}>Make Your Mark?</span></h3>
             <p style={{ fontSize: '14px', color: 'var(--ink-400)', maxWidth: '440px' }}>Join our community and be part of the next generation of tech innovators and leaders.</p>
           </div>
           <div className="flex gap-3">

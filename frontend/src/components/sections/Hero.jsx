@@ -80,7 +80,7 @@ const Hero = () => {
             className="font-display google-sans-bold"
             style={{
               fontSize: 'clamp(24px, 4vw, 36px)',
-              fontWeight: 800,
+              fontWeight: 700,
               letterSpacing: '-0.5px',
               marginBottom: '8px',
               opacity: 0.9,
@@ -116,7 +116,7 @@ const Hero = () => {
             className="google-sans-bold"
             style={{
               fontSize: 'clamp(20px, 3vw, 36px)',
-              fontWeight: 600,
+              fontWeight: 400,
               color: 'var(--ink-900)',
               display: 'flex',
               alignItems: 'center',
@@ -171,8 +171,8 @@ const Hero = () => {
                 transition: 'transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
               }}
             >
-              <span className="font-display" style={{ fontSize: '32px', fontWeight: 800, color: s.text, lineHeight: 1 }}>{s.num}</span>
-              <span className="font-mono" style={{ fontSize: '10px', fontWeight: 800, color: 'var(--ink-400)', textTransform: 'uppercase', marginTop: '6px' }}>{s.label}</span>
+              <span className="font-display" style={{ fontSize: '32px', fontWeight: 700, color: s.text, lineHeight: 1 }}>{s.num}</span>
+              <span className="font-mono" style={{ fontSize: '10px', fontWeight: 400, color: 'var(--ink-400)', textTransform: 'uppercase', marginTop: '6px' }}>{s.label}</span>
             </div>
           ))}
         </div>

@@ -7,6 +7,20 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'Google Sans';
+  src: url('/fonts/Google_Sans/GoogleSans-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Google Sans';
+  src: url('/fonts/Google_Sans/GoogleSans-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -67,6 +81,7 @@ html {
 
 body {
   font-family: var(--font-body);
+  font-weight: 400;
   font-size: 15px;
   line-height: 1.7;
   color: var(--ink-900);

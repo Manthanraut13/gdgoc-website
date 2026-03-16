@@ -48,8 +48,8 @@ export default {
       },
       fontSize: {
         /* Blueprint type scale */
-        'display-hero': ['clamp(52px, 7vw, 96px)', { lineHeight: '1.0', letterSpacing: '-4px', fontWeight: '800' }],
-        'h1': ['56px', { lineHeight: '1.1', letterSpacing: '-2px', fontWeight: '800' }],
+        'display-hero': ['clamp(52px, 7vw, 96px)', { lineHeight: '1.0', letterSpacing: '-4px', fontWeight: '700' }],
+        'h1': ['56px', { lineHeight: '1.1', letterSpacing: '-2px', fontWeight: '700' }],
         'h2': ['40px', { lineHeight: '1.15', letterSpacing: '-1px', fontWeight: '700' }],
         'h3': ['24px', { lineHeight: '1.25', letterSpacing: '-0.5px', fontWeight: '700' }],
         'h4': ['18px', { lineHeight: '1.35', letterSpacing: '0px', fontWeight: '600' }],

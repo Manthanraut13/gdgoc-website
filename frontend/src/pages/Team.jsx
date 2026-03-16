@@ -18,8 +18,7 @@ const rawTeams = {
     { name: "Swara Berde", role: "Event Management Coordinator", bio: "Supporting event operations and ensuring participant satisfaction through effective coordination.", image: "/images/team/Swara Berde.png", social: {}, color: 'var(--g-red)', tint: 'rgba(234,67,53,0.1)' }
   ],
   webDevelopment: [
-    { name: "Dhanashri Shedge", role: "Web Development Lead", bio: "Leading web development initiatives and maintaining GDG's digital platforms and websites.", image: "/images/team/Dhanashri Shedge.png", social: { linkedin: "https://www.linkedin.com/in/dhanashri-shedge-aa7635312/", github: "https://github.com/Dhanashri-shedge" }, color: 'var(--g-blue)', tint: 'rgba(26,115,232,0.1)' },
-    { name: "Manthan Raut", role: "Web Development Coordinator", bio: "Building responsive web interfaces and contributing to frontend development projects.", image: "/images/team/Manthan Raut.png", social: { linkedin: "https://www.linkedin.com/in/manthan-raut-438608332/", github: "https://github.com/Manthanraut13" }, color: 'var(--g-red)', tint: 'rgba(234,67,53,0.1)' },
+    { name: "Manthan Raut", role: "Web Development Lead", bio: "Building responsive web interfaces and contributing to frontend development projects.", image: "/images/team/Manthan Raut.png", social: { linkedin: "https://www.linkedin.com/in/manthan-raut-438608332/", github: "https://github.com/Manthanraut13" }, color: 'var(--g-red)', tint: 'rgba(234,67,53,0.1)' },
     { name: "Vijay Umbare", role: "Web Development Coordinator", bio: "Contributing to technical projects and development.", image: "/images/team/Vijay Umbare.png", social: {}, color: 'var(--g-green)', tint: 'rgba(52,168,83,0.1)' }
   ],
   socialMedia: [
@@ -55,7 +54,6 @@ const rawTeams = {
     { name: "Sahil Birari", role: "Cloud ComputingCoordinator", bio: "Organizing cloud infrastructure workshops and hands-on labs.", image: "/images/team/Sahil Birari.png", social: {}, color: 'var(--g-yellow)', tint: 'rgba(251,188,4,0.12)' }
   ],
   dsaCp: [
-    { name: "Kunal Telangi", role: "DSA/CP Lead", bio: "Leading Data Structures and Competitive Programming initiatives and mentoring members.", image: "/images/team/Kunal Telangi.png", social: {}, color: 'var(--g-red)', tint: 'rgba(234,67,53,0.1)' },
     { name: "Rohan Patil", role: "DSA/CP Coordinator", bio: "Facilitating DSA workshops and helping members improve their problem-solving skills.", image: "/images/team/Rohan Patil.png", social: {}, color: 'var(--g-blue)', tint: 'rgba(26,115,232,0.1)' },
     { name: "Vinayak Gawade", role: "DSA/CPCoordinator", bio: "Facilitating DSA workshops and helping members improve their problem-solving skills.", image: "/images/team/Vinayak Gawade.png", social: {}, color: 'var(--g-blue)', tint: 'rgba(26,115,232,0.1)' }
   ]
@@ -108,7 +106,7 @@ const MemberCard = ({ member, onClick }) => (
       </div>
     </div>
     <div style={{ padding: '16px', flex: 1, display: 'flex', flexDirection: 'column' }}>
-      <h3 className="font-display" style={{ fontSize: '18px', fontWeight: 800, color: 'var(--ink-900)', marginBottom: '4px' }}>{member.name}</h3>
+      <h3 className="font-display" style={{ fontSize: '18px', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '4px' }}>{member.name}</h3>
       <p style={{ fontSize: '12px', color: 'var(--ink-400)', lineHeight: 1.5, flex: 1, marginBottom: '16px' }}>
         {member.bio.slice(0, 80)}{member.bio.length > 80 ? '...' : ''}
       </p>
@@ -137,7 +135,7 @@ const Team = () => {
     const halfWidth = scrollContainer.scrollWidth / 2;
 
     const animate = () => {
-      if (!isHovered && scrollContainer) {
+      if (!isHovered && !selected && scrollContainer) {
         scrollContainer.scrollLeft += 0.8; // Adjust speed here
 
         // Loop back seamlessly
@@ -150,7 +148,7 @@ const Team = () => {
 
     requestRef.current = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(requestRef.current);
-  }, [isHovered]);
+  }, [isHovered, selected]);
 
   return (
     <div id="team">
@@ -171,7 +169,7 @@ const Team = () => {
             className="font-display"
             style={{
               fontSize: 'clamp(28px, 4vw, 48px)',
-              fontWeight: 800,
+              fontWeight: 700,
               color: 'var(--ink-900)',
               letterSpacing: '-2px',
               lineHeight: 1.1,
@@ -214,10 +212,6 @@ const Team = () => {
             {allMembers.map((member, i) => (
               <MemberCard key={`a-${i}`} member={member} onClick={setSelected} />
             ))}
-            {/* Duplicate for seamless loop */}
-            {allMembers.map((member, i) => (
-              <MemberCard key={`b-${i}`} member={member} onClick={setSelected} />
-            ))}
           </div>
         </div>
       </section>
@@ -225,6 +219,17 @@ const Team = () => {
       <style>{`
         .team-marquee-wrapper::-webkit-scrollbar {
           display: none;
+        }
+        @media (max-width: 640px) {
+          .modal-card-horizontal {
+            flex-direction: column !important;
+            max-width: 420px !important;
+          }
+          .modal-img-col {
+            width: 100% !important;
+            min-height: 200px !important;
+            height: 200px;
+          }
         }
       `}</style>
 
@@ -241,36 +246,41 @@ const Team = () => {
               position: 'relative',
               background: '#fff',
               borderRadius: '24px',
-              maxWidth: '480px',
+              maxWidth: '740px',
               width: '100%',
               overflow: 'hidden',
               border: '2px solid var(--ink-900)',
-              boxShadow: '8px 8px 0px var(--ink-900)'
+              boxShadow: '8px 8px 0px var(--ink-900)',
+              display: 'flex',
+              flexDirection: 'row',
             }}
+            className="modal-card-horizontal"
           >
             <button
               onClick={() => setSelected(null)}
-              style={{ position: 'absolute', top: '16px', right: '16px', background: 'var(--surface-1)', border: 'none', width: '32px', height: '32px', borderRadius: '50%', cursor: 'pointer', fontSize: '16px', fontWeight: 800, zIndex: 10 }}
+              style={{ position: 'absolute', top: '16px', right: '16px', background: 'var(--surface-1)', border: 'none', width: '32px', height: '32px', borderRadius: '50%', cursor: 'pointer', fontSize: '16px', fontWeight: 700, zIndex: 10 }}
             >
               ✕
             </button>
 
-            <div style={{ height: '240px', background: selected.tint }}>
+            {/* Left: Image */}
+            <div style={{ flex: 1, minHeight: '340px', background: selected.tint, position: 'relative' }} className="modal-img-col">
               <img
                 src={selected.image}
                 alt={selected.name}
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                 onError={(e) => { e.target.src = 'https://www.gstatic.com/images/branding/product/2x/googleg_96dp.png'; e.target.style.objectFit = 'contain'; e.target.style.padding = '60px'; }}
               />
             </div>
 
-            <div style={{ padding: '24px' }}>
+            {/* Right: Info + Social */}
+            <div style={{ flex: 1, padding: '32px 28px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
               <div className="flex items-center gap-2 mb-2">
                 <span style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase', padding: '3px 10px', borderRadius: '6px', background: selected.tint, color: selected.color }}>
                   {selected.role}
                 </span>
               </div>
-              <h2 className="font-display" style={{ fontSize: '24px', fontWeight: 800, color: 'var(--ink-900)', marginBottom: '12px' }}>{selected.name}</h2>
+              <h2 className="font-display" style={{ fontSize: '24px', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '12px' }}>{selected.name}</h2>
               <p style={{ fontSize: '14px', color: 'var(--ink-400)', lineHeight: 1.6 }}>{selected.bio}</p>
 
               <div className="flex gap-3 mt-8">

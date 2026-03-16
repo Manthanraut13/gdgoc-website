@@ -52,7 +52,7 @@ const Blog = () => {
             className="font-display"
             style={{
               fontSize: 'clamp(36px, 5vw, 56px)',
-              fontWeight: 800,
+              fontWeight: 700,
               color: 'var(--ink-900)',
               letterSpacing: '-2px',
               lineHeight: 1.1,
@@ -136,7 +136,7 @@ const Blog = () => {
                           {blog.readTime || '5 min read'}
                         </span>
                       </div>
-                      <h3 className="font-display" style={{ fontSize: '18px', fontWeight: 800, color: 'var(--ink-900)', lineHeight: 1.25, marginBottom: '8px' }}>
+                      <h3 className="font-display" style={{ fontSize: '18px', fontWeight: 700, color: 'var(--ink-900)', lineHeight: 1.25, marginBottom: '8px' }}>
                         {blog.title}
                       </h3>
                       <p style={{ fontSize: '13px', color: 'var(--ink-400)', lineHeight: 1.6, flex: 1, marginBottom: '20px' }}>
@@ -161,7 +161,7 @@ const Blog = () => {
       <section style={{ background: '#f7fcd4', padding: '80px 0', borderTop: '2px solid var(--ink-900)' }}>
         <div className="page-container" style={{ textAlign: 'center' }}>
           <div className="section-label" style={{ color: 'var(--yellow-deep)' }}>The Newsletter</div>
-          <h2 className="font-display" style={{ fontSize: '30px', fontWeight: 800, color: 'var(--ink-900)', marginBottom: '12px' }}>
+          <h2 className="font-display" style={{ fontSize: '30px', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '12px' }}>
             Stay in the <span style={{ color: 'var(--yellow-deep)' }}>Loop</span>
           </h2>
           <p style={{ fontSize: '15px', color: 'var(--ink-400)', maxWidth: '400px', margin: '0 auto 32px' }}>

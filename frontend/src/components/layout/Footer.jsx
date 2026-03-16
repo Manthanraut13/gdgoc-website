@@ -44,7 +44,7 @@ const Footer = () => {
                 style={{ width: '40px', height: '40px', objectFit: 'contain' }}
               />
               <div>
-                <p className="font-display" style={{ fontSize: '18px', fontWeight: 800, color: '#fff' }}>
+                <p className="font-display" style={{ fontSize: '18px', fontWeight: 700, color: '#fff' }}>
                   GDGoC <span style={{ color: 'var(--g-blue)' }}>ZCOER</span>
                 </p>
                 <p

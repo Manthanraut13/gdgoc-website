@@ -52,7 +52,7 @@ const Gallery = () => {
             className="font-display"
             style={{
               fontSize: 'clamp(36px, 5vw, 56px)',
-              fontWeight: 800,
+              fontWeight: 700,
               color: 'var(--ink-900)',
               letterSpacing: '-2px',
               lineHeight: 1.1,
@@ -115,7 +115,7 @@ const Gallery = () => {
                     <span className="gallery-card-badge" style={{ borderColor: item.color, color: item.color }}>
                       {item.category}
                     </span>
-                    <p className="font-display" style={{ fontSize: '16px', fontWeight: 800, color: '#fff' }}>{item.title}</p>
+                    <p className="font-display" style={{ fontSize: '16px', fontWeight: 700, color: '#fff' }}>{item.title}</p>
                   </div>
                 </div>
               </div>
@@ -150,7 +150,7 @@ const Gallery = () => {
               <span className="gallery-card-badge" style={{ borderColor: selected.color, color: selected.color, marginBottom: '8px' }}>
                 {selected.category}
               </span>
-              <h2 className="font-display" style={{ fontSize: '20px', fontWeight: 800, color: 'var(--ink-900)' }}>{selected.title}</h2>
+              <h2 className="font-display" style={{ fontSize: '20px', fontWeight: 700, color: 'var(--ink-900)' }}>{selected.title}</h2>
             </div>
           </div>
         </div>

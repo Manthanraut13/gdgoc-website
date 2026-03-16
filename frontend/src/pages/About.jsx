@@ -32,7 +32,7 @@ const About = () => {
             className="font-display"
             style={{
               fontSize: 'clamp(36px, 5vw, 56px)',
-              fontWeight: 800,
+              fontWeight: 700,
               color: 'var(--ink-900)',
               letterSpacing: '-2px',
               lineHeight: 1.1,
@@ -55,7 +55,7 @@ const About = () => {
           <div className="grid gap-16 items-start" style={{ gridTemplateColumns: '1.2fr 1fr' }}>
             <div>
               <div className="section-label">THE MISSION</div>
-              <h2 className="font-display" style={{ fontSize: '28px', fontWeight: 800, color: 'var(--ink-900)', letterSpacing: '-1px', lineHeight: 1.2, marginBottom: '24px' }}>
+              <h2 className="font-display" style={{ fontSize: '28px', fontWeight: 700, color: 'var(--ink-900)', letterSpacing: '-1px', lineHeight: 1.2, marginBottom: '24px' }}>
                 Empowering <span style={{ color: 'var(--g-blue)' }}>Student Developers</span>
               </h2>
               <p style={{ fontSize: '15px', color: 'var(--ink-400)', lineHeight: 1.75, marginBottom: '32px' }}>
@@ -67,7 +67,7 @@ const About = () => {
                     <div style={{ marginBottom: '12px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       <img src={v.icon} alt={v.name} style={{ height: '100%', objectFit: 'contain' }} />
                     </div>
-                    <p className="font-display" style={{ fontSize: '14px', fontWeight: 800, color: v.color }}>{v.name}</p>
+                    <p className="font-display" style={{ fontSize: '14px', fontWeight: 700, color: v.color }}>{v.name}</p>
                   </div>
                 ))}
               </div>

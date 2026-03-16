@@ -29,7 +29,7 @@ const Projects = () => {
         <div style={{ position: 'absolute', top: '-80px', left: '40%', width: '500px', height: '250px', background: 'radial-gradient(ellipse, rgba(52,168,83,0.08) 0%, transparent 65%)', pointerEvents: 'none' }} />
         <div className="page-container relative z-10" style={{ textAlign: 'center' }}>
           <div className="section-label" style={{ color: 'var(--g-blue)' }}>THE PROJECTS</div>
-          <h1 className="font-display" style={{ fontSize: 'clamp(36px, 5vw, 56px)', fontWeight: 800, color: 'var(--ink-900)', letterSpacing: '-2px', lineHeight: 1.1, marginBottom: '16px' }}>
+          <h1 className="font-display" style={{ fontSize: 'clamp(36px, 5vw, 56px)', fontWeight: 700, color: 'var(--ink-900)', letterSpacing: '-2px', lineHeight: 1.1, marginBottom: '16px' }}>
             Building <span style={{ color: 'var(--g-blue)' }}>Solutions</span>
           </h1>
           <p style={{ fontSize: '15px', color: 'var(--ink-400)', maxWidth: '400px', margin: '0 auto' }}>
@@ -71,7 +71,7 @@ const Projects = () => {
           ) : list.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '60px 0' }}>
               <p style={{ fontSize: '40px', marginBottom: '12px' }}>🔭</p>
-              <p className="font-display" style={{ fontSize: '18px', fontWeight: 800, color: 'var(--ink-900)' }}>No projects found</p>
+              <p className="font-display" style={{ fontSize: '18px', fontWeight: 700, color: 'var(--ink-900)' }}>No projects found</p>
             </div>
           ) : (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '24px' }}>
@@ -88,10 +88,10 @@ const Projects = () => {
                       <img src={p.image || 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97'} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     </div>
                     <div style={{ padding: '20px' }}>
-                      <span style={{ fontSize: '9px', fontWeight: 800, textTransform: 'uppercase', color: ss.color, padding: '3px 10px', borderRadius: '6px', background: ss.bg, border: `1.5px solid ${ss.color}`, marginBottom: '12px', display: 'inline-block' }}>
+                      <span style={{ fontSize: '9px', fontWeight: 700, textTransform: 'uppercase', color: ss.color, padding: '3px 10px', borderRadius: '6px', background: ss.bg, border: `1.5px solid ${ss.color}`, marginBottom: '12px', display: 'inline-block' }}>
                         {ss.label}
                       </span>
-                      <h3 className="font-display" style={{ fontSize: '18px', fontWeight: 800, color: 'var(--ink-900)', marginBottom: '8px' }}>{p.title}</h3>
+                      <h3 className="font-display" style={{ fontSize: '18px', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '8px' }}>{p.title}</h3>
                       <p style={{ fontSize: '12px', color: 'var(--ink-400)', lineHeight: 1.5 }}>{p.description?.slice(0, 80)}...</p>
                     </div>
                   </div>
@@ -110,7 +110,7 @@ const Projects = () => {
             <img src={selected.image || 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97'} alt="" style={{ width: '100%', height: '240px', objectFit: 'cover' }} />
             <div style={{ padding: '32px' }}>
               <div className="section-label" style={{ marginBottom: '8px' }}>{selected.category}</div>
-              <h2 className="font-display" style={{ fontSize: '24px', fontWeight: 800, color: 'var(--ink-900)', marginBottom: '16px' }}>{selected.title}</h2>
+              <h2 className="font-display" style={{ fontSize: '24px', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '16px' }}>{selected.title}</h2>
               <p style={{ fontSize: '14px', color: '#444', lineHeight: 1.8, marginBottom: '24px' }}>{selected.description}</p>
 
               <div className="flex gap-3">

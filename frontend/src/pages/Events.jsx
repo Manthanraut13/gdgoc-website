@@ -51,7 +51,7 @@ const Events = () => {
           <div className="section-label" style={{ color: 'var(--g-green)' }}>THE EVENTS</div>
           <h1
             className="font-display"
-            style={{ fontSize: 'clamp(36px, 5vw, 56px)', fontWeight: 800, color: 'var(--ink-900)', letterSpacing: '-2px', lineHeight: 1.1, marginBottom: '16px' }}
+            style={{ fontSize: 'clamp(36px, 5vw, 56px)', fontWeight: 700, color: 'var(--ink-900)', letterSpacing: '-2px', lineHeight: 1.1, marginBottom: '16px' }}
           >
             Learn, Build, <span style={{ color: 'var(--g-green)' }}>Connect</span>
           </h1>
@@ -98,7 +98,7 @@ const Events = () => {
           ) : list.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '60px 0' }}>
               <p style={{ fontSize: '40px', marginBottom: '12px' }}>📅</p>
-              <p className="font-display" style={{ fontSize: '18px', fontWeight: 800, color: 'var(--ink-900)', marginBottom: '6px' }}>
+              <p className="font-display" style={{ fontSize: '18px', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '6px' }}>
                 No {tab} events
               </p>
               <p style={{ fontSize: '13px', color: 'var(--ink-400)' }}>Check back soon for updates.</p>
@@ -112,7 +112,7 @@ const Events = () => {
                 return (
                   <div key={event._id || event.id} className="neo-card" style={{ display: 'flex', flexDirection: 'column', padding: '0', overflow: 'hidden' }}>
                     <div style={{ padding: '20px', borderBottom: '1px solid #f0f0f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ fontSize: '9px', fontWeight: 800, textTransform: 'uppercase', tracking: '1px', background: ts.bg, color: ts.color, padding: '4px 12px', borderRadius: '6px', border: `1.5px solid ${ts.color}` }}>
+                      <span style={{ fontSize: '9px', fontWeight: 700, textTransform: 'uppercase', tracking: '1px', background: ts.bg, color: ts.color, padding: '4px 12px', borderRadius: '6px', border: `1.5px solid ${ts.color}` }}>
                         {type}
                       </span>
                       <div style={{ textAlign: 'right' }}>
@@ -120,7 +120,7 @@ const Events = () => {
                       </div>
                     </div>
                     <div style={{ padding: '24px', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                      <h3 className="font-display" style={{ fontSize: '18px', fontWeight: 800, color: 'var(--ink-900)', marginBottom: '8px', lineHeight: 1.2 }}>
+                      <h3 className="font-display" style={{ fontSize: '18px', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '8px', lineHeight: 1.2 }}>
                         {event.title}
                       </h3>
                       <p style={{ fontSize: '12px', color: 'var(--ink-400)', marginBottom: '16px' }}>

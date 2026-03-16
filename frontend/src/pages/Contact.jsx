@@ -46,7 +46,7 @@ const Contact = () => {
             className="font-display"
             style={{
               fontSize: 'clamp(36px, 5vw, 56px)',
-              fontWeight: 800,
+              fontWeight: 700,
               color: 'var(--ink-900)',
               letterSpacing: '-2px',
               lineHeight: 1.1,
@@ -68,7 +68,7 @@ const Contact = () => {
             {/* Info */}
             <div>
               <div className="section-label">Contact Details</div>
-              <h2 className="font-display" style={{ fontSize: '24px', fontWeight: 800, marginBottom: '24px' }}>Reach Out <span style={{ color: 'var(--g-blue)' }}>Directly</span></h2>
+              <h2 className="font-display" style={{ fontSize: '24px', fontWeight: 700, marginBottom: '24px' }}>Reach Out <span style={{ color: 'var(--g-blue)' }}>Directly</span></h2>
 
               <div className="grid grid-cols-1 gap-4">
                 {contactInfo.map((info) => (
@@ -90,7 +90,7 @@ const Contact = () => {
               {sent ? (
                 <div style={{ textAlign: 'center', padding: '40px 0' }}>
                   <p style={{ fontSize: '48px', marginBottom: '16px' }}>✉️</p>
-                  <h3 className="font-display" style={{ fontSize: '24px', fontWeight: 800 }}>Message Sent!</h3>
+                  <h3 className="font-display" style={{ fontSize: '24px', fontWeight: 700 }}>Message Sent!</h3>
                   <p style={{ fontSize: '14px', color: 'var(--ink-400)', marginTop: '8px' }}>We'll get back to you shortly.</p>
                 </div>
               ) : (

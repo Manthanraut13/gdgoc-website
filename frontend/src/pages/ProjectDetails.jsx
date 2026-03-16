@@ -44,11 +44,11 @@ const ProjectDetails = () => {
       <section style={{ background: '#fef7e0', paddingTop: '140px', paddingBottom: '80px', position: 'relative' }}>
         <div className="page-container text-center relative z-10">
           <div className="flex justify-center gap-2 mb-6">
-            <span style={{ fontSize: '9px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', background: '#fff', border: '2px solid var(--ink-900)', color: 'var(--ink-900)', padding: '4px 12px', borderRadius: '6px' }}>
+            <span style={{ fontSize: '9px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', background: '#fff', border: '2px solid var(--ink-900)', color: 'var(--ink-900)', padding: '4px 12px', borderRadius: '6px' }}>
               {p.status}
             </span>
           </div>
-          <h1 className="font-display" style={{ fontSize: 'clamp(32px, 6vw, 56px)', fontWeight: 800, color: 'var(--ink-900)', letterSpacing: '-1.5px', marginBottom: '20px' }}>
+          <h1 className="font-display" style={{ fontSize: 'clamp(32px, 6vw, 56px)', fontWeight: 700, color: 'var(--ink-900)', letterSpacing: '-1.5px', marginBottom: '20px' }}>
             {p.title}
           </h1>
           <p style={{ fontSize: '16px', color: 'var(--ink-400)', maxWidth: '600px', margin: '0 auto' }}>
@@ -79,12 +79,12 @@ const ProjectDetails = () => {
           {/* Sidebar */}
           <div>
             <div className="neo-card" style={{ padding: '24px' }}>
-              <h3 className="font-mono" style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', marginBottom: '20px' }}>Project Health</h3>
+              <h3 className="font-mono" style={{ fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', marginBottom: '20px' }}>Project Health</h3>
 
               <div className="mb-8">
                 <div className="flex justify-between items-center mb-2">
                   <span className="font-mono" style={{ fontSize: '10px', color: 'var(--ink-400)' }}>PROGRESS</span>
-                  <span className="font-display" style={{ fontSize: '14px', fontWeight: 800 }}>{p.progress}%</span>
+                  <span className="font-display" style={{ fontSize: '14px', fontWeight: 700 }}>{p.progress}%</span>
                 </div>
                 <div style={{ height: '8px', background: '#eee', borderRadius: '4px', overflow: 'hidden' }}>
                   <div style={{ height: '100%', width: `${p.progress}%`, background: 'var(--g-blue)', borderRadius: '4px' }} />

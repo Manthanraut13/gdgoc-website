@@ -47,7 +47,7 @@ const EventDetails = () => {
               {event.status === 'upcoming' ? 'Upcoming' : 'Past'} Event
             </span>
           </div>
-          <h1 className="font-display" style={{ fontSize: 'clamp(32px, 6vw, 56px)', fontWeight: 800, color: 'var(--ink-900)', lineHeight: 1.1, letterSpacing: '-1.5px', marginBottom: '24px' }}>
+          <h1 className="font-display" style={{ fontSize: 'clamp(32px, 6vw, 56px)', fontWeight: 700, color: 'var(--ink-900)', lineHeight: 1.1, letterSpacing: '-1.5px', marginBottom: '24px' }}>
             {event.title}
           </h1>
           <p style={{ fontSize: '16px', color: 'var(--ink-400)', maxWidth: '600px', margin: '0 auto' }}>
@@ -66,7 +66,7 @@ const EventDetails = () => {
             </div>
 
             <div className="section-label">Detailed Agenda</div>
-            <h2 className="font-display" style={{ fontSize: '24px', fontWeight: 800, marginBottom: '20px' }}>What to <span style={{ color: 'var(--g-blue)' }}>Expect</span></h2>
+            <h2 className="font-display" style={{ fontSize: '24px', fontWeight: 700, marginBottom: '20px' }}>What to <span style={{ color: 'var(--g-blue)' }}>Expect</span></h2>
             <p style={{ fontSize: '16px', lineHeight: 1.8, color: '#444' }}>
               {event.description}
             </p>
@@ -83,7 +83,7 @@ const EventDetails = () => {
           {/* Sidebar */}
           <div>
             <div className="neo-card" style={{ padding: '24px', position: 'sticky', top: '120px' }}>
-              <h3 className="font-mono" style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', marginBottom: '20px', color: 'var(--ink-900)' }}>Event Logistics</h3>
+              <h3 className="font-mono" style={{ fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', marginBottom: '20px', color: 'var(--ink-900)' }}>Event Logistics</h3>
 
               <div className="space-y-6">
                 <LogisticItem icon={dateIcon} label="Date" val={new Date(event.date).toLocaleDateString()} />

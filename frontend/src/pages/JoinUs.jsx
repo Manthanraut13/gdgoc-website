@@ -33,7 +33,7 @@ const JoinUs = () => {
         <div style={{ position: 'absolute', top: '-80px', left: '50%', width: '500px', height: '250px', background: 'radial-gradient(ellipse, rgba(26,115,232,0.08) 0%, transparent 65%)', pointerEvents: 'none', transform: 'translateX(-50%)' }} />
         <div className="page-container relative z-10" style={{ textAlign: 'center' }}>
           <div className="section-label" style={{ color: 'var(--yellow-deep)' }}>THE COMMUNITY</div>
-          <h1 className="font-display" style={{ fontSize: 'clamp(36px, 5vw, 56px)', fontWeight: 800, color: 'var(--ink-900)', letterSpacing: '-2px', lineHeight: 1.1, marginBottom: '16px' }}>
+          <h1 className="font-display" style={{ fontSize: 'clamp(36px, 5vw, 56px)', fontWeight: 700, color: 'var(--ink-900)', letterSpacing: '-2px', lineHeight: 1.1, marginBottom: '16px' }}>
             Become a <span style={{ color: 'var(--yellow-deep)' }}>Builder</span>
           </h1>
           <p style={{ fontSize: '15px', color: 'var(--ink-400)', maxWidth: '380px', margin: '0 auto' }}>
@@ -47,7 +47,7 @@ const JoinUs = () => {
           {sent ? (
             <div className="neo-card" style={{ textAlign: 'center', padding: '60px', background: '#fff' }}>
               <p style={{ fontSize: '48px', marginBottom: '16px' }}>🎉</p>
-              <h2 className="font-display" style={{ fontSize: '24px', fontWeight: 800, color: 'var(--ink-900)', marginBottom: '8px' }}>Application Sent!</h2>
+              <h2 className="font-display" style={{ fontSize: '24px', fontWeight: 700, color: 'var(--ink-900)', marginBottom: '8px' }}>Application Sent!</h2>
               <p style={{ fontSize: '14px', color: 'var(--ink-400)' }}>We'll reach out within 2-3 days.</p>
             </div>
           ) : (
@@ -75,7 +75,7 @@ const JoinUs = () => {
                     {interests.map((i) => {
                       const active = form.interests.includes(i);
                       return (
-                        <button type="button" key={i} onClick={() => toggle(i)} className="font-body" style={{ fontSize: '11px', padding: '6px 14px', borderRadius: '999px', border: `2.5px solid ${active ? 'var(--g-blue)' : '#eee'}`, background: active ? '#e8f0fe' : 'transparent', color: active ? 'var(--g-blue)' : 'var(--ink-400)', cursor: 'pointer', fontWeight: 800 }}>
+                        <button type="button" key={i} onClick={() => toggle(i)} className="font-body" style={{ fontSize: '11px', padding: '6px 14px', borderRadius: '999px', border: `2.5px solid ${active ? 'var(--g-blue)' : '#eee'}`, background: active ? '#e8f0fe' : 'transparent', color: active ? 'var(--g-blue)' : 'var(--ink-400)', cursor: 'pointer', fontWeight: 700 }}>
                           {i}
                         </button>
                       );
@@ -87,7 +87,7 @@ const JoinUs = () => {
                   <Label>How would you describe your experience?</Label>
                   <div className="flex gap-2">
                     {['Beginner', 'Intermediate', 'Advanced'].map((lvl) => (
-                      <button type="button" key={lvl} onClick={() => setForm({ ...form, experience: lvl })} className="font-body" style={{ fontSize: '11px', padding: '8px 16px', borderRadius: '999px', border: `2.5px solid ${form.experience === lvl ? 'var(--g-green)' : '#eee'}`, background: form.experience === lvl ? '#e8f4ea' : 'transparent', color: form.experience === lvl ? 'var(--g-green)' : 'var(--ink-400)', cursor: 'pointer', fontWeight: 800 }}>
+                      <button type="button" key={lvl} onClick={() => setForm({ ...form, experience: lvl })} className="font-body" style={{ fontSize: '11px', padding: '8px 16px', borderRadius: '999px', border: `2.5px solid ${form.experience === lvl ? 'var(--g-green)' : '#eee'}`, background: form.experience === lvl ? '#e8f4ea' : 'transparent', color: form.experience === lvl ? 'var(--g-green)' : 'var(--ink-400)', cursor: 'pointer', fontWeight: 700 }}>
                         {lvl}
                       </button>
                     ))}
@@ -118,7 +118,7 @@ const inputStyle = {
 };
 
 const Label = ({ children }) => (
-  <label className="font-mono" style={{ display: 'block', fontSize: '10px', fontWeight: 800, textTransform: 'uppercase', color: 'var(--ink-900)', marginBottom: '8px', letterSpacing: '1px' }}>
+  <label className="font-mono" style={{ display: 'block', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', color: 'var(--ink-900)', marginBottom: '8px', letterSpacing: '1px' }}>
     {children}
   </label>
 );
