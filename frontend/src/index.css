@@ -65,6 +65,9 @@
   --font-display: "Google Sans", sans-serif;
   --font-body: "Google Sans", sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
+
+  /* Primary color for loading */
+  --primary: #0f0f1a;
 }
 
 *,
