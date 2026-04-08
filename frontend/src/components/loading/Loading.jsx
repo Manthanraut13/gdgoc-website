@@ -9,7 +9,7 @@ const styles = {
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundColor: "var(--primary)",
+        background: "linear-gradient(135deg, #f7fcd4 0%, #e8f5e9 100%)",
         zIndex: 200,
         display: "flex",
         alignItems: "center",
